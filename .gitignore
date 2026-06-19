@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+
+# Ignore renv files that should not be in Git
+renv/library/
+renv/host-info.json
+renv/state.json
+
+
+
