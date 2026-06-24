@@ -11,3 +11,10 @@ renv/state.json
 
 
 
+
+# Large derived cache (brms fits, MaAsLin2/DESeq output) - regenerated, not shipped
+intermediate_data/
+data/
+clean_Dai_text_and_figures_*.pdf
+CLAUDE.md
+HANDOFF*.md
