@@ -193,4 +193,27 @@ plot_e4d <- ggplot(e4d_data, aes(x = grams, y = description, fill = metric)) +
         panel.grid.major.x = element_line(color = "grey85", linetype = "dashed"))
 save_panel(plot_e4d, "E4d_top_sweets.pdf", width = 110, height = 110)
 
+# E4j: marginal sweets effect during antibiotics, by conditioning intensity ------
+# From the cached conditional draws of the three-way model (16). Each row is the
+# posterior of the sweets slope within antibiotic-exposed patients for one
+# intensity; significant (CI excludes zero) rows are drawn red.
+e4j_plot_data <- read_csv(cache_path("R36_e4j_conditional_draws.csv"), show_col_types = FALSE) %>%
+  pivot_longer(everything(), names_to = "term_label", values_to = "estimate") %>%
+  group_by(term_label) %>%
+  mean_qi(estimate) %>%
+  rename(conf.low = .lower, conf.high = .upper) %>%
+  mutate(term_label = fct_relevel(term_label, "Nonmyeloablative", "Reduced Intensity", "Myeloablative"),
+         is_significant = (conf.low * conf.high) > 0)
+
+plot_e4j <- ggplot(e4j_plot_data, aes(x = estimate, y = term_label)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey70") +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high, color = is_significant),
+                 height = 0.2, linewidth = 0.8) +
+  geom_point(aes(color = is_significant), size = 4) +
+  scale_color_manual(values = c("TRUE" = "red", "FALSE" = "gray50"), guide = "none") +
+  labs(x = "Estimated Change in ln(Diversity)", y = "") +
+  theme_minimal(base_size = 10) +
+  theme(panel.grid.major.y = element_blank(), plot.title.position = "plot")
+save_panel(plot_e4j, "E4j_sweets_by_intensity.pdf", width = 100, height = 55)
+
 message("E4 panels written to results/.")

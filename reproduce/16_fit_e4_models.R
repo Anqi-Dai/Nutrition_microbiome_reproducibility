@@ -148,4 +148,46 @@ cal_fit_noint <- fit_e4_model(cal_formula_nointeraction, cal_data, cache_path("R
 write_csv(tidy_results(macro5_fit, macro5_data),  cache_path("R62_results_df_macro5.csv"))
 write_csv(tidy_results(cal_fit_int, cal_data),    cache_path("R51_results_df_cal_interaction.csv"))
 write_csv(tidy_results(cal_fit_noint, cal_data),  cache_path("R51_results_df_cal_nointeraction.csv"))
+
+# E4j data + fit: does the abx x sweets effect depend on conditioning intensity?
+# Refactor of R36: a three-way fg_sweets x abx x intensity interaction model.
+# Faithful to R36 and distinct from the F2/E4 fits above, so it does not reuse
+# diversity_priors(): intensity is left at its default (alphabetical) factor levels
+# so the ablative level is the reference, intensity enters only through the
+# interaction expansion (no clean intercept), and the prior block therefore omits
+# the intensity-intercept priors. The other food groups stay as additive controls.
+e4j_data <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE) %>%
+  mutate(pid = factor(pid)) %>%
+  mutate(across(starts_with("fg_"), ~ .x / 100))
+
+e4j_other_fg <- e4j_data %>% select(starts_with("fg")) %>% select(-fg_sweets) %>% colnames()
+e4j_formula <- paste(
+  "log(simpson_reciprocal) ~ 0 + TPN + EN +",
+  paste(e4j_other_fg, collapse = " + "),
+  "+ fg_sweets * empirical * intensity + (1 | pid) + (1 | timebin)")
+
+e4j_priors <- prior(normal(0, 1), class = "b") +
+  prior(normal(0, 0.1), class = "b", coef = "TPNTRUE") +
+  prior(normal(0, 0.1), class = "b", coef = "ENTRUE") +
+  prior(normal(0, 0.5), class = "b", coef = "empiricalTRUE")
+
+message("Fitting three-way sweets x abx x intensity interaction model (E4j) ...")
+e4j_fit <- brm(bf(as.formula(e4j_formula)),
+               data = e4j_data, prior = e4j_priors,
+               warmup = 1000, iter = 3000, chains = 4, cores = 4,
+               seed = 123, silent = 2, refresh = 0,
+               backend = brms_backend,
+               file = cache_path("R36_fit_sweets_intensity"), file_refit = "on_change")
+
+# The panel is the marginal sweets slope within antibiotic-exposed patients for
+# each intensity: the baseline interaction is the (reference) ablative group, and
+# each non-reference level adds its three-way term. Cache the conditional draws so
+# 17 stays plot-only.
+e4j_draws <- as_draws_df(e4j_fit) %>%
+  transmute(
+    Myeloablative = `b_fg_sweets:empiricalTRUE`,
+    `Reduced Intensity` = `b_fg_sweets:empiricalTRUE` + `b_fg_sweets:empiricalTRUE:intensityreduced`,
+    Nonmyeloablative = `b_fg_sweets:empiricalTRUE` + `b_fg_sweets:empiricalTRUE:intensitynonablative`)
+write_csv(e4j_draws, cache_path("R36_e4j_conditional_draws.csv"))
+
 message("E4 model fits cached to ", intermediate_dir())
