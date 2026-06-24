@@ -1,0 +1,10 @@
+fgrp1,fdesc,fg1_name,color,shortname
+1,Milk & Milk Products,fg_milk,#3498DB,Milk
+2,"Meat, Poultry, Fish & Mixtures",fg_meat,#591605,Meats
+3,Eggs,fg_egg,#F1C40F,Eggs
+4,"Dry Beans, Peas, Other Legumes, Nuts, & Seeds",fg_legume,#E67E22,Legumes
+5,Grain Product,fg_grain,#D35400,Grains
+6,Fruits,fg_fruit,#7D3C98,Fruits
+7,Vegetables,fg_veggie,#229954,Vegetables
+8,"Fats, Oils & Salad Dressings",fg_oils,#707B7C,Oils
+9,"Sugars, Sweets & Beverages",fg_sweets,#db2589,Sweets
