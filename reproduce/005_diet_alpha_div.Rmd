@@ -1,0 +1,30 @@
+---
+title: "Compute per day diet alpha diversity for every patient using qiime2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse) 
+```
+
+
+```{r}
+dtb <- read_csv('../data/152_combined_DTB.csv') 
+```
+
+```{r}
+fcts <-  dtb %>% 
+  mutate(fid = str_glue('{pid}d{fdrt}')) %>% 
+  select(fid, Food_code, dehydrated_weight) %>% 
+  group_by(fid, Food_code) %>% 
+  summarise(daily_de_wt = sum(dehydrated_weight)) %>% 
+  spread(key = 'fid', value = 'daily_de_wt', fill = 0) 
+
+fcts %>% 
+  write_tsv('../data/005_food_code_counts_matrix.tsv')
+```
+
