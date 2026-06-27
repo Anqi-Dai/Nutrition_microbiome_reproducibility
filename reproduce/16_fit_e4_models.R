@@ -190,4 +190,75 @@ e4j_draws <- as_draws_df(e4j_fit) %>%
     Nonmyeloablative = `b_fg_sweets:empiricalTRUE` + `b_fg_sweets:empiricalTRUE:intensitynonablative`)
 write_csv(e4j_draws, cache_path("R36_e4j_conditional_draws.csv"))
 
+# E4e data + fit: split the FNDDS group-9 "sweets" lump into its two-digit subgroups
+# Refactor of R27_sub_groups_of_sweets.Rmd. The F2/E4b food-group model collapses
+# all of FNDDS major group 9 (Sugars, Sweets, and Beverages) into one "sweets"
+# predictor; here group 9 is split on the two-digit FNDDS code into its subgroups
+# (91 sugars & sweets, 92 non-alcoholic beverages, 94 water, 95 formulated
+# beverages; 93 alcoholic beverages never appears in the cohort), each kept as its
+# own predictor crossed with antibiotics, while groups 1-8 stay as the usual eight
+# food groups. Same 2-day-prior intake window and shared diversity prior block as
+# E4b, so the abx interactions stay comparable across panels.
+fndds_daily_intake <- dtb %>%
+  mutate(Food_code = as.character(Food_code)) %>%
+  mutate(food_category = case_when(
+    str_starts(Food_code, "91") ~ "Sugars_and_sweets",
+    str_starts(Food_code, "92") ~ "Nonalcoholic_beverages",
+    str_starts(Food_code, "93") ~ "Alcoholic_beverages",
+    str_starts(Food_code, "94") ~ "Water",
+    str_starts(Food_code, "95") ~ "Formulated_beverages",
+    str_starts(Food_code, "1") ~ "fg_milk",
+    str_starts(Food_code, "2") ~ "fg_meat",
+    str_starts(Food_code, "3") ~ "fg_egg",
+    str_starts(Food_code, "4") ~ "fg_legume",
+    str_starts(Food_code, "5") ~ "fg_grain",
+    str_starts(Food_code, "6") ~ "fg_fruit",
+    str_starts(Food_code, "7") ~ "fg_veggie",
+    str_starts(Food_code, "8") ~ "fg_oils",
+    TRUE ~ NA_character_)) %>%
+  filter(!is.na(food_category)) %>%
+  group_by(pid, fdrt, food_category) %>%
+  summarise(total_dehydrated_weight = sum(dehydrated_weight, na.rm = TRUE),
+            .groups = "drop")
+
+fndds_data <- stool_samples_df %>%
+  mutate(window_start = sdrt - 2, window_end = sdrt - 1) %>%
+  left_join(fndds_daily_intake,
+            by = join_by(pid, window_start <= fdrt, window_end >= fdrt)) %>%
+  pivot_wider(id_cols = c(pid, sdrt),
+              names_from = food_category, values_from = total_dehydrated_weight,
+              values_fn = ~ sum(.x, na.rm = TRUE) / 2,
+              values_fill = 0, names_prefix = "avg_intake_") %>%
+  mutate(across(starts_with("avg_intake_"), ~ .x / 100)) %>%
+  right_join(stool_samples_df, by = c("pid", "sdrt")) %>%
+  mutate(timebin = cut_width(sdrt, 7, boundary = 0, closed = "left"),
+         intensity = factor(intensity, levels = c("nonablative", "reduced", "ablative")),
+         pid = factor(pid))
+
+fndds_vars <- fndds_data %>% select(starts_with("avg_intake_")) %>% colnames()
+fndds_formula <- paste(
+  "log(simpson_reciprocal) ~ 0 + intensity + empirical + TPN + EN +",
+  paste(paste(fndds_vars, "empirical", sep = "*"), collapse = " + "),
+  "+ (1 | pid) + (1 | timebin)")
+
+message("Fitting FNDDS two-digit subgroup diversity model (E4e) ...")
+fndds_fit <- fit_e4_model(fndds_formula, fndds_data, cache_path("R27_fit_fndds_subgroups"))
+write_csv(tidy_results(fndds_fit, fndds_data), cache_path("R27_results_df_fndds.csv"))
+
+# Per-subgroup exposure counts for the nomenclature tree panel (E4f): how many
+# stool samples (and distinct patients) had any intake of each FNDDS subgroup in
+# the 2-day-prior window. Deterministic, but written here so the tree panel reads
+# the same model frame the forest is fit on (93 alcoholic beverages is absent from
+# the cohort, so it reports 0 / 0).
+fndds_exposure <- fndds_data %>%
+  select(pid, starts_with("avg_intake_")) %>%
+  pivot_longer(-pid, names_to = "food_category", values_to = "avg_intake",
+               names_prefix = "avg_intake_") %>%
+  group_by(food_category) %>%
+  summarise(samples = sum(avg_intake > 0),
+            patients = n_distinct(pid[avg_intake > 0]), .groups = "drop") %>%
+  filter(food_category %in% c("Sugars_and_sweets", "Nonalcoholic_beverages",
+                              "Water", "Formulated_beverages"))
+write_csv(fndds_exposure, cache_path("R27_fndds_exposure_counts.csv"))
+
 message("E4 model fits cached to ", intermediate_dir())

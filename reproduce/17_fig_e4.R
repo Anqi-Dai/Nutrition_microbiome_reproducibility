@@ -9,6 +9,8 @@
 #        R51 caloric fits
 #   E4d  top-10 sweets/beverage food codes by effective per-meal consumption
 #        (dehydrated weight vs sugar content; deterministic, from the tracker)
+#   E4i  late-day sweets vs macronutrient sugar, with enteral-nutrition days
+#        flagged orange (deterministic, from R47_sweets_and_sugar_late.Rmd)
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 suppressPackageStartupMessages(library(rmcorr))
@@ -215,5 +217,205 @@ plot_e4j <- ggplot(e4j_plot_data, aes(x = estimate, y = term_label)) +
   theme_minimal(base_size = 10) +
   theme(panel.grid.major.y = element_blank(), plot.title.position = "plot")
 save_panel(plot_e4j, "E4j_sweets_by_intensity.pdf", width = 100, height = 55)
+
+# E4i: late-day sweets vs macronutrient sugar, enteral days flagged --------------
+# Refactor of R47_sweets_and_sugar_late.Rmd. Two scatter+loess panels over the
+# full list of patient-days with any intake: per-day dehydrated weight of the
+# "9" (sugars/sweets/beverages) food group, and per-day total macronutrient
+# sugar. Days that include an enteral-nutrition meal are coloured orange; the
+# point being that the late-day sweets uptick is driven by enteral formula while
+# real sugar intake keeps falling.
+e4i_orange <- "#D55E00"
+e4i_scatter_alpha <- 0.4
+
+all_patient_days_with_intake <- dtb %>%
+  filter(dehydrated_weight > 0) %>%
+  distinct(pid, fdrt)
+
+daily_sweets_intake <- dtb %>%
+  filter(str_starts(Food_code, "9")) %>%
+  mutate(is_enteral = str_detect(Meal, regex("Enteral nutrition", ignore_case = TRUE))) %>%
+  group_by(pid, fdrt) %>%
+  summarise(total_sweets_dehydrated_weight = sum(dehydrated_weight, na.rm = TRUE),
+            had_enteral = any(is_enteral), .groups = "drop")
+
+daily_sugar_summary <- dtb %>%
+  group_by(pid, fdrt) %>%
+  summarise(total_sugars_g = sum(Sugars_g, na.rm = TRUE),
+            had_enteral_meal = any(str_detect(Meal, regex("Enteral nutrition", ignore_case = TRUE))),
+            .groups = "drop") %>%
+  mutate(intake_source = if_else(had_enteral_meal, "Had Enteral Nutrition", "Only Oral Intake")) %>%
+  select(pid, fdrt, intake_source, total_sugars_g)
+
+daily_intake_final <- all_patient_days_with_intake %>%
+  left_join(daily_sweets_intake, by = c("pid", "fdrt")) %>%
+  left_join(daily_sugar_summary, by = c("pid", "fdrt")) %>%
+  mutate(total_sweets_dehydrated_weight = replace_na(total_sweets_dehydrated_weight, 0),
+         total_sugars_g = replace_na(total_sugars_g, 0),
+         had_enteral = replace_na(had_enteral, FALSE),
+         had_enteral = factor(had_enteral, levels = c(FALSE, TRUE),
+                              labels = c("Only Oral Intake", "Had Enteral Nutrition")),
+         intake_source = factor(intake_source, levels = c("Only Oral Intake", "Had Enteral Nutrition")))
+
+e4i_theme <- theme_bw(base_size = 12) +
+  theme(legend.position = "none", plot.title = element_text(face = "bold"),
+        panel.grid = element_blank(), aspect.ratio = 1)
+e4i_cols <- c("Only Oral Intake" = "gray", "Had Enteral Nutrition" = e4i_orange)
+
+plot_e4i_sweets <- ggplot(daily_intake_final,
+                          aes(fdrt, total_sweets_dehydrated_weight, color = had_enteral)) +
+  geom_point(alpha = e4i_scatter_alpha, size = 1.5) +
+  geom_smooth(method = "loess", formula = "y ~ x", colour = "#E41A1C", linewidth = 1, fill = "hotpink") +
+  scale_color_manual(values = e4i_cols) +
+  geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1, color = "gray40") +
+  scale_y_sqrt() +
+  labs(title = "FNDDS Sweets Food Group", x = "Day Relative to Transplant",
+       y = "Total Dehydrated Weight (grams)") +
+  e4i_theme
+save_panel(plot_e4i_sweets, "E4i_sweets_foodgroup.pdf", width = 80, height = 90)
+
+plot_e4i_sugar <- ggplot(daily_intake_final,
+                         aes(fdrt, total_sugars_g, color = intake_source)) +
+  geom_point(alpha = e4i_scatter_alpha, size = 1.5) +
+  geom_smooth(method = "loess", formula = "y ~ x", colour = "#E41A1C", linewidth = 1, fill = "hotpink") +
+  scale_color_manual(values = e4i_cols) +
+  geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1, color = "gray40") +
+  scale_y_sqrt() +
+  labs(title = "Macronutrient Sugar", x = "Day Relative to Transplant",
+       y = "Total Sugars (grams)") +
+  e4i_theme
+save_panel(plot_e4i_sugar, "E4i_macronutrient_sugar.pdf", width = 80, height = 90)
+
+# Late-day enteral share, the quantitative claim behind E4i.
+e4i_late_share <- daily_intake_final %>%
+  filter(fdrt > 20) %>%
+  count(intake_source) %>%
+  mutate(perc = round(n / sum(n) * 100, 1))
+message("E4i late-day (>20) intake source share:")
+print(e4i_late_share)
+
+# E4e: FNDDS two-digit subgroup effects forest ----------------------------------
+# From the cached R27 fit (16). Group 9 is split into its FNDDS two-digit
+# subgroups (91/92/94/95; 93 alcoholic is absent from the cohort), each crossed
+# with antibiotics, alongside the usual eight food groups. Same forest style as
+# E4b: peach-shaded interaction rows, blue zero line, significant effects red,
+# interaction labels royalblue and bold.
+fndds_results <- read_csv(cache_path("R27_results_df_fndds.csv"), show_col_types = FALSE)
+
+# Map each model term to its published label; the FNDDS subgroups read as
+# "NN (short name)", groups 1-8 as their food-group names.
+fndds_base_label <- c(
+  empiricalTRUE = "abx", ENTRUE = "EN", TPNTRUE = "TPN",
+  avg_intake_Formulated_beverages = "95 (formulated bev)",
+  avg_intake_Nonalcoholic_beverages = "92 (non-alcoholic bev)",
+  avg_intake_Sugars_and_sweets = "91 (sugars & sweets)",
+  avg_intake_Water = "94 (water)",
+  avg_intake_fg_grain = "Grains", avg_intake_fg_milk = "Milk",
+  avg_intake_fg_egg = "Eggs", avg_intake_fg_legume = "Legumes",
+  avg_intake_fg_meat = "Meats", avg_intake_fg_fruit = "Fruits",
+  avg_intake_fg_oils = "Oils", avg_intake_fg_veggie = "Vegetables")
+
+fndds_label <- function(term) {
+  ifelse(str_detect(term, "^empiricalTRUE:"),
+         paste("abx *", fndds_base_label[str_remove(term, "^empiricalTRUE:")]),
+         fndds_base_label[term])
+}
+
+# Top-to-bottom panel order (reversed for the bottom-up y axis).
+fndds_level_order <- rev(c(
+  "abx", "EN", "TPN",
+  "abx * 95 (formulated bev)", "95 (formulated bev)",
+  "abx * 92 (non-alcoholic bev)", "92 (non-alcoholic bev)",
+  "abx * 91 (sugars & sweets)", "91 (sugars & sweets)",
+  "abx * 94 (water)", "94 (water)",
+  "abx * Grains", "Grains", "abx * Milk", "Milk",
+  "abx * Eggs", "Eggs", "abx * Legumes", "Legumes",
+  "abx * Meats", "Meats", "abx * Fruits", "Fruits",
+  "abx * Oils", "Oils", "abx * Vegetables", "Vegetables"))
+
+fndds_clean <- fndds_results %>%
+  filter(effect == "fixed", !str_detect(term, "intensity")) %>%
+  mutate(clean_term = fndds_label(term),
+         is_significant = (conf.low * conf.high) >= 0,
+         clean_term = factor(clean_term, levels = fndds_level_order))
+
+fndds_shading <- fndds_clean %>%
+  mutate(y_numeric = as.numeric(clean_term)) %>%
+  filter(str_detect(clean_term, "\\*"))
+
+plot_e4e <- ggplot(fndds_clean, aes(x = estimate, y = clean_term)) +
+  geom_rect(data = fndds_shading,
+            aes(ymin = y_numeric - 0.5, ymax = y_numeric + 0.5, xmin = -Inf, xmax = Inf),
+            fill = "#FBEADC", alpha = 0.7, inherit.aes = FALSE) +
+  geom_vline(xintercept = 0, linetype = "solid", color = "blue", linewidth = 0.8) +
+  geom_pointrange(aes(xmin = conf.low, xmax = conf.high, color = is_significant),
+                  size = 0.25, linewidth = 1) +
+  scale_color_manual(values = c("TRUE" = "red", "FALSE" = "black")) +
+  scale_y_discrete(labels = function(x) ifelse(str_detect(x, "\\*"),
+                   str_glue("<b style='color:royalblue'>{x}</b>"), as.character(x))) +
+  labs(x = "ln(diversity) change", y = "",
+       subtitle = "FNDDS two-digit nomenclature") +
+  theme_classic(base_size = 11) +
+  theme(legend.position = "none", axis.text.y = element_markdown())
+save_panel(plot_e4e, "E4e_fndds_subgroup_forest.pdf", width = 115, height = 150)
+
+# E4e (tree): FNDDS group-9 nomenclature excerpt with per-subgroup exposure -------
+# The "excerpt of FNDDS nomenclature tree" schematic that accompanies the E4e
+# forest: the major group 9 root and its five two-digit subgroups, each annotated
+# with the number of stool samples (and patients) that recorded any intake of it in
+# the 2-day-prior window. Drawn directly with ggplot segments + ggtext labels (the
+# original used ggtree; this avoids that Bioconductor dependency). Exposure counts
+# come from the cached model frame (16); the subgroup descriptions and examples are
+# FNDDS nomenclature annotations carried from the manuscript figure.
+grey_x <- "#b3b3b3"
+grey_eg <- "#8c8c8c"
+
+fndds_exposure <- read_csv(cache_path("R27_fndds_exposure_counts.csv"), show_col_types = FALSE)
+
+# y is top-to-bottom in display order (91 at the top); 93 carries no exposure row
+# because alcoholic beverages never appear in the cohort, so it shows 0 / 0.
+tree_leaves <- tribble(
+  ~code, ~food_category,           ~desc,                                  ~example,                              ~y,
+  "91",  "Sugars_and_sweets",      "Sugars and sweets",                    "e.g. hard candy, syrup, brown sugar", 5,
+  "92",  "Nonalcoholic_beverages", "Nonalcoholic beverages",               "e.g. ginger ale, fruit juice drink",  4,
+  "93",  "Alcoholic_beverages",    "Alcoholic beverages",                  "e.g. beer, wine",                     3,
+  "94",  "Water",                  "Water noncarbonated",                  "e.g. bottled water, vitamin water",   2,
+  "95",  "Formulated_beverages",   "Formulated nutrition beverages etc.",  "e.g. sports drink, nutritional shake", 1) %>%
+  left_join(fndds_exposure, by = "food_category") %>%
+  mutate(samples = replace_na(samples, 0), patients = replace_na(patients, 0),
+         exposure_text = str_glue("{samples} samples from {patients} patients"),
+         code_label = str_glue("<b>{code}</b><span style='color:{grey_x}'>XXXXXX</span>"),
+         desc_label = str_glue("{desc}<br><span style='color:{grey_eg}'><i>{example}</i></span>"))
+
+# Bracket geometry: a vertical spine with a short dash out to each leaf, and one
+# connector from the root label in to the spine.
+x_spine <- 1; x_leaf <- 1.45; x_root <- 0
+root_y <- mean(range(tree_leaves$y))
+tree_segments <- bind_rows(
+  tibble(x = x_spine, xend = x_spine, y = min(tree_leaves$y), yend = max(tree_leaves$y)),
+  tree_leaves %>% transmute(x = x_spine, xend = x_leaf, y = y, yend = y),
+  tibble(x = x_root, xend = x_spine, y = root_y, yend = root_y))
+
+plot_e4e_tree <- ggplot() +
+  geom_segment(data = tree_segments, aes(x = x, xend = xend, y = y, yend = yend),
+               linewidth = 0.5, color = "grey25") +
+  ggtext::geom_richtext(
+    data = tibble(x = x_root, y = root_y,
+                  label = str_glue("<b>9</b><span style='color:{grey_x}'>XXXXXXXX</span><br>Sugar, Sweets,<br>and Beverages")),
+    aes(x = x, y = y, label = label), hjust = 1, vjust = 0.5, size = 3.4,
+    fill = NA, label.color = NA, lineheight = 1.1) +
+  ggtext::geom_richtext(data = tree_leaves, aes(x = x_leaf + 0.05, y = y, label = code_label),
+                        hjust = 0, size = 3.4, fill = NA, label.color = NA) +
+  ggtext::geom_richtext(data = tree_leaves, aes(x = x_leaf + 1.9, y = y, label = desc_label),
+                        hjust = 0, size = 3.2, fill = NA, label.color = NA, lineheight = 1.1) +
+  ggtext::geom_richtext(data = tree_leaves, aes(x = x_leaf + 7.1, y = y, label = exposure_text),
+                        hjust = 0, size = 3.2, fill = NA, label.color = NA) +
+  labs(title = "Excerpt of FNDDS nomenclature tree") +
+  scale_x_continuous(limits = c(-3, 14)) +
+  scale_y_continuous(limits = c(0.4, 5.6)) +
+  theme_void(base_size = 11) +
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
+        plot.margin = margin(6, 6, 6, 6))
+save_panel(plot_e4e_tree, "E4e_fndds_nomenclature_tree.pdf", width = 200, height = 70)
 
 message("E4 panels written to results/.")
