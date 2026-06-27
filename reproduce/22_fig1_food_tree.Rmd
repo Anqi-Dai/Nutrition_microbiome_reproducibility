@@ -1,0 +1,297 @@
+---
+title: "Food Tree (Figure 1D)"
+author: "Anqi Dai"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(tidyverse)   # data wrangling + readr/tidyr/dplyr/stringr
+library(data.tree)   # build hierarchical tree from paths
+library(phytools)    # read.newick() for sanity-check loading
+library(here)        # project-root-relative paths
+```
+
+# Overview
+
+This notebook builds a circular food taxonomy tree (Figure 1D) from the
+combined diet table, using GraPhlAn for the final rendering.
+
+The pipeline is:
+
+1.  Build a 7-level food taxonomy from each `Food_code` (one digit per
+    level).
+2.  Write the taxonomy out as a Newick tree (one for IDs, one for
+    names).
+3.  Build GraPhlAn annotation files (per-meal average dehydrated weight
+    becomes the outer ring; food group → ring color).
+4.  Call GraPhlAn (via Docker) to render the PDF.
+
+Code adapted from <https://github.com/knights-lab/Food_Tree>.
+
+# Inputs / outputs
+
+```{r paths}
+# One data root, resolved from NUTRITION_DATA (falls back to released_data so a
+# public clone works with no setup). Regenerable artifacts land in intermediate_data,
+# the final panel in results.
+data_root <- Sys.getenv("NUTRITION_DATA", unset = here::here("released_data"))
+inter_dir <- here::here("intermediate_data")
+res_dir   <- here::here("results")
+
+# ---- inputs (released_data) ----
+dtb_path        <- file.path(data_root, "152_combined_DTB.csv")           # diet table (per-portion records)
+nodes_path      <- file.path(data_root, "NodeLabelsMCT.txt")              # MCT level-code -> human-readable label
+fg_color_path   <- file.path(data_root, "food_group_color_key_final.csv") # food-group -> ring color
+annot_base_path <- file.path(data_root, "annotation.base.txt")            # GraPhlAn global style header
+
+# ---- outputs (intermediate_data) ----
+out_table_csv   <- file.path(inter_dir, "final_table_for_writing_out_to_newick.csv")
+out_tree_id     <- file.path(inter_dir, "output_food_tree_datatree.newick")      # leaves = Food_code
+out_tree_name   <- file.path(inter_dir, "output_food_tree_datatree_name.newick") # leaves = description (GraPhlAn input)
+ring_annot_tsv  <- file.path(inter_dir, "ring_annot.txt")
+ring_style_tsv  <- file.path(inter_dir, "ring_itself.txt")
+
+N_LEVELS <- 7   # Food_code is 8 digits; we use the first 7 as taxonomy levels
+```
+
+# 1. Load the food database
+
+Take all unique `(Food_code, description)` pairs from the diet table and
+sanitize the description (Newick / GraPhlAn dislike spaces, commas,
+parentheses, semicolons, slashes, quotes).
+
+```{r load-foods}
+dtb <- read_csv(dtb_path)
+
+food_database <- dtb %>%
+  distinct(Food_code, description) %>%
+  distinct(Food_code, .keep_all = TRUE) %>%   # guard against same code w/ multiple descriptions
+  rename(FoodID = Food_code) %>%
+  mutate(
+    description = description %>%
+      str_replace_all("[ ,\\-()%/\";]", "_") %>%
+      str_remove_all("'")
+  )
+```
+
+# 2. Build the 7-level taxonomy table
+
+Each digit position of `FoodID` is a taxonomy level. We look up each
+level code in the MCT node table to attach a human-readable label.
+
+```{r build-taxonomy}
+nodes <- read_tsv(nodes_path, col_types = cols(.default = "c"))
+
+# Build columns L1..L7 by progressively taking the first 1..N_LEVELS digits of FoodID.
+main <- food_database %>%
+  select(FoodID, description)
+
+for (k in seq_len(N_LEVELS)) {
+  main[[paste0("L", k)]] <- stringr::str_sub(main$FoodID, 1, k)
+}
+
+# Replace each level code with its human-readable label from `nodes`.
+main_named <- main %>%
+  pivot_longer(starts_with("L"), names_to = "Level", values_to = "Level.code") %>%
+  left_join(nodes, by = "Level.code") %>%
+  select(-Level.code) %>%
+  pivot_wider(names_from = Level, values_from = Main.food.description) %>%
+  mutate(across(starts_with("L"), ~ replace_na(.x, "")))
+
+# Newick path string (leaves = FoodID, internal nodes = level labels).
+final_table <- main_named %>%
+  mutate(
+    newickstring      = str_glue("foodtreeroot/{L1}/{L2}/{L3}/{L4}/{L5}/{L6}/{FoodID}"),
+    newickstring_name = str_glue("foodtreeroot/L1_{L1}/L2_{L2}/L3_{L3}/L4_{L4}/L5_{L5}/L6_{L6}/{description}"),
+    taxonomy          = pmap_chr(across(starts_with("L")), ~ paste(c(...), collapse = ";"))
+  )
+
+dir.create(dirname(out_table_csv), showWarnings = FALSE, recursive = TRUE)
+write_csv(final_table, out_table_csv)
+```
+
+# 3. Write Newick trees
+
+Two trees are produced from the same taxonomy: one with `Food_code`
+leaves (used downstream for joining numeric data) and one with
+`description` leaves (used by GraPhlAn so labels are readable).
+
+```{r write-newick}
+write_newick <- function(df, path_col, out_path) {
+  tree_obj <- data.tree::as.Node(df, pathName = path_col)
+  dir.create(dirname(out_path), showWarnings = FALSE, recursive = TRUE)
+  cat(data.tree::ToNewick(tree_obj), file = out_path)
+}
+
+write_newick(final_table, "newickstring",      out_tree_id)
+write_newick(final_table, "newickstring_name", out_tree_name)
+```
+
+# 4. Per-food summaries for the outer ring
+
+Outer-ring height = average dehydrated weight per meal for each food.
+Outer-ring color = food-group color (first digit of `Food_code`).
+
+```{r ring-data}
+# Total number of distinct meals across the whole cohort (denominator).
+n_meal <- dtb %>%
+  distinct(pid, fdrt, Meal) %>%
+  nrow()
+
+# Tree leaves, in tree order — we need our ring rows to match this order.
+leaves <- read.newick(out_tree_id)$tip.label
+
+# Food-group color key, e.g. fgrp1 = "1" → fg_milk → "#..."
+fg_colors <- read_csv(fg_color_path, col_types = "ccccc")
+
+# Custom ordering for the food-group factor (drives the ring color sweep).
+fg_levels <- c("fg_egg", "fg_oils", "fg_legume", "fg_fruit", "fg_sweets",
+               "fg_milk", "fg_meat", "fg_veggie", "fg_grain")
+
+ring_data <- dtb %>%
+  group_by(Food_code) %>%
+  summarise(fc_sum = sum(dehydrated_weight), .groups = "drop") %>%
+  mutate(Food_code = as.character(Food_code)) %>%
+  filter(Food_code %in% leaves) %>%
+  mutate(
+    per_meal_ave = round(fc_sum / n_meal, 3),
+    fgrp1        = str_sub(Food_code, 1, 1)
+  ) %>%
+  left_join(fg_colors, by = "fgrp1") %>%
+  mutate(fg1_name = factor(fg1_name, levels = fg_levels)) %>%
+  arrange(fg1_name)
+```
+
+# 5. GraPhlAn annotation files
+
+GraPhlAn expects a long-format TSV with columns
+`<leaf_label>  <key>  <ring_level>  <value>`. Leaf labels here are food
+*descriptions*, because that's what the `_name.newick` tree carries.
+
+```{r ring-annotation}
+# Map Food_code → sanitized description (the leaf label in the _name tree).
+fcode_to_desc <- final_table %>%
+  select(FoodID, description) %>%
+  mutate(FoodID = as.character(FoodID))
+
+# One row per (food, attribute): height, color, width.
+ring_annot <- ring_data %>%
+  select(Food_code, ring_height = per_meal_ave, ring_color = color) %>%
+  left_join(fcode_to_desc, by = c("Food_code" = "FoodID")) %>%
+  mutate(
+    ring_width  = 0.5,
+    # cast all ring attributes to character so pivot_longer can stack them
+    across(c(ring_height, ring_color, ring_width), as.character)
+  ) %>%
+  pivot_longer(c(ring_height, ring_color, ring_width),
+               names_to = "key", values_to = "value") %>%
+  mutate(ring_level = 1L) %>%
+  select(description, key, ring_level, value)
+
+dir.create(dirname(ring_annot_tsv), showWarnings = FALSE, recursive = TRUE)
+write_tsv(ring_annot, ring_annot_tsv, col_names = FALSE)
+```
+
+```{r ring-style}
+# Per-ring styling (separators + label font). Single ring → one row per attribute.
+ring_style <- tribble(
+  ~key,                                 ~value,
+  "ring_internal_separator_thickness",  "0",
+  "ring_external_separator_thickness",  "0",
+  "ring_label_font_size",               "5",
+  "ring_separator_color",               "black",
+) %>%
+  mutate(ring_level = 1L) %>%
+  select(key, ring_level, value)
+
+write_tsv(ring_style, ring_style_tsv, col_names = FALSE)
+```
+
+# 6. Concatenate annotations and render with GraPhlAn
+
+`Annot_tree4.txt` = global header (`annotation.base.txt`, the food-group
+sector colors and labels) + per-ring style (`ring_itself.txt`) + per-leaf
+ring values (`ring_annot.txt`, one food's per-meal-average height/color).
+
+GraPhlAn runs only under Python 2.7, so the simplest reproducible path is
+the prebuilt `shengwei/graphlan` Docker image rather than a local install.
+The commands below were run and verified to produce the published panel.
+
+**Prerequisites:** Docker Desktop running. On Apple Silicon the
+`--platform linux/amd64` flag is required (you may see a harmless platform
+warning and a one-time matplotlib font-cache message).
+
+```{bash combine, eval = FALSE}
+# Run from the project root. Build the combined annotation file.
+cat released_data/annotation.base.txt \
+    intermediate_data/ring_itself.txt \
+    intermediate_data/ring_annot.txt \
+  > intermediate_data/Annot_tree4.txt
+```
+
+```{bash render, eval = FALSE}
+# Mount intermediate_data as /data inside the container.
+# 1) annotate the (description-leaf) tree with the rings -> guide xml
+# 2) xml -> final circular PDF
+D="$(pwd)/intermediate_data"
+
+docker run --rm --platform linux/amd64 -v "$D":/data shengwei/graphlan:latest \
+  graphlan_annotate.py \
+    --annot /data/Annot_tree4.txt \
+    /data/output_food_tree_datatree_name.newick \
+    /data/guide_1_new.xml
+
+docker run --rm --platform linux/amd64 -v "$D":/data shengwei/graphlan:latest \
+  graphlan.py \
+    /data/guide_1_new.xml \
+    /data/F1d_food_tree.pdf \
+    --dpi 300 --size 2.5 --pad 0
+
+cp intermediate_data/F1d_food_tree.pdf results/F1d_food_tree.pdf
+```
+
+> See <https://huttenhower.sph.harvard.edu/graphlan/> for GraPhlAn notes,
+> and <https://hub.docker.com/r/shengwei/graphlan> for the image.
+
+## Figure legend (panel F1d)
+
+> **Figure 1d.** Circular food taxonomy of every food eaten in the cohort.
+> Each leaf is one FNDDS food code; internal nodes are the 7 MCT taxonomy
+> levels. Sectors are colored by major food group (Grains, Vegetables,
+> Meats, Sweets, Milk, Fruits, Legumes, Oils, Eggs) using the shared
+> `food_group_color_key_final.csv` palette. The outer ring bar height is
+> the average dehydrated weight of that food per meal across all
+> `r format(9419, big.mark = ",")` meals (the "Avg. per-meal intake"
+> arrow).
+
+The "Avg. per-meal intake" arrow label and the radial scale bar in the
+published panel are post-hoc Illustrator annotations on top of the
+GraPhlAn ring; everything data-bearing (the tree, sector colors, ring
+heights) is produced by this script.
+
+## What to ship for a no-R render
+
+The four inputs above (`152_combined_DTB.csv`, `NodeLabelsMCT.txt`,
+`food_group_color_key_final.csv`, `annotation.base.txt`) already in
+`released_data/` are enough to regenerate everything. To let a reader
+render the tree with Docker alone (skipping the R steps 1-5), also ship the
+single essential intermediate, the GraPhlAn input tree:
+
+- `output_food_tree_datatree_name.newick` (description-leaf Newick)
+
+together with the regenerated `ring_annot.txt` / `ring_itself.txt`. The
+`final_table_for_writing_out_to_newick.csv` is an optional convenience copy
+of the full taxonomy table.
+
+
+
