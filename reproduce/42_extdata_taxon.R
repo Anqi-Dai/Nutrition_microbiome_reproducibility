@@ -1,14 +1,17 @@
-# Extended Fig. E7 (human taxon family): E7a and E7e.
+# Extended Fig. E7 (human taxon family): E7a, E7b and E7e.
 #
-# Refactor of the heatmap and marginal-effects halves of
-# R63_Enterococcus_asv1_outcome.Rmd.
+# Refactor of R63_Enterococcus_asv1_outcome.Rmd (E7a, E7e) and
+# 178_new_F4__code_for_Figure_4.Rmd (E7b).
 #   E7a  food-group effect-size heatmap across the prevalent genera, rows
 #        clustered (dendrogram) by their posterior fraction-positive profile
+#   E7b  genus-abundance vs alpha-diversity Spearman correlations across all the
+#        genera that made the heatmap (the full-set companion to F4a)
 #   E7e  marginal E. faecium (asv_1) CLR over each food group, split by
 #        antibiotic exposure, from the cached asv_1 fit's conditional effects
 #
-# Plot-only for E7a (reads the per-genus summary cached by 40); E7e reloads the
-# cached asv_1 brms fit to pull its conditional effects.
+# Plot-only for E7a (reads the per-genus summary cached by 40); E7b reuses the
+# shared Spearman helper; E7e reloads the cached asv_1 brms fit for its
+# conditional effects.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 suppressPackageStartupMessages({
@@ -96,6 +99,36 @@ final_figure <- plot_grid(heatmap_plot, dendro_plot, ncol = 2,
                           rel_widths = c(1, 0.1), align = "h", axis = "tb")
 save_panel(final_figure, "E7a_genus_heatmap.pdf", width = 180, height = 200)
 message("E7a done")
+
+# E7b: Spearman correlations for every genus that made the heatmap --------------
+# The original 178 panel filtered to a separately-built 33-genus abundance set
+# (087_more_abundant_0.002_genus_33.csv, not shipped). Per the rewrite, the set
+# is instead the genera that made the E7a heatmap (the outcomes cached by 40),
+# keeping the FDR-significant ones ordered by signed rho.
+res <- genus_diversity_spearman()
+heatmap_genera <- read_csv(cache_path("R63_genus_clr_all_models_results.csv"),
+                           show_col_types = FALSE) %>%
+  distinct(genus = outcome)
+
+selected_bars <- res %>%
+  filter(genus %in% heatmap_genera$genus) %>%
+  filter(sig05 == "FDR < 0.05") %>%
+  arrange(desc(rho))
+
+correbar_all <- selected_bars %>%
+  mutate(genus = factor(genus, levels = selected_bars$genus)) %>%
+  ggplot(aes(x = genus, y = 0, xend = genus, yend = rho, color = Correlation)) +
+  geom_segment(size = 5) +
+  labs(x = "", y = expression(paste("Spearman correlation (", rho, ")"))) +
+  scale_color_jco() +
+  coord_flip() +
+  theme_classic(base_size = 10) +
+  theme(axis.text = element_text(size = 10), axis.title = element_text(size = 10),
+        legend.position = "none",
+        axis.text.y = element_markdown(face = "italic"))
+
+save_panel(correbar_all, "E7b_genus_diversity_spearman.pdf", width = 100, height = 200)
+message("E7b done")
 
 # E7e: marginal E. faecium CLR per food group, by antibiotic exposure -----------
 asv1_fit <- readRDS(cache_path("R63_fit_asv1.rds"))

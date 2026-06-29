@@ -1,13 +1,45 @@
-# Figure 4 (human): F4b, the E. faecium CLR forest.
+# Figure 4 (human): F4a and F4b.
+#   F4a  genus-abundance vs alpha-diversity Spearman correlations, the top five
+#        genera in each direction (refactor of 178_new_F4__code_for_Figure_4.Rmd)
+#   F4b  the E. faecium CLR forest (refactor of the forest half of
+#        R63_Enterococcus_asv1_outcome.Rmd), plot-only from the cached 40 table:
+#        the abx * Sweets term stands out as the one credible interval clear of zero
 #
-# Refactor of the forest half of R63_Enterococcus_asv1_outcome.Rmd. Plot-only:
-# reads the cached fixed-effect table from 40 and draws the food-group main and
-# antibiotic-interaction effects on E. faecium (asv_1) CLR, the abx * Sweets
-# term standing out as the one credible interval clear of zero.
+# F4a is deterministic (Spearman); the shared correlation step lives in the helper
+# (genus_diversity_spearman) so 42's E7b reuses it. F4b reads the cached fixef
+# table from 40.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 
 key <- food_key()
+
+# F4a: top-5 genera in each diversity direction ---------------------------------
+res <- genus_diversity_spearman()
+
+# Keep the FDR-significant genera, take the five strongest correlations in each
+# direction, and order them by signed rho (most positive at top after coord_flip).
+main <- res %>%
+  filter(sig05 == "FDR < 0.05") %>%
+  split(.$Correlation) %>%
+  map(function(df) df %>% mutate(absrho = abs(rho)) %>% slice_max(order_by = absrho, n = 5)) %>%
+  bind_rows() %>%
+  arrange(desc(rho))
+
+correbar <- main %>%
+  mutate(genus = factor(genus, levels = main$genus)) %>%
+  ggplot(aes(x = genus, y = 0, xend = genus, yend = rho, color = Correlation)) +
+  geom_segment(size = 4) +
+  labs(x = "", y = "Spearman correlation") +
+  scale_color_jco() +
+  coord_flip() +
+  theme_classic(base_size = 10) +
+  theme(axis.text = element_text(size = 10), axis.title = element_text(size = 10),
+        legend.position = "none",
+        axis.text.y = element_markdown(face = "italic"),
+        aspect.ratio = 1 / 1.3)
+
+save_panel(correbar, "F4a_genus_diversity_spearman.pdf", width = 90, height = 90)
+message("F4a done")
 results_df <- read_csv(cache_path("R63_results_df_asv1.csv"), show_col_types = FALSE)
 
 # Map raw coefficient names to the panel labels (fg_* -> shortname, the
