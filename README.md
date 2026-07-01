@@ -1,10 +1,3 @@
----
-
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Reproducing the public figures of *Sugar-rich foods exacerbate antibiotic-induced microbiome injury*
 
 This repository reproduces the **publicly-shareable** (non-PHI) figures of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
@@ -26,14 +19,14 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 
 ------------------------------------------------------------------------
 
-## What is and isn't reproducible {#what-is-and-isnt-reproducible}
+## What is and isn't reproducible
 
 **Reproducible here** (only de-identified data needed): the diet/microbiome figures — Figure 1, Figure 2, Figure 4, and Extended Data Figures E1 (c–h), E2 (b,c), E3, E4, E5, E7, E8, E9, plus the mouse experiments.
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
 | Figure / table | Why it cannot be rebuilt |
-|------------------------------------|------------------------------------|
+|--------------------------|--------------------------------------------|
 | **Figure 3** | Clinical-outcome / survival analyses requiring patient outcome data |
 | **Extended Fig. E1b** | "Microbiome variance explained" by clinical covariates (disease category, patient factors, transplant events) |
 | **Extended Fig. E2a** | Per-patient daily antibiotic-usage heatmap — needs each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
@@ -44,7 +37,7 @@ Patient-level clinical variables and mortality outcomes are available via data s
 
 ------------------------------------------------------------------------
 
-## Repository layout {#repository-layout}
+## Repository layout
 
 ```         
 released_data/      de-identified input tables (the only data that ships)
@@ -63,7 +56,7 @@ Scripts are organised **by analysis family, not by printed figure**: an expensiv
 
 ------------------------------------------------------------------------
 
-## Environment setup {#environment-setup}
+## Environment setup
 
 ### 1. R and packages (`renv`)
 
@@ -108,7 +101,7 @@ All scripts resolve their input from `released_data/`.
 
 ------------------------------------------------------------------------
 
-## How to reproduce the figures {#how-to-reproduce-the-figures}
+## How to reproduce the figures
 
 All commands run from the project root.
 
@@ -165,7 +158,7 @@ Common environment toggles:
 ## Scripts → figures
 
 | Script | Panel(s) |
-|------------------------------------|------------------------------------|
+|----------------------------------------------------|-----------------------|
 | `21_fig1_diet_timecourse.R` | **F1** b, c, i, j, k, l, m |
 | `22_fig1_food_tree.Rmd` | **F1** d |
 | `20_fig1_taxumap.R` | **F1** e, f, g, h |
@@ -197,14 +190,14 @@ Fitting/data scripts (no panel of their own): `10`, `16`, `40` (cache the brms f
 
 ------------------------------------------------------------------------
 
-## Released data tables {#released-data-tables}
+## Released data tables
 
 Everything in `released_data/` is de-identified and shareable. **Zenodo** column links each table to the [companion deposit](https://doi.org/10.5281/zenodo.20278682) where it is also archived; tables marked *derived* are de-identified products built in this project's upstream pipeline and are not separately on Zenodo.
 
 ### Core inputs
 
 | File | Used for | Zenodo |
-|------------------------|------------------------|------------------------|
+|------|----------------------------------------------------|--------|
 | `152_combined_DTB.csv` | the diet tracker — every food item each patient ate; the source of all diet exposures, the food tree, and diet diversity | **same file on Zenodo** |
 | `153_combined_META.csv` | the per-stool-sample analysis table (1009 samples / 158 patients): diversity outcome, antibiotic/TPN/EN exposure, prior-2-day food-group & macronutrient intake | **same file on Zenodo** |
 | `Data_S4_Medication_Exposures_in_the_Two_Days_Prior_to_Stool_Sample_Collection.csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
@@ -215,7 +208,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 **`152_combined_DTB.csv`** — one row per food item consumed:
 
 | column | meaning |
-|------------------------------------|------------------------------------|
+|------------------------------------------|------------------------------|
 | `pid` | de-identified patient ID |
 | `fdrt` | food day relative to transplant (day 0 = transplant) |
 | `Meal`, `Food_NSC`, `Unit`, `Por_eaten` | meal, food name, unit, portions eaten |
@@ -226,7 +219,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 **`153_combined_META.csv`** / **`R59_meta_expanded.csv`** — one row per stool sample:
 
 | column | meaning |
-|------------------------------------|------------------------------------|
+|------------------------------------------|------------------------------|
 | `pid`, `sampleid` | patient and stool-sample ID |
 | `sdrt` | stool day relative to transplant |
 | `simpson_reciprocal` | inverse Simpson microbiome alpha-diversity (outcome) |
@@ -243,7 +236,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 ### Microbiome tables (derived, de-identified)
 
 | File | Columns | Used for |
-|------------------------|------------------------|------------------------|
+|------|--------------------------|--------------------------------|
 | `171_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance (genus-annotated); rebuilds genus relab for F1n/o, F4a, E7b |
 | `171_genus_CLR_res.csv` | `genus, sampleid, clr` | per-genus centred-log-ratio abundances for the E7a genus models |
 | `171_16S_enterococcus_asv_relab.csv` | `sampleid, asv, species, relab` | 16S *Enterococcus* ASV composition for E7c (and its species-level ordering) |
@@ -252,7 +245,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 ### Diet / food-tree tables
 
 | File | Columns / contents | Used for |
-|------------------------|------------------------|------------------------|
+|------|--------------------------|--------------------------------|
 | `072_total_patients_zero_eating_days_pid.csv` | `fdrt, diet_data_status, pid` | documented zero-intake days (distinguishes "ate nothing" from "no record") |
 | `diet-alpha-diversity.tsv` | `(patient-day id), faith_pd` | diet Faith phylogenetic diversity per patient-day (regenerated by `19`) |
 | `taxumap_embedding.csv` | `index_column, taxumap1, taxumap2` | precomputed TaxUMAP 2-D diet embedding for F1 e–h |
@@ -266,12 +259,12 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 ### Mouse data
 
 | File | Contents | Used for |
-|------------------------|------------------------|------------------------|
+|------|----------------------------------------------|----------------------|
 | `Dai_mouse_figure_raw_data.xlsx` | Nature source-data workbook, one sheet per mouse panel (CFU, 16S relab + metadata, RNA-seq counts) | all of F4c / E8 / E9 (scripts `50–54`) |
 
 ------------------------------------------------------------------------
 
-## Running QIIME 2 through Docker {#running-qiime-2-through-docker}
+## Running QIIME 2 through Docker
 
 Scripts `13_fig2_procrustes.R`, `19_diet_faith_pd.R`, and `23_fig1_beta_diversity.R` compute phylogenetic diversity (UniFrac / Faith PD) on the **food tree** using QIIME 2. They call QIIME inside Docker so you don't need a local QIIME install.
 
@@ -300,7 +293,7 @@ Notes / gotchas:
 
 ------------------------------------------------------------------------
 
-## Regenerating the TaxUMAP embedding {#regenerating-the-taxumap-embedding}
+## Regenerating the TaxUMAP embedding
 
 Figure 1 e–h is drawn by `20_fig1_taxumap.R` from the precomputed `released_data/taxumap_embedding.csv`, so **the figure reproduces without Python**. To regenerate the embedding from scratch, the full step-by-step (build the two input tables in R → install TaxUMAP → run it) is in [**`reproduce/taxumap_pipeline_HOWTO.md`**](reproduce/taxumap_pipeline_HOWTO.md).
 
