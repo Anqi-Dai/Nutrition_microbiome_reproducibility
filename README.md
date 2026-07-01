@@ -1,5 +1,11 @@
 # Reproducing the public figures of *Sugar-rich foods exacerbate antibiotic-induced microbiome injury*
 
+## Description
+This repository contains the code and processed data used for the analyses presented in the manuscript "Sugar-rich foods exacerbate antibiotic-induced microbiome disruption".  
+The code performs statistical analyses (including Bayesian inference) and generates the figures demonstrating the link between dietary sugar intake, antibiotic exposure, and microbiome disruption in both human patients undergoing hematopoietic cell transplantation and in a mouse model. See preprint here: https://www.biorxiv.org/content/10.1101/2024.10.14.617881v1.
+
+------------------------------------------------------------------------
+
 This repository reproduces the **publicly-shareable** (non-PHI) figures of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
 
 The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://doi.org/10.5281/zenodo.20278682) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).

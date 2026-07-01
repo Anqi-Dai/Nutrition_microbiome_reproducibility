@@ -33,14 +33,15 @@ prior_pred <- pp_check(prior_fit, ndraws = 500, alpha = 0.1) +
 save_panel(prior_pred, "E1g_prior_predictive_check.pdf", width = 170, height = 125)
 
 # E1h: posterior predictive check (reuses the cached main fit) -----------------
-# Published colour scheme: observed in dark blue, posterior draws in light blue
-# (matched scale_color/scale_fill so the two legends merge into one).
+# Published colour scheme: observed drawn in salmon/coral, posterior draws in
+# teal, both with white box fills so only the outlines carry the colour (matched
+# scale_color/scale_fill so the two legends merge into one).
 post_pred <- pp_check(fg_fit, type = "boxplot", ndraws = 10, notch = FALSE) +
   labs(y = "log(microbiome alpha diversity)", title = "Posterior predictive check") +
-  scale_color_manual(values = c("#08519C", "#6BAED6"),
+  scale_color_manual(values = c("#F08A80", "#40B7AD"),
                      labels = c("observed distribution",
                                 "simulated from posterior predictive distribution")) +
-  scale_fill_manual(values = c("#08519C", "#DEEBF7"),
+  scale_fill_manual(values = c("white", "white"),
                     labels = c("observed distribution",
                                "simulated from posterior predictive distribution")) +
   legend_two_rows()
