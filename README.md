@@ -177,7 +177,7 @@ Common environment toggles:
 | `27_e4h_fndds_zscored.R` | **E4** h |
 | `28_e5abcd_added_sugars.R` | **E5** a, b, c, d (added vs other sugars) |
 | `29_e6ab_sweet_grains.R` | **E6** a, b (Sweet vs Other Grains; E6c–j are restricted) |
-| `14_sensitivity_diversity.R`, `15_robustness_subsampling.R`, `18_fig_e5jk_ons.R` | **E5** e, f, j, k, l, … |
+| `14_sensitivity_diversity.R`, `15_robustness_subsampling.R`, `18_fig_e5jk_ons.R` | **E5** e, f, g, h, j, k, l, … |
 | `42_extdata_taxon.R` | **E7** a, b, e |
 | `43_extdata_enterococcus_asv.R` | **E7** c, d |
 | `44_e7f_abxclass.R` | **E7** f |

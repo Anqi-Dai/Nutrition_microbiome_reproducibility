@@ -8,13 +8,12 @@
 # `file =` under intermediate_data/.
 #
 # Panel map (the ggsave names from R60):
-#   E5e         remove EN/TPN-exposed patients          -> plot_forest
-#   E5f (left)  add a malignant-disease term            -> plot_disease
-#   E5f (middle)add an HCT-CI comorbidity term          -> plot_CI
-#   plus, assembled into the E5 overview grid:
-#   add a PCA (patient-controlled analgesia) term       -> plot_pca
-#   empiric-exposed samples only                        -> plot_empiric
-#   pre-transplant (sdrt < 0) samples only              -> plot_pre
+#   E5e (left)  add a malignant-disease term            -> plot_disease
+#   E5e (middle)add an HCT-CI comorbidity term          -> plot_CI
+#   E5e (right) add a PCA (patient-controlled analgesia) term -> plot_pca
+#   E5f         remove EN/TPN-exposed patients          -> plot_forest
+#   E5g         empiric-exposed samples only            -> plot_empiric
+#   E5h         pre-transplant (sdrt < 0) samples only  -> plot_pre
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 
@@ -106,38 +105,38 @@ sens_forest <- function(fit, level_order, subtitle, abx_coef = "empiricalTRUE",
   p
 }
 
-# E5e: exclude any patient ever exposed to EN or TPN ---------------------------
-pids_en_tpn <- meta %>% group_by(pid) %>% filter(any(EN | TPN)) %>% ungroup() %>% pull(pid) %>% unique()
-meta_no_en_tpn <- meta %>% filter(!pid %in% pids_en_tpn)
-fit_e5e <- fit_sensitivity(meta_no_en_tpn, cache_path("R60_fit_rm_en_tpn"), drop_en_tpn = TRUE)
-plot_forest <- sens_forest(fit_e5e, make_levels("abx"),
-                           "excluding patients\nexposed to EN/TPN", aspect = 2.5, base_size = 10)
-save_panel(plot_forest, "E5e_remove_en_tpn.pdf", width = 100, height = 100)
-
-# E5f left: add a malignant-disease term --------------------------------------
+# E5e left: add a malignant-disease term --------------------------------------
 meta_disease <- meta %>% filter(!is.na(disease_lineage)) %>% mutate(disease_lineage = factor(disease_lineage))
 fit_disease <- fit_sensitivity(meta_disease, cache_path("R60_fit_disease"), extra = "disease_lineage")
 plot_disease <- sens_forest(fit_disease, make_levels(c("myeloid", "abx", "EN", "TPN")),
                             "model including\na term for underlying\nmalignant disease",
                             extra_fix = function(x) str_replace(x, "disease lineageMyeloid", "myeloid"))
-save_panel(plot_disease, "E5f_left_disease.pdf", width = 110, height = 125)
+save_panel(plot_disease, "E5e_left_disease.pdf", width = 110, height = 125)
 
-# E5f middle: add an HCT-CI comorbidity term ----------------------------------
+# E5e middle: add an HCT-CI comorbidity term ----------------------------------
 meta_ci <- meta %>% filter(!is.na(ci_cleaned_numeric))
 fit_ci <- fit_sensitivity(meta_ci, cache_path("R60_fit_hctci"), extra = "ci_cleaned_numeric")
 plot_CI <- sens_forest(fit_ci, make_levels(c("HCT-CI", "abx", "EN", "TPN")),
                        "model including\na term for\ncomorbidities",
                        extra_fix = function(x) str_replace(x, "ci cleaned numeric", "HCT-CI"))
-save_panel(plot_CI, "E5f_middle_hctci.pdf", width = 110, height = 125)
+save_panel(plot_CI, "E5e_middle_hctci.pdf", width = 110, height = 125)
 
-# add a PCA (patient-controlled analgesia) term -------------------------------
+# E5e right: add a PCA (patient-controlled analgesia) term ---------------------
 meta_pca <- meta %>% filter(!is.na(PCA))
 fit_pca <- fit_sensitivity(meta_pca, cache_path("R60_fit_pca"), extra = "PCA")
 plot_pca <- sens_forest(fit_pca, make_levels(c("PCA", "abx", "EN", "TPN")),
                         "model including\na term for patient-\ncontrolled analgesia")
-save_panel(plot_pca, "E5_pca.pdf", width = 100, height = 100)
+save_panel(plot_pca, "E5e_right_pca.pdf", width = 100, height = 100)
 
-# empiric-exposed samples only ------------------------------------------------
+# E5f: exclude any patient ever exposed to EN or TPN ---------------------------
+pids_en_tpn <- meta %>% group_by(pid) %>% filter(any(EN | TPN)) %>% ungroup() %>% pull(pid) %>% unique()
+meta_no_en_tpn <- meta %>% filter(!pid %in% pids_en_tpn)
+fit_e5f <- fit_sensitivity(meta_no_en_tpn, cache_path("R60_fit_rm_en_tpn"), drop_en_tpn = TRUE)
+plot_forest <- sens_forest(fit_e5f, make_levels("abx"),
+                           "excluding patients\nexposed to EN/TPN", aspect = 2.5, base_size = 10)
+save_panel(plot_forest, "E5f_remove_en_tpn.pdf", width = 100, height = 100)
+
+# E5g: empiric-exposed samples only -------------------------------------------
 meta_empiric <- meta %>%
   filter(exposure_type %in% c("empiric", "no_broad_spectrum_exposure")) %>%
   mutate(exposure_type = factor(exposure_type, levels = c("no_broad_spectrum_exposure", "empiric")))
@@ -146,13 +145,13 @@ fit_empiric <- fit_sensitivity(meta_empiric, cache_path("R60_fit_empiric"),
 plot_empiric <- sens_forest(fit_empiric, make_levels(c("empiric only", "EN", "TPN"), abx = "empiric only"),
                             "excluding samples\ncollected during\ntreatment of infection",
                             abx_coef = "exposure_typeempiric", abx_label = "empiric_only")
-save_panel(plot_empiric, "E5_empiric_only.pdf", width = 100, height = 100)
+save_panel(plot_empiric, "E5g_empiric_only.pdf", width = 100, height = 100)
 
-# pre-transplant (sdrt < 0) samples only --------------------------------------
+# E5h: pre-transplant (sdrt < 0) samples only ---------------------------------
 meta_pre <- meta %>% filter(sdrt < 0)
 fit_pre <- fit_sensitivity(meta_pre, cache_path("R60_fit_pretransplant"))
 plot_pre <- sens_forest(fit_pre, make_levels(c("abx", "EN", "TPN")),
                         "restricting to only pre-\ntransplant samples")
-save_panel(plot_pre, "E5_pretransplant.pdf", width = 100, height = 100)
+save_panel(plot_pre, "E5h_pretransplant.pdf", width = 100, height = 100)
 
 message("E5 sensitivity panels written to results/.")
