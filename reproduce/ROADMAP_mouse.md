@@ -72,7 +72,7 @@ reproduce/
 | E9b | 52_extdata_9.R | workbook: Sup_Figure_9b_smoothie | E9b_smoothie.pdf | R45 |
 | E9c | 52_extdata_9.R | workbook: Sup_Figure_9a_21_day_exp (biapenem) | E9c_alternate_sugars.pdf | R31 |
 | E9d time | 52_extdata_9.R | workbook: Sup_Figure_9d_time_course_monoc | E9d_monocolonization_timecourse.pdf | R31 |
-| E9d AUC | 52_extdata_9.R | workbook: Sup_Figure_9d_auc_boxplot | E9d_monocolonization_auc.pdf | R31 |
+| E9d AUC | 52_extdata_9.R | workbook: Sup_Figure_9d_time_course_monoc (AUC computed from CFU) | E9d_monocolonization_auc.pdf | R33 |
 | E9h | 52_extdata_9.R | workbook: Sup_Figure_9h_bmt_cfu (BM-only) | E9h_bmt_cfu.pdf | R02 |
 | E9e | 54_extdata_9_rnaseq.R | raw_counts_matrix.tsv | E9e_gsea_lollipop.pdf | R38 |
 | E9f | 54_extdata_9_rnaseq.R | raw_counts_matrix.tsv | E9f_pca.pdf | R38 |
