@@ -32,21 +32,41 @@ read_course <- function(sheet) {
 }
 
 # E9a: 21-day time course (vehicle vs sucrose) --------------------------------
-course_9a <- read_course("Sup_Figure_9a_21_day_exp")
+# Group-major / day-minor layout (R05 f3_five_days): the four antibiotic x diet
+# arms sit as blocks, days ascending within each, coloured by group. The brackets
+# are the R05 Wilcoxon contrasts: biapenem vehicle vs biapenem sucrose, and
+# biapenem vehicle vs PBS vehicle, at each of days 3, 6, 9, 14, 21.
+grp_9a <- c("PBS__vehicle", "PBS__sucrose", "biapenem__vehicle", "biapenem__sucrose")
+days_9a <- c(1, 3, 6, 9, 14, 21)
+
+course_9a <- read_course("Sup_Figure_9a_21_day_exp") |>
+  mutate(antibiotic = recode(antibiotic, DPBS = "PBS"),
+         day = as.integer(as.character(day)),
+         grp = factor(str_glue("{antibiotic}__{sugar}"), levels = grp_9a),
+         xvar = factor(str_glue("{antibiotic}__{sugar}__{day}"),
+                       levels = xvar_levels(grp_9a, days_9a)))
+
+cmp_9a <- c(
+  lapply(days_9a[-1], function(d) c(str_glue("biapenem__vehicle__{d}"), str_glue("biapenem__sucrose__{d}"))),
+  lapply(days_9a[-1], function(d) c(str_glue("biapenem__vehicle__{d}"), str_glue("PBS__vehicle__{d}")))
+)
 
 p_9a <- course_9a |>
-  ggplot(aes(x = day, y = cfu, colour = sugar)) +
-  geom_boxplot(outlier.shape = NA, position = position_dodge(width = 0.8)) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.12, dodge.width = 0.8),
-             size = 0.8, alpha = 0.5, shape = 16) +
-  facet_wrap(~antibiotic) +
-  scale_colour_manual(values = pal_sugar4) +
+  ggplot(aes(x = xvar, y = cfu, colour = grp)) +
+  geom_boxplot(outlier.shape = NA, fill = NA, width = 0.6) +
+  geom_jitter(width = 0.15, alpha = 0.5, shape = 16, size = 0.8) +
+  scale_colour_manual(values = setNames(pal_sucrose4, grp_9a),
+                      name = "Antibiotic + diet", labels = pretty_grp) +
   scale_log10_sci() +
+  scale_x_discrete(labels = rep(days_9a, length(grp_9a))) +
+  stat_compare_means(comparisons = cmp_9a, label = "p.signif", method = "wilcox.test",
+                     method.args = list(exact = TRUE, correct = TRUE),
+                     tip.length = 0.01, step.increase = 0.06, vjust = 0.6) +
   labs(x = "Day", y = "Enterococcal\nCFU/gram") +
   theme_mouse() +
-  theme(legend.position = "right", legend.title = element_blank())
+  legend_treatment()
 
-save_panel(p_9a, "E9a_21day_timecourse.pdf", width = 6.6, height = 3.4)
+save_panel(p_9a, "E9a_21day_timecourse.pdf", width = 9.5, height = 3.6)
 
 # E9c: alternate sugars, full antibiotic x diet design ------------------------
 # Both antibiotics (PBS in light shades, biapenem in saturated ones) crossed with
