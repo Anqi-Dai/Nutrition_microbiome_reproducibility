@@ -39,6 +39,18 @@ nutrition_data_root <- function() {
 }
 released <- function(file) file.path(nutrition_data_root(), file)
 
+# Restricted tier: PHI-free but not cleared for public release, so it is
+# gitignored and ships to nobody. Scripts that need it resolve from RESTRICTED_DATA
+# (falling back to restricted_data/) and guard on has_restricted() so they skip
+# cleanly for anyone who only has released_data/.
+restricted_data_root <- function() {
+  Sys.getenv("RESTRICTED_DATA", unset = here::here("restricted_data"))
+}
+restricted <- function(file) file.path(restricted_data_root(), file)
+has_restricted <- function(file = NULL) {
+  if (is.null(file)) dir.exists(restricted_data_root()) else file.exists(restricted(file))
+}
+
 # Expensive brms fits and the derived coefficient tables cache here; reused on rerun.
 intermediate_dir <- function() here::here("intermediate_data")
 cache_path <- function(...) file.path(intermediate_dir(), ...)

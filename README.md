@@ -23,13 +23,18 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 
 **Reproducible here** (only de-identified data needed): the diet/microbiome figures — Figure 1, Figure 2, Figure 4, and Extended Data Figures E1 (c–h), E2 (b,c), E3, E4, E5, E7, E8, E9, plus the mouse experiments.
 
+**Reproducible with restricted (internal) data**: a few panels need de-identified tables that carry **no PHI** but are **not cleared for public release**. Those tables are not shipped; they live in a gitignored `restricted_data/` folder that internal users supply. The scripts that need them are under [`reproduce/restricted/`](reproduce/restricted/) and **skip cleanly** for anyone who only has `released_data/`. Currently:
+
+| Figure | Script | Restricted input |
+|--------|--------|------------------|
+| **Extended Fig. E2a** | `reproduce/restricted/60_e2a_abx_heatmap.R` | `R21_meds_updated_all_medication_classified.csv` — each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
+
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
 | Figure / table | Why it cannot be rebuilt |
 |--------------------------|--------------------------------------------|
 | **Figure 3** | Clinical-outcome / survival analyses requiring patient outcome data |
 | **Extended Fig. E1b** | "Microbiome variance explained" by clinical covariates (disease category, patient factors, transplant events) |
-| **Extended Fig. E2a** | Per-patient daily antibiotic-usage heatmap — needs each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
 | **Extended Fig. E6c–j** | Clinical-outcome / survival panels |
 | **Supplementary Tables 1–6** | Patient demographics / clinical characteristics tables |
 
@@ -41,7 +46,9 @@ Patient-level clinical variables and mortality outcomes are available via data s
 
 ```         
 released_data/      de-identified input tables (the only data that ships)
+restricted_data/    PHI-free but non-public inputs, internal only (gitignored, not shipped)
 reproduce/          numbered scripts, one analysis "family" per number block
+reproduce/restricted/  scripts that need restricted_data/ (skip cleanly when it is absent)
 intermediate_data/  cached model fits, QIIME ordinations, etc. (created on first run)
 results/            output PDFs, one per panel (created on first run)
 ```
@@ -53,6 +60,7 @@ Scripts are organised **by analysis family, not by printed figure**: an expensiv
 - `30` Extended Fig. E3 (compositional PCoA)
 - `40–44` taxon-abundance family (F4, E7)
 - `50–54` mouse experiments (CFU, 16S, RNA-seq), driven by `00_run_mouse.R`
+- `60+` (under `reproduce/restricted/`) panels requiring restricted, non-public inputs
 
 ------------------------------------------------------------------------
 
@@ -97,7 +105,7 @@ A few scripts call QIIME 2 inside a Docker container (UniFrac / Bray-Curtis / Fa
 
 The TaxUMAP embedding for F1 e–h ships precomputed (`released_data/taxumap_embedding.csv`), so you do **not** need Python to draw the figure. To regenerate it, see [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding).
 
-All scripts resolve their input from `released_data/`.
+All public scripts resolve their input from `released_data/` (override with the `NUTRITION_DATA` env var). Scripts under `reproduce/restricted/` additionally read `restricted_data/` (override with `RESTRICTED_DATA`) and skip cleanly when it is absent.
 
 ------------------------------------------------------------------------
 
@@ -134,6 +142,7 @@ Rscript reproduce/23_fig1_beta_diversity.R       # F1 n,o (QIIME)
 Rscript reproduce/24_e1cde_random_intercepts.R   # E1 c,d,e   (needs the F2d fit from 10)
 Rscript reproduce/25_e1f_alpha_breakdown.R       # E1f
 Rscript reproduce/26_e2bc_abx_exposure.R         # E2 b,c
+Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
@@ -321,4 +330,4 @@ UMAP is stochastic (the embedding can rotate/flip between runs), so for an **exa
 
 ------------------------------------------------------------------------
 
-*Patient-level clinical variables and mortality outcomes (Figure 3, E1b, E2a, E6c–j, Supplementary Tables 1–6) are available via data sharing agreement per institutional policies.*
+*Patient-level clinical variables and mortality outcomes (Figure 3, E1b, E6c–j, Supplementary Tables 1–6) are available via data sharing agreement per institutional policies. (E2a is reproducible internally from the restricted antibiotic time-course table, see [What is and isn't reproducible](#what-is-and-isnt-reproducible).)*

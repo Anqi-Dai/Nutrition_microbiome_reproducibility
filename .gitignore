@@ -12,6 +12,9 @@ renv/state.json
 
 
 
+# Restricted (no-PHI but not publicly shareable) inputs - internal use only, never shipped
+restricted_data/
+
 # Large derived cache (brms fits, MaAsLin2/DESeq output) - regenerated, not shipped
 intermediate_data/
 data/
