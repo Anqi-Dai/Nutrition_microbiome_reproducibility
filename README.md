@@ -29,14 +29,15 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 |--------|--------|------------------|
 | **Extended Fig. E2a** | `reproduce/restricted/60_e2a_abx_heatmap.R` | `R21_meds_updated_all_medication_classified.csv` — each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
 | **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `085_engraftment_day_annot.csv` — per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
+| **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–6** | `reproduce/restricted/63_fig3_e6_clinical.R` | `df_main_clinical_outcome.rds` — the cleaned, merged clinical-outcome table (de-identified survival + sugar-density summary + covariates). It is built upstream in the dev repo and shipped here only in cleaned form; 63 draws all the panels and tables from it |
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
 | Figure / table | Why it cannot be rebuilt |
 |--------------------------|--------------------------------------------|
-| **Figure 3** | Clinical-outcome / survival analyses requiring patient outcome data |
+| **Figure 3 c–h** | Clinical-outcome / survival analyses (OS Kaplan–Meier curves etc.) requiring patient outcome data. *Fig. 3 a,b are reproducible with restricted data (see above).* |
 | **Extended Fig. E1b** | "Microbiome variance explained" by clinical covariates (disease category, patient factors, transplant events) |
-| **Extended Fig. E6c–j** | Clinical-outcome / survival panels |
+| **Extended Fig. E6 e–i** | Clinical-outcome / survival panels; E6i (discharge cumulative incidence) comes from R10, not R09. *E6 c,d,j are reproducible with restricted data (see above).* |
 | **Supplementary Tables 1–6** | Patient demographics / clinical characteristics tables |
 
 Patient-level clinical variables and mortality outcomes are available via data sharing agreement per institutional policies.
@@ -145,6 +146,7 @@ Rscript reproduce/25_e1f_alpha_breakdown.R       # E1f
 Rscript reproduce/26_e2bc_abx_exposure.R         # E2 b,c
 Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/restricted/61_dataS6_pt_timecourse.R  # Data S6 (needs restricted_data/; skips cleanly if absent)
+Rscript reproduce/restricted/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j + Supp. Tables 1-6 (reads the cleaned df_main)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
