@@ -28,7 +28,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 | Figure | Script | Restricted input |
 |--------|--------|------------------|
 | **Extended Fig. E2a** | `reproduce/restricted/60_e2a_abx_heatmap.R` | `R21_meds_updated_all_medication_classified.csv` — each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
-| **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `085_engraftment_day_annot.csv` — per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
+| **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `df_main_clinical_outcome.rds` — supplies the per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
 | **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–6** | `reproduce/restricted/63_fig3_e6_clinical.R` | `df_main_clinical_outcome.rds` — the cleaned, merged clinical-outcome table (de-identified survival + sugar-density summary + covariates). It is built upstream in the dev repo and shipped here only in cleaned form; 63 draws all the panels and tables from it |
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:

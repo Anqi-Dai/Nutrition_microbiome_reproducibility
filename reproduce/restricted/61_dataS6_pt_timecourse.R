@@ -5,18 +5,19 @@
 # PDF: an enlarged example patient sits top-left on page 1, every other patient is
 # a small panel, each page carries one shared "Transplant day" x-axis label.
 #
-# Restricted because it needs the per-patient engraftment day
-# (085_engraftment_day_annot.csv, the green dashed line): PHI-free but not cleared
-# for public release. The other three inputs (DTB, META, diet Faith PD) are all in
-# released_data. Skips cleanly when restricted_data/ is absent.
+# Restricted because it needs the per-patient engraftment day (the green dashed
+# line): PHI-free but not cleared for public release. It is read from the cleaned
+# df_main_clinical_outcome.rds, which now carries engraftment_day. The other three
+# inputs (DTB, META, diet Faith PD) are all in released_data. Skips cleanly when
+# restricted_data/ is absent.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 
-engraft_file <- "085_engraftment_day_annot.csv"
-if (!has_restricted(engraft_file)) {
-  message("Data S6 skipped: restricted input not found (", restricted(engraft_file), ").")
-  message("This figure needs the per-patient engraftment day, which is not ",
-          "publicly released. Point RESTRICTED_DATA at it or place it in restricted_data/.")
+df_file <- "df_main_clinical_outcome.rds"
+if (!has_restricted(df_file)) {
+  message("Data S6 skipped: restricted input not found (", restricted(df_file), ").")
+  message("This figure needs the per-patient engraftment day, carried in the cleaned ",
+          "df_main_clinical_outcome.rds; place it in restricted_data/.")
   quit(save = "no", status = 0)
 }
 
@@ -58,8 +59,10 @@ faith <- read_tsv(faith_path, show_col_types = FALSE) |>
 # patients carried through the figure are those that actually have stool data
 pids <- names(meta)
 
-# per-patient annotation: engraftment day (restricted), diet-day and stool-sample counts
-engraftment <- read_csv(restricted(engraft_file), show_col_types = FALSE) |>
+# per-patient annotation: engraftment day (from the cleaned restricted df_main),
+# diet-day and stool-sample counts
+engraftment <- read_rds(restricted(df_file)) |>
+  select(pid, engraftment_day) |>
   filter(pid %in% pids)
 
 diet_days <- dtb |>
