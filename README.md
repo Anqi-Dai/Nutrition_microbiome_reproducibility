@@ -30,6 +30,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 | **Extended Fig. E2a** | `reproduce/restricted/60_e2a_abx_heatmap.R` | `R21_meds_updated_all_medication_classified.csv` — each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
 | **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `df_main_clinical_outcome.rds` — supplies the per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
 | **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–6** | `reproduce/restricted/63_fig3_e6_clinical.R` | `df_main_clinical_outcome.rds` — the cleaned, merged clinical-outcome table (de-identified survival + sugar-density summary + covariates). It is built upstream in the dev repo and shipped here only in cleaned form; 63 draws all the panels and tables from it |
+| **Extended Fig. E6 e,f,g** | `reproduce/restricted/64_e6efg_cluster_intake.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); daily calorie/macronutrient intake over HCT day by cluster (the diet table itself is released) |
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
@@ -147,6 +148,7 @@ Rscript reproduce/26_e2bc_abx_exposure.R         # E2 b,c
 Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/restricted/61_dataS6_pt_timecourse.R  # Data S6 (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/restricted/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j + Supp. Tables 1-6 (reads the cleaned df_main)
+Rscript reproduce/restricted/64_e6efg_cluster_intake.R  # E6 e,f,g (daily intake by diet-pattern cluster)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
