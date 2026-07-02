@@ -28,6 +28,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 | Figure | Script | Restricted input |
 |--------|--------|------------------|
 | **Extended Fig. E2a** | `reproduce/restricted/60_e2a_abx_heatmap.R` | `R21_meds_updated_all_medication_classified.csv` — each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
+| **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `085_engraftment_day_annot.csv` — per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
@@ -143,6 +144,7 @@ Rscript reproduce/24_e1cde_random_intercepts.R   # E1 c,d,e   (needs the F2d fit
 Rscript reproduce/25_e1f_alpha_breakdown.R       # E1f
 Rscript reproduce/26_e2bc_abx_exposure.R         # E2 b,c
 Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/; skips cleanly if absent)
+Rscript reproduce/restricted/61_dataS6_pt_timecourse.R  # Data S6 (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
