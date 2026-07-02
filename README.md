@@ -31,6 +31,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 | **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `df_main_clinical_outcome.rds` — supplies the per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
 | **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–6** | `reproduce/restricted/63_fig3_e6_clinical.R` | `df_main_clinical_outcome.rds` — the cleaned, merged clinical-outcome table (de-identified survival + sugar-density summary + covariates). It is built upstream in the dev repo and shipped here only in cleaned form; 63 draws all the panels and tables from it |
 | **Extended Fig. E6 e,f,g** | `reproduce/restricted/64_e6efg_cluster_intake.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); daily calorie/macronutrient intake over HCT day by cluster (the diet table itself is released) |
+| **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
@@ -38,7 +39,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 |--------------------------|--------------------------------------------|
 | **Figure 3 c–h** | Clinical-outcome / survival analyses (OS Kaplan–Meier curves etc.) requiring patient outcome data. *Fig. 3 a,b are reproducible with restricted data (see above).* |
 | **Extended Fig. E1b** | "Microbiome variance explained" by clinical covariates (disease category, patient factors, transplant events) |
-| **Extended Fig. E6 e–i** | Clinical-outcome / survival panels; E6i (discharge cumulative incidence) comes from R10, not R09. *E6 c,d,j are reproducible with restricted data (see above).* |
+| **Extended Fig. E6 h** | Fecal-diversity-by-cluster survival panel (from R10). *E6 c,d,e,f,g,i,j are reproducible with restricted data (see above).* |
 | **Supplementary Tables 1–6** | Patient demographics / clinical characteristics tables |
 
 Patient-level clinical variables and mortality outcomes are available via data sharing agreement per institutional policies.
@@ -149,6 +150,7 @@ Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/
 Rscript reproduce/restricted/61_dataS6_pt_timecourse.R  # Data S6 (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/restricted/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j + Supp. Tables 1-6 (reads the cleaned df_main)
 Rscript reproduce/restricted/64_e6efg_cluster_intake.R  # E6 e,f,g (daily intake by diet-pattern cluster)
+Rscript reproduce/restricted/65_e6i_discharge.R         # E6i (discharge cumulative incidence by cluster, adjusted HR)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
