@@ -33,6 +33,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 | **Extended Fig. E6 e,f,g** | `reproduce/restricted/64_e6efg_cluster_intake.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); daily calorie/macronutrient intake over HCT day by cluster (the diet table itself is released) |
 | **Extended Fig. E6h** | `reproduce/restricted/66_e6h_alpha_trajectory.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); fecal microbiota alpha-diversity trajectory over HCT day by cluster (the diversity table `153_combined_META.csv` is released) |
 | **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
+| **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and ASV counts `63_asv_count_relab_res.csv` are released) |
 
 **NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
 
@@ -152,6 +153,7 @@ Rscript reproduce/restricted/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j +
 Rscript reproduce/restricted/64_e6efg_cluster_intake.R  # E6 e,f,g (daily intake by diet-pattern cluster)
 Rscript reproduce/restricted/65_e6i_discharge.R         # E6i (discharge cumulative incidence by cluster, adjusted HR)
 Rscript reproduce/restricted/66_e6h_alpha_trajectory.R  # E6h (fecal alpha-diversity trajectory by cluster)
+Rscript reproduce/restricted/67_e1b_covariates_contribution.R  # E1b (per-covariate microbiome variance explained)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
