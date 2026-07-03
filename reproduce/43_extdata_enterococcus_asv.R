@@ -8,12 +8,13 @@
 #        metagenomic (MGX) prevalence (n / 333) and abundance distribution.
 #
 # Inputs are plain CSVs in released_data/ (no phyloseq):
-#   171_16S_enterococcus_asv_relab.csv   sampleid, asv, species, relab  (16S
-#                                        Enterococcus ASVs, fraction of the whole
-#                                        community; the 16S species is carried per
-#                                        ASV, so species-level composition -- used
-#                                        for the E7c sample order -- is just an
-#                                        aggregation of this one table)
+#   63_asv_count_relab_res.csv           asv_key, sampleid, count, count_relative
+#   63_asv_blast_annotation.csv          asv_key + taxonomy + BLAST hit (per ASV)
+#     The 16S Enterococcus ASV relab table (sampleid, asv, species, relab: the 16S
+#     Enterococcus ASVs as a fraction of the whole community) is derived below by
+#     joining these two -- the Enterococcus rows of the annotation carry the species,
+#     and count_relative IS the whole-community relab. This replaces the separately
+#     shipped 171_16S_enterococcus_asv_relab.csv (identical to the row).
 #   mgx_enterococcus_species_relab.csv   sample, species, relab (fraction of the
 #                                        whole MGX community; Enterococcus only)
 # These were exported once from the original phyloseq objects.
@@ -58,7 +59,17 @@ asv_pal <- c(asv_cols,
 # =====================================================================
 # E7c: stacked barplot of 16S Enterococcus ASV composition
 # =====================================================================
-e16 <- read_csv(released("171_16S_enterococcus_asv_relab.csv"), show_col_types = FALSE)
+# Derive the 16S Enterococcus ASV relab from the released ASV tables: the Enterococcus
+# rows of the BLAST annotation supply the per-ASV species; count_relative is already
+# the fraction of the whole community, so it is the relab directly.
+e16 <- read_csv(released("63_asv_count_relab_res.csv"), show_col_types = FALSE) |>
+  inner_join(
+    read_csv(released("63_asv_blast_annotation.csv"), show_col_types = FALSE) |>
+      filter(genus == "Enterococcus") |>
+      select(asv_key, species),
+    by = "asv_key") |>
+  transmute(sampleid, asv = asv_key, species, relab = count_relative) |>
+  filter(relab > 0)
 
 top10 <- e16 |> group_by(asv) |> summarise(tot = sum(relab), .groups = "drop") |>
   slice_max(tot, n = 10) |> pull(asv)

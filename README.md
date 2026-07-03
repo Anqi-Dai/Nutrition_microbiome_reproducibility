@@ -257,10 +257,29 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 
 | File | Columns | Used for |
 |------|--------------------------|--------------------------------|
+| `63_asv_count_relab_res.csv` | `asv_key, sampleid, count, count_relative` | per-ASV 16S counts and whole-community relative abundance (one row per observed, non-zero count); the ASV-count source for E1b, and joined to the annotation for E7c |
+| `63_asv_blast_annotation.csv` | `asv_key` + taxonomy + BLAST hit (see below) | per-ASV taxonomic lineage and the BLAST hit that assigned it; one row per ASV |
 | `171_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance (genus-annotated); rebuilds genus relab for F1n/o, F4a, E7b |
 | `171_genus_CLR_res.csv` | `genus, sampleid, clr` | per-genus centred-log-ratio abundances for the E7a genus models |
-| `171_16S_enterococcus_asv_relab.csv` | `sampleid, asv, species, relab` | 16S *Enterococcus* ASV composition for E7c (and its species-level ordering) |
 | `mgx_enterococcus_species_relab.csv` | `sample, species, relab` | metagenomic *Enterococcus* species abundance for E7d |
+
+The two `63_*` tables are built by `Nutrition_microbiome/scripts/63_build_released_asv_tables.R` from the raw 171 ASV exports. The 16S *Enterococcus* ASV composition for E7c is **no longer a separate file**: it is exactly the *Enterococcus* rows of `63_asv_blast_annotation.csv` (genus == "Enterococcus", carrying the per-ASV `species`) joined to `63_asv_count_relab_res.csv` (where `count_relative` is the whole-community relab), so `reproduce/43_extdata_enterococcus_asv.R` derives it inline. This reproduces the previously shipped `171_16S_enterococcus_asv_relab.csv` (`sampleid, asv, species, relab`) to the row (max relab diff 0).
+
+**`63_asv_blast_annotation.csv` columns.** Each ASV sequence is the *query*, aligned against a 16S reference database with BLAST; the row records the assigning hit. Columns marked *BLAST* are standard BLAST tabular (outfmt 6) fields; the rest are derived by the annotation pipeline.
+
+| Column | Meaning |
+|--------|---------|
+| `asv_key` | ASV identifier (e.g. `asv_1`) |
+| `kingdom … species` | assigned taxonomic lineage (`kingdom, phylum, class, order, family, genus, species`); `order` was the raw export's `ordr` |
+| `accession` | NCBI accession of the matched reference (subject) sequence, e.g. `NR_113903.1` *(BLAST `sseqid`/`saccver`)* |
+| `name` | composite label of the hit: the reference species — or a `;`-joined list of species sharing this top hit — followed by the query length and percent identity *(derived from BLAST subject titles)* |
+| `unique_name` | a single representative species distilled from `name` *(derived)* |
+| `query_length` | length (bp) of the ASV query sequence *(BLAST `qlen`)* |
+| `align_length` | length of the query–subject alignment, gaps included *(BLAST `length`)* |
+| `pident` | percent of identical bases over the alignment *(BLAST `pident`)* |
+| `nident` | number of identical bases in the alignment *(BLAST `nident`)* |
+| `score` | raw alignment score *(BLAST `score`)* |
+| `length_ratio` | `align_length / query_length`: fraction of the query covered by the alignment (~1 = full-length match) *(derived)* |
 
 ### Diet / food-tree tables
 
