@@ -3,6 +3,10 @@
 .RData
 .Ruserdata
 .DS_Store
+# R's default graphics device output, dropped in the working dir when a plot is
+# drawn non-interactively without an explicit device (e.g. a bare/printed ggplot
+# in a reference script). A junk artifact, never shipped.
+Rplots.pdf
 
 # Ignore renv files that should not be in Git
 renv/library/
