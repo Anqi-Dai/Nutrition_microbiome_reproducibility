@@ -26,7 +26,7 @@ scatter_size <- 2
 
 meta <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE)
 
-asv_relab_97 <- read_csv(released("171_quality_asv_relab_pident97_genus.csv"),
+asv_relab_97 <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"),
                          show_col_types = FALSE) |>
   inner_join(meta |> select(sampleid, simpson_reciprocal), by = "sampleid")
 

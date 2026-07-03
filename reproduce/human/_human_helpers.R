@@ -81,7 +81,7 @@ axis_title_size <- 10
 # ported from 178_new_F4__code_for_Figure_4.Rmd). The original read a pre-built
 # genus-count table (022_ALL173_stool_samples_genus_counts.csv); that table does
 # not ship, so the genus relative abundance is rebuilt here from the released
-# per-ASV genus relab (171_quality_asv_relab_pident97_genus.csv): drop the
+# per-ASV genus relab (45_quality_asv_relab_pident97_genus.csv): drop the
 # unassigned (NA) genus, sum count_relative to genus level, then zero-fill the
 # sample x genus grid (spread/gather) exactly as the original did. Each genus
 # relab is correlated against inverse-Simpson diversity, keeping genera present
@@ -91,7 +91,7 @@ genus_diversity_spearman <- function() {
   set.seed(1)
   meta <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE)
 
-  g_relab <- read_csv(released("171_quality_asv_relab_pident97_genus.csv"),
+  g_relab <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"),
                       show_col_types = FALSE) %>%
     filter(!is.na(genus)) %>%
     group_by(sampleid, genus) %>%

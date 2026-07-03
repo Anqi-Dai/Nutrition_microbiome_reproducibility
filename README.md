@@ -160,7 +160,8 @@ Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
 Rscript reproduce/30_extdata_pcoa.R              # E3 a,b,c
 
 # Taxon family (F4, E7)
-Rscript reproduce/40_fit_taxon_models.R          # caches the CLR fits
+Rscript reproduce/45_quality_genus_relab.R       # rebuilds 45_quality_asv_relab_pident97_genus.csv from the 63 tables
+Rscript reproduce/40_fit_taxon_models.R          # caches the CLR fits (derives genus CLR inline)
 Rscript reproduce/41_fig4_human.R                # F4a, F4b
 Rscript reproduce/42_extdata_taxon.R             # E7 a,b,e
 Rscript reproduce/43_extdata_enterococcus_asv.R  # E7 c,d
@@ -257,13 +258,16 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 
 | File | Columns | Used for |
 |------|--------------------------|--------------------------------|
-| `63_asv_count_relab_res.csv` | `asv_key, sampleid, count, count_relative` | per-ASV 16S counts and whole-community relative abundance (one row per observed, non-zero count); the ASV-count source for E1b, and joined to the annotation for E7c |
+| `63_asv_count_relab_res.csv` | `asv_key, sampleid, count, count_relative` | per-ASV 16S counts and whole-community relative abundance (one row per observed, non-zero count); the ASV-count source for E1b, and joined to the annotation for E7c and the quality-genus / genus-CLR tables |
 | `63_asv_blast_annotation.csv` | `asv_key` + taxonomy + BLAST hit (see below) | per-ASV taxonomic lineage and the BLAST hit that assigned it; one row per ASV |
-| `171_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance (genus-annotated); rebuilds genus relab for F1n/o, F4a, E7b |
-| `171_genus_CLR_res.csv` | `genus, sampleid, clr` | per-genus centred-log-ratio abundances for the E7a genus models |
+| `45_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance with a *quality* genus (kept only where BLAST `pident > 97`, else NA); rebuilds genus relab for F1n/o, F4a, E7b, the E3 PCoA and the E7a genus models |
 | `mgx_enterococcus_species_relab.csv` | `sample, species, relab` | metagenomic *Enterococcus* species abundance for E7d |
 
-The two `63_*` tables are built by `Nutrition_microbiome/scripts/63_build_released_asv_tables.R` from the raw 171 ASV exports. The 16S *Enterococcus* ASV composition for E7c is **no longer a separate file**: it is exactly the *Enterococcus* rows of `63_asv_blast_annotation.csv` (genus == "Enterococcus", carrying the per-ASV `species`) joined to `63_asv_count_relab_res.csv` (where `count_relative` is the whole-community relab), so `reproduce/43_extdata_enterococcus_asv.R` derives it inline. This reproduces the previously shipped `171_16S_enterococcus_asv_relab.csv` (`sampleid, asv, species, relab`) to the row (max relab diff 0).
+The two `63_*` tables are built by `Nutrition_microbiome/scripts/63_build_released_asv_tables.R` from the raw 171 ASV exports; the other microbiome tables are derived from them:
+
+- **`45_quality_asv_relab_pident97_genus.csv`** is built by `reproduce/45_quality_genus_relab.R`: `63_asv_count_relab_res.csv` (relab) joined to `63_asv_blast_annotation.csv`, keeping each ASV's `genus` only where the BLAST identity `pident > 97` (else NA). Reproduces the previously shipped `171_quality_asv_relab_pident97_genus.csv` to the row (max relab diff ~1e-17, 0 genus mismatches).
+- **Per-genus CLR** (the old `171_genus_CLR_res.csv`, `genus, sampleid, clr`) is **no longer a separate file**: `reproduce/40_fit_taxon_models.R` derives it inline for the E7a genus models — sum the quality-genus ASV counts per sample, add a 0.5 pseudocount, centre each genus row by its mean log across samples (this row-centred log is exactly `compositions::clr` on a genus×sample matrix). Reproduces the old table to ~1e-15.
+- The **16S *Enterococcus* ASV composition** for E7c is likewise **not** a separate file: the *Enterococcus* rows of `63_asv_blast_annotation.csv` (carrying the per-ASV `species`) joined to `63_asv_count_relab_res.csv` (`count_relative` = whole-community relab), derived inline in `reproduce/43_extdata_enterococcus_asv.R`. Reproduces the previously shipped `171_16S_enterococcus_asv_relab.csv` to the row (max relab diff 0).
 
 **`63_asv_blast_annotation.csv` columns.** Each ASV sequence is the *query*, aligned against a 16S reference database with BLAST; the row records the assigning hit. Columns marked *BLAST* are standard BLAST tabular (outfmt 6) fields; the rest are derived by the annotation pipeline.
 

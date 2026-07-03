@@ -49,7 +49,7 @@ Ws <- 1:5
 # ---- 1. inputs -------------------------------------------------------------
 dtb  <- read_csv(released("152_combined_DTB.csv"),  show_col_types = FALSE)
 meta <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE)
-asv  <- read_csv(released("171_quality_asv_relab_pident97_genus.csv"),
+asv  <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"),
                  show_col_types = FALSE)
 
 # ---- 2. samples with a food record on all 5 prior days ---------------------

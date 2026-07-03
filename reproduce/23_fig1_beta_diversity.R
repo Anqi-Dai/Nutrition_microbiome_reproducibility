@@ -16,7 +16,7 @@
 #
 # Substitution: R06 read 022_ALL173_stool_samples_genus_counts.csv, which is not
 # shipped; the genus relative abundance is rebuilt from the released per-ASV table
-# (171_quality_asv_relab_pident97_genus.csv), as in F4a/E7b. So the microbiome PCoA
+# (45_quality_asv_relab_pident97_genus.csv), as in F4a/E7b. So the microbiome PCoA
 # variance and the F1o fit may differ slightly from the published panel. FLAGGED.
 #
 # RUN_QIIME=false reuses the cached diet ordination/distance; QIIME2_IMAGE picks tag.
@@ -116,7 +116,7 @@ diet_long <- read_tsv(dm_tsv, show_col_types = FALSE) |> rename(sampleid1 = 1) |
 diet_dist <- dist_from_earliest(diet_long) |> rename(diet_dist = distance)
 
 # ---- 4. microbiome: genus Bray-Curtis PCoA + distances (R/vegan) --------------
-genus_relab <- read_csv(released("171_quality_asv_relab_pident97_genus.csv"), show_col_types = FALSE) |>
+genus_relab <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"), show_col_types = FALSE) |>
   filter(!is.na(genus), sampleid %in% meta$sampleid) |>
   group_by(sampleid, genus) |> summarise(relab = sum(count_relative), .groups = "drop") |>
   pivot_wider(names_from = genus, values_from = relab, values_fill = 0) |>

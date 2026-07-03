@@ -87,8 +87,28 @@ asv1_results |>
 # gut: present (relab > 0.002) in more than 10% of samples, dropping two
 # environmental genera, then join each genus CLR onto the meta as a candidate
 # outcome.
-asv_relab_genus <- read_csv(released("171_quality_asv_relab_pident97_genus.csv"), show_col_types = FALSE)
-clr_res <- read_csv(released("171_genus_CLR_res.csv"), show_col_types = FALSE)
+asv_relab_genus <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"), show_col_types = FALSE)
+
+# Per-genus CLR, derived here rather than read from a standalone table. The genus
+# count matrix sums the quality-genus (pident > 97) ASV counts per sample; a 0.5
+# pseudocount is added and each genus row is centred by its mean log across samples
+# (this row-centred log is exactly compositions::clr on a genus x sample matrix,
+# matching the old 171_genus_CLR_res.csv). The CLR is over all 1009 samples, as the
+# reference was; meta subsets later via the inner_join.
+genus_map <- asv_relab_genus |> distinct(asv_key, genus)
+genus_counts <- read_csv(released("63_asv_count_relab_res.csv"), show_col_types = FALSE) |>
+  select(asv_key, sampleid, count) |>
+  inner_join(genus_map, by = "asv_key") |>
+  filter(!is.na(genus)) |>
+  group_by(sampleid, genus) |>
+  summarize(cnt = sum(count), .groups = "drop") |>
+  pivot_wider(names_from = sampleid, values_from = cnt, values_fill = 0) |>
+  column_to_rownames("genus")
+genus_logm <- log(as.matrix(genus_counts) + 0.5)
+clr_res <- (genus_logm - rowMeans(genus_logm)) |>
+  as.data.frame() |>
+  rownames_to_column("genus") |>
+  pivot_longer(-genus, names_to = "sampleid", values_to = "clr")
 
 df_relab <- asv_relab_genus |>
   group_by(sampleid, genus) |>
