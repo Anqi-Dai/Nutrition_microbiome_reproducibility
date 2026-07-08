@@ -1,0 +1,6 @@
+outs:
+- md5: df067981127bab343daa146703ad3367.dir
+  size: 5762116
+  nfiles: 4
+  hash: md5
+  path: restricted_data

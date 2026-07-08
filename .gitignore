@@ -25,3 +25,4 @@ data/
 clean_Dai_text_and_figures_*.pdf
 CLAUDE.md
 HANDOFF*.md
+/restricted_data
