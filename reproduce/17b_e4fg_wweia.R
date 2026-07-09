@@ -9,12 +9,28 @@
 #   7000-7699 Beverages | 7700-7899 Water | 8000-8399 Fats and Oils |
 #   8400-8799 Condiments and Sauces | 8800-8999 Sugars | 9xxx (+missing) Other
 #
+# Enteral formulas (food codes 95107xxx: Suplena, Vital, Vivonex, Osmolite,
+# Glucerna) are absent from the At A Glance tables. Their WWEIA category is 7208
+# "Nutritional beverages" (mid-level Sweetened Beverages), so they belong to
+# BEVERAGES -- and to Sweet Beverages in the E4g split -- matching the collaborator's
+# WWEIA analysis. They are remapped to 7208 below; otherwise this ~1.2% of diet
+# weight, dominated by enteral nutrition, falls into "Other" and drives a spurious
+# credible abx*Other effect. The two 2019-20-only salad-dressing codes (83112400,
+# 83113500) already resolve via the 2019-20 table to WWEIA 8012 -> Fats and Oils.
+#
 #   E4f  WWEIA nomenclature (13 groups, each crossed with abx)
-#   E4g  same, but Beverages split into a custom scheme:
-#          Sweet Beverages           juices + sugar-sweetened drinks (7000-7099, 7200-7299)
-#          ASB                       artificially-sweetened / diet drinks (7100-7199)
-#          Unsweetened Coffee and Tea coffee/tea (7300-7399)
-#        (Water stays its own group)
+#   E4g  same, but Beverages split into a custom scheme (matching the collaborator's
+#        cat5). Non-coffee/tea beverages go by WWEIA sub-code:
+#          Sweet Beverages  = 100% juice + sweetened (7000-7099, 7200-7299, incl. 7208
+#                             enteral)
+#          ASB              = diet beverages (7100-7199)
+#        Coffee & tea (WWEIA 7302/7304) is split PER FOOD CODE by FPED added sugars:
+#          added sugars > 0                       -> Sweet Beverages
+#          else diet/artificial FPED description  -> ASB
+#          else                                   -> Unsweetened Coffee and Tea
+#        (Water stays its own group.) This FPED coffee/tea split replaces the earlier
+#        range-only rule (all 7300-7399 -> Unsweetened), which produced a spurious
+#        credible Unsweetened-Coffee-and-Tea main effect not in the published panel.
 # Model = the F2d diversity model with these groups; red = 95% CrI clear of zero.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
@@ -33,6 +49,21 @@ fndds <- bind_rows(
             read_fndds("2015-2016 FNDDS At A Glance - FNDDS Nutrient Values.xlsx"),
             by = "Food_code")) |> distinct(Food_code, .keep_all = TRUE)
 
+# ---- FPED added sugars + description (for the E4g coffee/tea split) ---------
+read_fped <- function(f) {
+  d <- read_excel(released(f), sheet = 1)
+  add_col <- grep("ADD_SUGARS", names(d), value = TRUE)[1]
+  tibble(Food_code = as.numeric(d$FOODCODE), add_tsp = as.numeric(d[[add_col]]),
+         fped_desc = as.character(d$DESCRIPTION))
+}
+fped <- bind_rows(read_fped("FPED_1516.xls"),
+                  anti_join(read_fped("FPED_1720.xls"), read_fped("FPED_1516.xls"),
+                            by = "Food_code")) |> distinct(Food_code, .keep_all = TRUE)
+# diet / artificial-sweetener description pattern (the collaborator's regex)
+asb_pattern <- regex(
+  "low[- ]calorie sweet|sugar substitute|artificial(ly)? sweet(ened|ener)|sugar[- ]free|non[- ]caloric|\\bdiet\\b",
+  ignore_case = TRUE)
+
 wweia_major <- function(code) case_when(
   is.na(code) ~ "fg_other",
   code < 2000 ~ "fg_milk_dairy",   code < 3000 ~ "fg_protein",
@@ -41,16 +72,24 @@ wweia_major <- function(code) case_when(
   code < 7000 ~ "fg_vegetables",   code < 7700 ~ "fg_beverages",
   code < 8000 ~ "fg_water",        code < 8400 ~ "fg_fats_oils",
   code < 8800 ~ "fg_condiments",   code < 9000 ~ "fg_sugars", TRUE ~ "fg_other")
-# beverage split for E4g (only applied to the 7000-7699 beverage codes)
-bev_split <- function(code) case_when(
-  code >= 7100 & code < 7200 ~ "fg_asb",
-  code >= 7300 & code < 7400 ~ "fg_unsweet_ct",
-  TRUE ~ "fg_sweet_bev")
-
 dtb <- read_csv(released("152_combined_DTB.csv"), show_col_types = FALSE) |>
   left_join(fndds, by = "Food_code") |>
+  left_join(fped, by = "Food_code") |>
+  # enteral formulas -> WWEIA 7208 (Nutritional beverages -> Beverages / Sweet Beverages)
+  mutate(wweia_code = if_else(
+    is.na(wweia_code) & str_detect(coalesce(description, ""), regex("^enteral formula", ignore_case = TRUE)),
+    7208L, wweia_code)) |>
   mutate(grp_f = wweia_major(wweia_code),
-         grp_g = if_else(grp_f == "fg_beverages", bev_split(wweia_code), grp_f))
+         # coffee/tea (7302/7304) sweetener class from FPED added sugars + description
+         ct_class = case_when(
+           !is.na(add_tsp) & add_tsp > 0                 ~ "fg_sweet_bev",
+           str_detect(coalesce(fped_desc, ""), asb_pattern) ~ "fg_asb",
+           TRUE                                          ~ "fg_unsweet_ct"),
+         grp_g = case_when(
+           grp_f != "fg_beverages"          ~ grp_f,
+           wweia_code %in% c(7302L, 7304L)  ~ ct_class,          # coffee & tea, FPED-split
+           wweia_code >= 7100 & wweia_code < 7200 ~ "fg_asb",    # diet beverages
+           TRUE                             ~ "fg_sweet_bev"))   # juice + sweetened (incl 7208)
 meta <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE)
 
 label_dict <- c(
