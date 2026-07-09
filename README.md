@@ -11,11 +11,12 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 1.  [What is and isn't reproducible](#what-is-and-isnt-reproducible)
 2.  [Repository layout](#repository-layout)
 3.  [Environment setup](#environment-setup)
-4.  [How to reproduce the figures](#how-to-reproduce-the-figures)
-5.  [Scripts → figures](#scripts--figures)
-6.  [Released data tables](#released-data-tables)
-7.  [Running QIIME 2 through Docker](#running-qiime-2-through-docker)
-8.  [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding)
+4.  [Getting the restricted data (internal users)](#getting-the-restricted-data-internal-users)
+5.  [How to reproduce the figures](#how-to-reproduce-the-figures)
+6.  [Scripts → figures](#scripts--figures)
+7.  [Released data tables](#released-data-tables)
+8.  [Running QIIME 2 through Docker](#running-qiime-2-through-docker)
+9.  [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding)
 
 ------------------------------------------------------------------------
 
@@ -111,6 +112,54 @@ A few scripts call QIIME 2 inside a Docker container (UniFrac / Bray-Curtis / Fa
 The TaxUMAP embedding for F1 e–h ships precomputed (`released_data/taxumap_embedding.csv`), so you do **not** need Python to draw the figure. To regenerate it, see [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding).
 
 All public scripts resolve their input from `released_data/` (override with the `NUTRITION_DATA` env var). Scripts under `reproduce/restricted/` additionally read `restricted_data/` (override with `RESTRICTED_DATA`) and skip cleanly when it is absent.
+
+------------------------------------------------------------------------
+
+## Getting the restricted data (internal users)
+
+The public figures need only `released_data/`, which ships with the repo — **you can skip this section entirely** unless you are reproducing one of the restricted panels (E1b, E2a, E6 c–j, Fig 3 a/b, Data S6, Supp. Tables 1–6). Those need the PHI-free-but-non-public tables in `restricted_data/`, which is **not** in git.
+
+`restricted_data/` is version-controlled with [DVC](https://dvc.org/) and stored on the Peled-lab drive (content-addressed, not a browsable copy). The repo tracks only the small `restricted_data.dvc` manifest; the actual files are pulled from the drive.
+
+**One-time: install DVC.**
+
+``` sh
+pip install dvc            # or: brew install dvc / conda install -c conda-forge dvc
+```
+
+**Each time you need the restricted data:**
+
+1.  **Mount the lab drive** so the DVC remote path is reachable. The remote is configured (in `.dvc/config`) as:
+
+    ```
+    /Volumes/peledlab/Projects/Reproduce_nutrition/restricted_dvc
+    ```
+
+    On macOS, mount the `peledlab` share via Finder → **Go → Connect to Server** (`⌘K`), enter the lab SMB URL (e.g. `smb://<lab-fileserver>/peledlab`) and authenticate. Once mounted it appears at `/Volumes/peledlab/`. Confirm the remote path exists:
+
+    ``` sh
+    ls /Volumes/peledlab/Projects/Reproduce_nutrition/restricted_dvc
+    ```
+
+2.  **Pull the data** from the repo root — DVC reads `restricted_data.dvc` and materializes the files into `restricted_data/`:
+
+    ``` sh
+    dvc pull
+    ```
+
+    You should now have `restricted_data/` populated (4 files, ~5.8 MB, including `df_main_clinical_outcome.rds`).
+
+3.  **Run the restricted script(s)** — they now find their inputs:
+
+    ``` sh
+    Rscript reproduce/restricted/63_fig3_e6_clinical.R
+    ```
+
+Notes:
+
+- If the drive is not mounted (or you lack access), `dvc pull` fails and `restricted_data/` stays empty; the `reproduce/restricted/*` scripts then **skip cleanly** (they guard on the folder's presence and quit 0). Public reproduction is unaffected.
+- `restricted_data/` is gitignored, so pulled files never get committed. To point at the data without DVC, set `RESTRICTED_DATA=/path/to/folder`.
+- **Contributors** who *change* the restricted tables re-run `dvc add restricted_data && dvc push`, then commit the updated `restricted_data.dvc`. Most users only ever `dvc pull`.
 
 ------------------------------------------------------------------------
 
@@ -221,7 +270,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 |------|----------------------------------------------------|--------|
 | `152_combined_DTB.csv` | the diet tracker — every food item each patient ate; the source of all diet exposures, the food tree, and diet diversity | **same file on Zenodo** |
 | `153_combined_META.csv` | the per-stool-sample analysis table (1009 samples / 158 patients): diversity outcome, antibiotic/TPN/EN exposure, prior-2-day food-group & macronutrient intake | **same file on Zenodo** |
-| `Data_S4_Medication_Exposures_in_the_Two_Days_Prior_to_Stool_Sample_Collection.csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
+| `Data_S4_Medication_Exposures…csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
 | `R59_meta_expanded.csv` | `153` plus the *E. faecium* CLR outcome and extra covariates — used by the taxon CLR models (F4b, E7e, E7f) | derived |
 | `FPED_1516.xls`, `FPED_1720.xls` | USDA Food Patterns Equivalents Database (2015-16 and 2017-20) — the **added-sugars** content (teaspoon equivalents per 100 g) per food code, used to split total sugars into added vs other for E5a–d (`28`); 1516 is preferred, the two salad-dressing codes that exist only in 2017-20 are filled from 1720; related to Zenodo "Data S5" (FNDDS nutrient values) | reference (USDA) |
 | `2015-2016 FNDDS At A Glance…xlsx`, `2019-2020 FNDDS At A Glance…xlsx` | USDA FNDDS — each food code's **WWEIA food category** (and per-100 g nutrients), used to re-derive the diversity model under WWEIA nomenclature for E4f–g (`17b`); 2015-16 preferred, 2019-20 fills the rest | Zenodo "Data S5" (FNDDS nutrient values) |
@@ -263,21 +312,12 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 | `45_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance with a *quality* genus (kept only where BLAST `pident > 97`, else NA); rebuilds genus relab for F1n/o, F4a, E7b, the E3 PCoA and the E7a genus models |
 | `mgx_enterococcus_species_relab.csv` | `sample, species, relab` | metagenomic *Enterococcus* species abundance for E7d |
 
-The two `63_*` tables are built by `Nutrition_microbiome/scripts/63_build_released_asv_tables.R` from the raw 171 ASV exports; the other microbiome tables are derived from them:
-
-- **`45_quality_asv_relab_pident97_genus.csv`** is built by `reproduce/45_quality_genus_relab.R`: `63_asv_count_relab_res.csv` (relab) joined to `63_asv_blast_annotation.csv`, keeping each ASV's `genus` only where the BLAST identity `pident > 97` (else NA). Reproduces the previously shipped `171_quality_asv_relab_pident97_genus.csv` to the row (max relab diff ~1e-17, 0 genus mismatches).
-- **Per-genus CLR** (the old `171_genus_CLR_res.csv`, `genus, sampleid, clr`) is **no longer a separate file**: `reproduce/40_fit_taxon_models.R` derives it inline for the E7a genus models — sum the quality-genus ASV counts per sample, add a 0.5 pseudocount, centre each genus row by its mean log across samples (this row-centred log is exactly `compositions::clr` on a genus×sample matrix). Reproduces the old table to ~1e-15.
-- The **16S *Enterococcus* ASV composition** for E7c is likewise **not** a separate file: the *Enterococcus* rows of `63_asv_blast_annotation.csv` (carrying the per-ASV `species`) joined to `63_asv_count_relab_res.csv` (`count_relative` = whole-community relab), derived inline in `reproduce/43_extdata_enterococcus_asv.R`. Reproduces the previously shipped `171_16S_enterococcus_asv_relab.csv` to the row (max relab diff 0).
-
 **`63_asv_blast_annotation.csv` columns.** Each ASV sequence is the *query*, aligned against a 16S reference database with BLAST; the row records the assigning hit. Columns marked *BLAST* are standard BLAST tabular (outfmt 6) fields; the rest are derived by the annotation pipeline.
 
 | Column | Meaning |
 |--------|---------|
 | `asv_key` | ASV identifier (e.g. `asv_1`) |
 | `kingdom … species` | assigned taxonomic lineage (`kingdom, phylum, class, order, family, genus, species`); `order` was the raw export's `ordr` |
-| `accession` | NCBI accession of the matched reference (subject) sequence, e.g. `NR_113903.1` *(BLAST `sseqid`/`saccver`)* |
-| `name` | composite label of the hit: the reference species — or a `;`-joined list of species sharing this top hit — followed by the query length and percent identity *(derived from BLAST subject titles)* |
-| `unique_name` | a single representative species distilled from `name` *(derived)* |
 | `query_length` | length (bp) of the ASV query sequence *(BLAST `qlen`)* |
 | `align_length` | length of the query–subject alignment, gaps included *(BLAST `length`)* |
 | `pident` | percent of identical bases over the alignment *(BLAST `pident`)* |
