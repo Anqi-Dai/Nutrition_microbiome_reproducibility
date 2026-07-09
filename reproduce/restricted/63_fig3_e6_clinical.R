@@ -42,6 +42,10 @@ if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 # ---------------------------------------------------------------------------
 # Cox models (landmarked at day 12; drop the one patient with OStime_30 == 0)
 # ---------------------------------------------------------------------------
+# NB: OStime_30 is a MISNOMER. It is defined upstream as `OStime - 12` (not - 30),
+# so it already IS the day-12 landmark: filter(OStime_30 > 0) keeps the 172 patients
+# who survived past day 12, matching the Fig. 3 legend. The name is legacy; there is
+# no separate OStime_12 column. Same for tevent_30 (= tevent - 12).
 fit_cluster <- coxph(
   Surv(OStime_30, OSevent) ~ modal_diet * day_exposed + intensity + source_and_gvhdppx,
   data = df_main |> filter(OStime_30 > 0))
