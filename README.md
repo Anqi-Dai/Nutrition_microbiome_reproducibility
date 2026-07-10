@@ -17,14 +17,23 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 7.  [Released data tables](#released-data-tables)
 8.  [Running QIIME 2 through Docker](#running-qiime-2-through-docker)
 9.  [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding)
+10. [Citation](#citation)
+11. [License](#license)
+12. [Acknowledgements](#acknowledgements)
 
 ------------------------------------------------------------------------
 
 ## What is and isn't reproducible
 
-**Reproducible here** (only de-identified data needed): the diet/microbiome figures — Figure 1, Figure 2, Figure 4, and Extended Data Figures E1 (c–h), E2 (b,c), E3, E4, E5, E7, E8, E9, plus the mouse experiments.
+Nearly every panel of the manuscript has code in this repository. What differs is **who can run which panels**, and that comes down to **data access**, not missing code.
 
-**Reproducible with restricted (internal) data**: a few panels need de-identified tables that carry **no PHI** but are **not cleared for public release**. Those tables are not shipped; they live in a gitignored `restricted_data/` folder that internal users supply. The scripts that need them are under [`reproduce/restricted/`](reproduce/restricted/) and **skip cleanly** for anyone who only has `released_data/`. Currently:
+### Reproducible by anyone
+
+Clone the repo and run — these need only the de-identified tables shipped in [`released_data/`](released_data/): **Figure 1, Figure 2, Figure 4**, Extended Data **E1 (c–h), E2 (b,c), E3, E4, E5, E7, E8, E9**, and all the mouse experiments.
+
+### Reproducible by internal users (restricted data required)
+
+These panels are fully implemented here, but they read de-identified tables that carry **no PHI** yet are **not cleared for public release**. Those tables are not shipped: they live in a gitignored `restricted_data/` folder that internal users fetch with DVC (see [Getting the restricted data](#getting-the-restricted-data-internal-users)). The scripts live under [`reproduce/restricted/`](reproduce/restricted/) and **skip cleanly** — no error — for anyone who has only `released_data/`.
 
 | Figure | Script | Restricted input |
 |--------|--------|------------------|
@@ -36,13 +45,11 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 | **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
 | **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and ASV counts `63_asv_count_relab_res.csv` are released) |
 
-**NOT reproducible from this repository** — these depend on **patient clinical characteristics and outcomes**, which are limited-access protected health information and are *not* released:
+### Not included in this repository
 
-| Figure / table | Why it cannot be rebuilt |
+| Figure | Why |
 |--------------------------|--------------------------------------------|
-| **Figure 3 c–h** | Clinical-outcome / survival analyses (OS Kaplan–Meier curves etc.) requiring patient outcome data. *Fig. 3 a,b are reproducible with restricted data (see above).* |
-| **Extended Fig. E1b** | "Microbiome variance explained" by clinical covariates (disease category, patient factors, transplant events) |
-| **Supplementary Tables 1–6** | Patient demographics / clinical characteristics tables |
+| **Figure 3 c–h** | The overall-survival Kaplan–Meier curves and the accompanying survival diagnostics have not been ported here; they remain in the upstream analysis repository. This is a porting gap rather than a data one — *Figure 3 a,b* are drawn from the same restricted table and **are** reproducible internally (see above). |
 
 Patient-level clinical variables and mortality outcomes are available via data sharing agreement per institutional policies.
 
@@ -129,16 +136,15 @@ pip install dvc            # or: brew install dvc / conda install -c conda-forge
 
 **Each time you need the restricted data:**
 
-1.  **Mount the lab drive** so the DVC remote path is reachable. The remote is configured (in `.dvc/config`) as:
+1.  **Mount the lab drive, then point DVC at it.** The remote lives on the Peled-lab share; its path is deliberately kept out of the repository, so each user configures it once locally. Ask the lab for the mounted share path (`<lab-drive>` below).
 
-    ```
-    /Volumes/peledlab/Projects/Reproduce_nutrition/restricted_dvc
-    ```
-
-    On macOS, mount the `peledlab` share via Finder → **Go → Connect to Server** (`⌘K`), enter the lab SMB URL (e.g. `smb://<lab-fileserver>/peledlab`) and authenticate. Once mounted it appears at `/Volumes/peledlab/`. Confirm the remote path exists:
+    On macOS, mount the share via Finder → **Go → Connect to Server** (`⌘K`), enter the lab SMB URL and authenticate; it then appears under `/Volumes/`. Confirm the remote exists, then register it:
 
     ``` sh
-    ls /Volumes/peledlab/Projects/Reproduce_nutrition/restricted_dvc
+    ls <lab-drive>/Projects/Reproduce_nutrition/restricted_dvc
+
+    # writes to .dvc/config.local, which is gitignored
+    dvc remote add --local -d lab_restricted <lab-drive>/Projects/Reproduce_nutrition/restricted_dvc
     ```
 
 2.  **Pull the data** from the repo root — DVC reads `restricted_data.dvc` and materializes the files into `restricted_data/`:
@@ -404,4 +410,39 @@ UMAP is stochastic (the embedding can rotate/flip between runs), so for an **exa
 
 ------------------------------------------------------------------------
 
-*Patient-level clinical variables and mortality outcomes (Figure 3, E1b, E6c–j, Supplementary Tables 1–6) are available via data sharing agreement per institutional policies. (E2a is reproducible internally from the restricted antibiotic time-course table, see [What is and isn't reproducible](#what-is-and-isnt-reproducible).)*
+## Citation
+
+Machine-readable metadata lives in [`CITATION.cff`](CITATION.cff) — use GitHub's **Cite this repository** button.
+
+The accompanying manuscript is **under review**. Once it is published, please **cite the article in preference to this software**; this repository will then carry a `preferred-citation` entry pointing at it.
+
+Two related DOIs, which are *not* interchangeable:
+
+| DOI | What it is |
+|-----------------------------|------------------------------------------|
+| *(assigned at first release)* | **Software**: this repository, archived on Zenodo |
+| [10.5281/zenodo.20278682](https://doi.org/10.5281/zenodo.20278682) | **Data**: the companion Supplementary Data deposit |
+
+------------------------------------------------------------------------
+
+## License
+
+- **Code** (everything under `reproduce/`, and the repository as a whole): [MIT](LICENSE).
+- **Data** (`released_data/`): [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/), matching the [companion Zenodo deposit](https://doi.org/10.5281/zenodo.20278682).
+
+Third-party reference tables redistributed in `released_data/` (the USDA FNDDS "At A Glance" and FPED releases) are US Government works in the public domain.
+
+------------------------------------------------------------------------
+
+## Acknowledgements
+
+This repository reproduces analyses developed with several colleagues; the clean scripts here are ports of their original work:
+
+- **William Jogia** (Institute for Systems Genetics and Department of Microbiology, NYU Langone Health Grossman School of Medicine) — the WWEIA-nomenclature food-group analysis (E4 f,g), the added-sugars analysis (E5 a–d), and the sweet-grain split (E6 a,b).
+- **Mirae Baichoo** (Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center) — the per-covariate microbiome variance-explained analysis (E1b).
+- **Teng Fei** (Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center) — the clinical-outcome and survival analyses (Figure 3, and E6 h,i,j).
+- **Nicholas R. Waters** (Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center) — the *Enterococcus* ASV / species analyses establishing that ASV 1 is *E. faecium* (E7 c,d).
+
+------------------------------------------------------------------------
+
+*Patient-level clinical variables and mortality outcomes (Figure 3, E1b, E6c–j, Supplementary Tables 1–6) are available via data sharing agreement per institutional policies.*

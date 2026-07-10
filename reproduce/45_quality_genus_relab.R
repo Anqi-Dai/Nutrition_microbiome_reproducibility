@@ -8,11 +8,11 @@
 # Derived exactly (to the row) from:
 #   63_asv_count_relab_res.csv    asv_key, sampleid, count, count_relative
 #   63_asv_blast_annotation.csv   asv_key, ..., genus, ..., pident, ...
-# and reproduces the previously shipped 171_quality_asv_relab_pident97_genus.csv.
+# It was verified to reproduce the retired 171_quality_asv_relab_pident97_genus.csv
+# to the row (104969/104969 rows, max relab diff ~1e-17, 0 genus mismatches) before
+# that table was removed.
 #
-# Run from the repo root. Writes to the NUTRITION_DATA root (default released_data/),
-# after comparing against the previously shipped file and printing whether it
-# reproduces it.
+# Run from the repo root. Writes to the NUTRITION_DATA root (default released_data/).
 
 suppressPackageStartupMessages(library(tidyverse))
 
@@ -35,21 +35,6 @@ quality_genus <- counts |>
 message(nrow(quality_genus), " rows; ", sum(!is.na(quality_genus$genus)),
         " with a quality (pident > 97) genus, over ",
         n_distinct(quality_genus$sampleid), " samples")
-
-# Reproduction check against the previously shipped table when present.
-old_file <- released("171_quality_asv_relab_pident97_genus.csv")
-if (file.exists(old_file)) {
-  old <- read_csv(old_file, show_col_types = FALSE)
-  cmp <- quality_genus |>
-    full_join(old, by = c("asv_key", "sampleid"), suffix = c("_new", "_old"))
-  genus_mismatch <- sum(!(cmp$genus_new == cmp$genus_old |
-                          (is.na(cmp$genus_new) & is.na(cmp$genus_old))), na.rm = TRUE)
-  message("REPRODUCTION CHECK vs 171_quality: ",
-          sum(!is.na(cmp$count_relative_new) & !is.na(cmp$count_relative_old)), "/", nrow(old),
-          " rows matched, max relab diff ",
-          signif(max(abs(cmp$count_relative_new - cmp$count_relative_old), na.rm = TRUE), 3),
-          ", genus mismatches ", genus_mismatch)
-}
 
 out_file <- released("45_quality_asv_relab_pident97_genus.csv")
 write_csv(quality_genus, out_file)

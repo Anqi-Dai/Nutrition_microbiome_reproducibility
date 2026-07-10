@@ -23,6 +23,10 @@ restricted_data/
 intermediate_data/
 data/
 clean_Dai_text_and_figures_*.pdf
+# Internal-only docs: their own private git repo, symlinked into the project root.
+# Never ship. See internal/README.md.
+internal/
 CLAUDE.md
+BUILD_LEDGER.md
 HANDOFF*.md
 /restricted_data

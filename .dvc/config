@@ -1,4 +1,1 @@
-[core]
-    remote = lab_restricted
-['remote "lab_restricted"']
-    url = /Volumes/peledlab/Projects/Reproduce_nutrition/restricted_dvc
+
