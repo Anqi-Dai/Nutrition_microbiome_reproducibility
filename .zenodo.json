@@ -1,0 +1,53 @@
+{
+  "title": "Reproduce_nutrition: reproduction of the public figures of \"Sugar-rich foods exacerbate antibiotic-induced microbiome injury\"",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "mit",
+  "description": "<p>A clean, runnable reproduction of the publicly shareable (non-PHI) figures of the dietary-sugar / microbiome manuscript, built from a small set of de-identified released tables. Every panel is rebuilt by a numbered R script that reads only from <code>released_data/</code> and writes one PDF per panel.</p><p>Scripts are organised by analysis family rather than by printed figure: expensive Bayesian models are fit once and cached, then consumed by the panels that need them. Panels depending on non-public (but PHI-free) clinical tables live under <code>reproduce/restricted/</code> and skip cleanly when those inputs are absent.</p><p>The accompanying manuscript is under review. Once it is published, please cite the article in preference to this software.</p>",
+  "creators": [
+    {
+      "name": "Dai, Anqi",
+      "orcid": "0000-0003-3106-4624",
+      "affiliation": "Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, NY, USA"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Jogia, William",
+      "type": "Researcher",
+      "affiliation": "Institute for Systems Genetics and Department of Microbiology, NYU Langone Health Grossman School of Medicine, New York, NY, USA"
+    },
+    {
+      "name": "Baichoo, Mirae",
+      "type": "Researcher",
+      "affiliation": "Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, NY, USA"
+    },
+    {
+      "name": "Fei, Teng",
+      "type": "Researcher",
+      "affiliation": "Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center, New York, NY, USA"
+    },
+    {
+      "name": "Waters, Nicholas R.",
+      "type": "Researcher",
+      "affiliation": "Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center, New York, NY, USA"
+    }
+  ],
+  "keywords": [
+    "microbiome",
+    "diet",
+    "dietary sugar",
+    "antibiotics",
+    "hematopoietic cell transplantation",
+    "reproducibility",
+    "R"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.20278682",
+      "relation": "references",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    }
+  ]
+}
