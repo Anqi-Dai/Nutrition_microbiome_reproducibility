@@ -1,5 +1,7 @@
 # Reproducing the public figures of *Sugar-rich foods exacerbate antibiotic-induced microbiome injury*
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21290618.svg)](https://doi.org/10.5281/zenodo.21290618) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 This repository reproduces the **publicly-shareable** (non-PHI) figures of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
 
 The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://doi.org/10.5281/zenodo.20278682) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
@@ -416,7 +418,8 @@ Two related DOIs, which are *not* interchangeable:
 
 | DOI | What it is |
 |-----------------------------|------------------------------------------|
-| *(assigned at first release)* | **Software**: this repository, archived on Zenodo |
+| [10.5281/zenodo.21290618](https://doi.org/10.5281/zenodo.21290618) | **Software (all versions)** — the *concept* DOI. It always resolves to the latest release. **Cite this one.** |
+| [10.5281/zenodo.21290619](https://doi.org/10.5281/zenodo.21290619) | **Software (v1.0.0)** — the *version* DOI, pinning this exact snapshot |
 | [10.5281/zenodo.20278682](https://doi.org/10.5281/zenodo.20278682) | **Data**: the companion Supplementary Data deposit |
 
 ------------------------------------------------------------------------
