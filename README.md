@@ -25,7 +25,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://d
 
 ## What is and isn't reproducible
 
-Nearly every panel of the manuscript has code in this repository. What differs is **who can run which panels**, and that comes down to **data access**, not missing code.
+Every panel of the manuscript has code in this repository. What differs is **who can run which panels**, and that comes down to **data access**, not missing code.
 
 ### Reproducible by anyone
 
@@ -45,13 +45,9 @@ These panels are fully implemented here, but they read de-identified tables that
 | **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
 | **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and ASV counts `63_asv_count_relab_res.csv` are released) |
 
-### Not included in this repository
+Between the two groups above, **every panel of the manuscript is covered** — nothing is missing from this repository; the only barrier to any figure is access to the restricted tables.
 
-| Figure | Why |
-|--------------------------|--------------------------------------------|
-| **Figure 3 c–h** | The overall-survival Kaplan–Meier curves and the accompanying survival diagnostics have not been ported here; they remain in the upstream analysis repository. This is a porting gap rather than a data one — *Figure 3 a,b* are drawn from the same restricted table and **are** reproducible internally (see above). |
-
-Patient-level clinical variables and mortality outcomes are available via data sharing agreement per institutional policies.
+The patient-level clinical variables and mortality outcomes underlying those restricted panels are available via data sharing agreement per institutional policies.
 
 ------------------------------------------------------------------------
 
@@ -445,4 +441,4 @@ This repository reproduces analyses developed with several colleagues; the clean
 
 ------------------------------------------------------------------------
 
-*Patient-level clinical variables and mortality outcomes (Figure 3, E1b, E6c–j, Supplementary Tables 1–6) are available via data sharing agreement per institutional policies.*
+*Patient-level clinical variables and mortality outcomes — underlying Figure 3, E1b, E6 c–j and Supplementary Tables 1–6 — are available via data sharing agreement per institutional policies.*
