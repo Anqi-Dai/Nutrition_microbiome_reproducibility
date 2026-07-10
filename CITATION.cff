@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: >-
-  Reproduce_nutrition: reproduction of the public figures of
+  Nutrition_microbiome_reproducibility: reproduction of the public figures of
   "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"
 message: >-
   If you use this software, please cite it using the metadata in this file.
@@ -14,7 +14,7 @@ authors:
     affiliation: >-
       Adult Bone Marrow Transplantation Service, Department of Medicine,
       Memorial Sloan Kettering Cancer Center, New York, NY, USA
-repository-code: "https://github.com/Anqi-Dai/Reproduce_nutrition"
+repository-code: "https://github.com/Anqi-Dai/Nutrition_microbiome_reproducibility"
 abstract: >-
   A clean, runnable reproduction of the publicly shareable (non-PHI) figures of the
   dietary-sugar / microbiome manuscript, built from a small set of de-identified
