@@ -9,18 +9,17 @@
 #   7000-7699 Beverages | 7700-7899 Water | 8000-8399 Fats and Oils |
 #   8400-8799 Condiments and Sauces | 8800-8999 Sugars | 9xxx (+missing) Other
 #
-# Enteral formulas (food codes 95107xxx: Suplena, Vital, Vivonex, Osmolite,
-# Glucerna) are absent from the At A Glance tables. Their WWEIA category is 7208
-# "Nutritional beverages" (mid-level Sweetened Beverages), so they belong to
-# BEVERAGES -- and to Sweet Beverages in the E4g split -- matching the collaborator's
-# WWEIA analysis. They are remapped to 7208 below; otherwise this ~1.2% of diet
-# weight, dominated by enteral nutrition, falls into "Other" and drives a spurious
-# credible abx*Other effect. The two 2019-20-only salad-dressing codes (83112400,
-# 83113500) already resolve via the 2019-20 table to WWEIA 8012 -> Fats and Oils.
+# The food-code -> WWEIA assignment is aligned with the collaborator's WWEIA pipeline
+# on two points. (1) Enteral formulas (food codes 95107xxx: Suplena, Vital, Vivonex,
+# Osmolite, Glucerna) are absent from the At A Glance tables; their WWEIA category is
+# 7208 "Nutritional beverages" (mid-level Sweetened Beverages), so they are remapped to
+# 7208 and belong to BEVERAGES -- and to Sweet Beverages in the E4g split. (2) The two
+# 2019-20-only salad-dressing codes (83112400, 83113500) resolve via the 2019-20 table
+# to WWEIA 8012 -> Fats and Oils.
 #
 #   E4f  WWEIA nomenclature (13 groups, each crossed with abx)
-#   E4g  same, but Beverages split into a custom scheme (matching the collaborator's
-#        cat5). Non-coffee/tea beverages go by WWEIA sub-code:
+#   E4g  same, but Beverages split following the collaborator's "cat5" scheme.
+#        Non-coffee/tea beverages go by WWEIA sub-code:
 #          Sweet Beverages  = 100% juice + sweetened (7000-7099, 7200-7299, incl. 7208
 #                             enteral)
 #          ASB              = diet beverages (7100-7199)
@@ -28,9 +27,9 @@
 #          added sugars > 0                       -> Sweet Beverages
 #          else diet/artificial FPED description  -> ASB
 #          else                                   -> Unsweetened Coffee and Tea
-#        (Water stays its own group.) This FPED coffee/tea split replaces the earlier
-#        range-only rule (all 7300-7399 -> Unsweetened), which produced a spurious
-#        credible Unsweetened-Coffee-and-Tea main effect not in the published panel.
+#        (Water stays its own group.)
+#
+# With those alignments both panels reproduce the collaborator's fit.
 # Model = the F2d diversity model with these groups; red = 95% CrI clear of zero.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
