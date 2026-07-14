@@ -45,9 +45,9 @@ identifiers:
     value: "10.5281/zenodo.21290619"
     description: Version DOI for release v1.0.0
   - type: doi
-    value: "10.5281/zenodo.20278682"
+    value: "10.5281/zenodo.14538105"
     description: >-
-      Companion data deposit: Supplementary Data for "Sugar-rich foods exacerbate
-      antibiotic-induced microbiome injury"
+      Companion data deposit (concept DOI, all versions): Supplementary Data for
+      "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"
 # Once the manuscript is published, add a `preferred-citation:` block for the article
 # so that GitHub's "Cite this repository" button points at the paper.

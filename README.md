@@ -4,7 +4,7 @@
 
 This repository reproduces the **publicly-shareable** (non-PHI) figures of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
 
-The companion data deposit is on Zenodo: [**10.5281/zenodo.20278682**](https://doi.org/10.5281/zenodo.20278682) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
+The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://doi.org/10.5281/zenodo.14538105) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
 
 ------------------------------------------------------------------------
 
@@ -266,7 +266,7 @@ Fitting/data scripts (no panel of their own): `10`, `16`, `40` (cache the brms f
 
 ## Released data tables
 
-Everything in `released_data/` is de-identified and shareable. **Zenodo** column links each table to the [companion deposit](https://doi.org/10.5281/zenodo.20278682) where it is also archived; tables marked *derived* are de-identified products built in this project's upstream pipeline and are not separately on Zenodo.
+Everything in `released_data/` is de-identified and shareable. **Zenodo** column links each table to the [companion deposit](https://doi.org/10.5281/zenodo.14538105) where it is also archived; tables marked *derived* are de-identified products built in this project's upstream pipeline and are not separately on Zenodo.
 
 ### Core inputs
 
@@ -420,14 +420,14 @@ Two related DOIs, which are *not* interchangeable:
 |-----------------------------|------------------------------------------|
 | [10.5281/zenodo.21290618](https://doi.org/10.5281/zenodo.21290618) | **Software (all versions)** — the *concept* DOI. It always resolves to the latest release. **Cite this one.** |
 | [10.5281/zenodo.21290619](https://doi.org/10.5281/zenodo.21290619) | **Software (v1.0.0)** — the *version* DOI, pinning this exact snapshot |
-| [10.5281/zenodo.20278682](https://doi.org/10.5281/zenodo.20278682) | **Data**: the companion Supplementary Data deposit |
+| [10.5281/zenodo.14538105](https://doi.org/10.5281/zenodo.14538105) | **Data (all versions)** — the companion Supplementary Data deposit's *concept* DOI. **Cite this one.** (The current version is [10.5281/zenodo.20278682](https://doi.org/10.5281/zenodo.20278682).) |
 
 ------------------------------------------------------------------------
 
 ## License
 
 - **Code** (everything under `reproduce/`, and the repository as a whole): [MIT](LICENSE).
-- **Data** (`released_data/`): [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/), matching the [companion Zenodo deposit](https://doi.org/10.5281/zenodo.20278682).
+- **Data** (`released_data/`): [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/), matching the [companion Zenodo deposit](https://doi.org/10.5281/zenodo.14538105).
 
 Third-party reference tables redistributed in `released_data/` (the USDA FNDDS "At A Glance" and FPED releases) are US Government works in the public domain.
 
