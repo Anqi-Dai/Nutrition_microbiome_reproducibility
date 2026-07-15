@@ -10,7 +10,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ## Contents
 
-1.  [What is and isn't reproducible](#what-is-and-isnt-reproducible)
+1.  [Everything is reproducible: what varies is data access](#everything-is-reproducible-what-varies-is-data-access)
 2.  [Repository layout](#repository-layout)
 3.  [Environment setup](#environment-setup)
 4.  [Getting the restricted data (internal users)](#getting-the-restricted-data-internal-users)
@@ -25,9 +25,13 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ------------------------------------------------------------------------
 
-## What is and isn't reproducible
+## Everything is reproducible: what varies is data access
 
-Every panel of the manuscript has code in this repository. What differs is **who can run which panels**, and that comes down to **data access**, not missing code.
+Every panel of the manuscript has code in this repository, and every panel is reproducible. What differs is **who can run which panels**, and that comes down to **data access**, not missing code. Some panels read tables that carry no PHI but are not cleared for public release; those are available, and there are two ways to get them.
+
+> **Need a panel whose data isn't shipped here?**
+> - **Internal MSK users** pull the PHI-free restricted tables from the lab drive with DVC — see [Getting the restricted data](#getting-the-restricted-data-internal-users).
+> - **Everyone else:** the patient-level clinical variables and mortality outcomes underlying those restricted panels are available via a data sharing agreement, per institutional policies. Requests should be directed to Dr. Jonathan Peled (peledj@mskcc.org).
 
 ### Reproducible by anyone
 
@@ -47,9 +51,7 @@ These panels are fully implemented here, but they read de-identified tables that
 | **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
 | **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and ASV counts `63_asv_count_relab_res.csv` are released) |
 
-Between the two groups above, **every panel of the manuscript is covered** — nothing is missing from this repository; the only barrier to any figure is access to the restricted tables.
-
-The patient-level clinical variables and mortality outcomes underlying those restricted panels are available via data sharing agreement per institutional policies.
+Between the two groups above, **every panel of the manuscript is covered** — nothing is missing from this repository; the only barrier to any figure is access to the restricted tables, which the callout above explains how to request.
 
 ------------------------------------------------------------------------
 
