@@ -2,7 +2,7 @@
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21290618-blue.svg)](https://doi.org/10.5281/zenodo.21290618) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-This repository reproduces the **publicly-shareable** (non-PHI) figures of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
+This repository reproduces the **publicly-shareable** figures — those free of protected health information (PHI) — of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
 
 The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://doi.org/10.5281/zenodo.14538105) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
 
@@ -10,7 +10,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ## Contents
 
-1.  [Everything is reproducible: what varies is data access](#everything-is-reproducible-what-varies-is-data-access)
+1.  [Most data elements have been released publicly; some are subject to data-sharing agreements](#most-data-elements-have-been-released-publicly-some-are-subject-to-data-sharing-agreements)
 2.  [Repository layout](#repository-layout)
 3.  [Environment setup](#environment-setup)
 4.  [Getting the restricted data (internal users)](#getting-the-restricted-data-internal-users)
@@ -25,12 +25,12 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ------------------------------------------------------------------------
 
-## Everything is reproducible: what varies is data access
+## Most data elements have been released publicly; some are subject to data-sharing agreements
 
-Every panel of the manuscript has code in this repository, and every panel is reproducible. What differs is **who can run which panels**, and that comes down to **data access**, not missing code. Some panels read tables that carry no PHI but are not cleared for public release; those are available, and there are two ways to get them.
+Code to generate every panel of the manuscript is made available here, along with the necessary data for most panels. Food-item and meal-level data, microbiome-level sample data are available. Patient-level data (e.g. mortality) are subject to institutional data-sharing policies and are available to internal MSKCC users following the instructions below and to users outside of MSKCC via data sharing agreements.
 
 > **Need a panel whose data isn't shipped here?**
-> - **Internal MSK users** pull the PHI-free restricted tables from the lab drive with DVC — see [Getting the restricted data](#getting-the-restricted-data-internal-users).
+> - **Internal MSKCC users** pull the PHI-free restricted tables from the lab drive with DVC — see [Getting the restricted data](#getting-the-restricted-data-internal-users).
 > - **Everyone else:** the patient-level clinical variables and mortality outcomes underlying those restricted panels are available via a data sharing agreement, per institutional policies. Requests should be directed to Dr. Jonathan Peled (peledj@mskcc.org).
 
 ### Reproducible by anyone
@@ -49,9 +49,7 @@ These panels are fully implemented here, but they read de-identified tables that
 | **Extended Fig. E6 e,f,g** | `reproduce/restricted/64_e6efg_cluster_intake.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); daily calorie/macronutrient intake over HCT day by cluster (the diet table itself is released) |
 | **Extended Fig. E6h** | `reproduce/restricted/66_e6h_alpha_trajectory.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); fecal microbiota alpha-diversity trajectory over HCT day by cluster (the diversity table `153_combined_META.csv` is released) |
 | **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
-| **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and ASV counts `63_asv_count_relab_res.csv` are released) |
-
-Between the two groups above, **every panel of the manuscript is covered** — nothing is missing from this repository; the only barrier to any figure is access to the restricted tables, which the callout above explains how to request.
+| **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and amplicon sequence variant (ASV) counts `63_asv_count_relab_res.csv` are released) |
 
 ------------------------------------------------------------------------
 
@@ -116,7 +114,7 @@ A few scripts call QIIME 2 inside a Docker container (UniFrac / Bray-Curtis / Fa
 
 ### 4. Python / TaxUMAP (optional, Figure 1 e–h only)
 
-The TaxUMAP embedding for F1 e–h ships precomputed (`released_data/taxumap_embedding.csv`), so you do **not** need Python to draw the figure. To regenerate it, see [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding).
+The TaxUMAP embedding for F1 e–h ships precomputed (`released_data/taxumap_embedding.csv`), so you do not need Python to draw the figure. To regenerate it, see [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding).
 
 All public scripts resolve their input from `released_data/` (override with the `NUTRITION_DATA` env var). Scripts under `reproduce/restricted/` additionally read `restricted_data/` (override with `RESTRICTED_DATA`) and skip cleanly when it is absent.
 
@@ -249,7 +247,7 @@ Common environment toggles:
 | `26_e2bc_abx_exposure.R` | **E2** b, c |
 | `30_extdata_pcoa.R` | **E3** a, b, c |
 | `17_fig_e4.R` | **E4** a, b, c, d, e, i, j |
-| `17b_e4fg_wweia.R` | **E4** f, g (WWEIA nomenclature) |
+| `17b_e4fg_wweia.R` | **E4** f, g (What We Eat in America, WWEIA, nomenclature) |
 | `27_e4h_fndds_zscored.R` | **E4** h |
 | `28_e5abcd_added_sugars.R` | **E5** a, b, c, d (added vs other sugars) |
 | `29_e6ab_sweet_grains.R` | **E6** a, b (Sweet vs Other Grains; E6c–j are restricted) |
@@ -278,7 +276,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 | `153_combined_META.csv` | the per-stool-sample analysis table (1009 samples / 158 patients): diversity outcome, antibiotic/TPN/EN exposure, prior-2-day food-group & macronutrient intake | **same file on Zenodo** |
 | `Data_S4_Medication_Exposures…csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
 | `R59_meta_expanded.csv` | `153` plus the *E. faecium* CLR outcome and extra covariates — used by the taxon CLR models (F4b, E7e, E7f) | derived |
-| `FPED_1516.xls`, `FPED_1720.xls` | USDA Food Patterns Equivalents Database (2015-16 and 2017-20) — the **added-sugars** content (teaspoon equivalents per 100 g) per food code, used to split total sugars into added vs other for E5a–d (`28`); 1516 is preferred, the two salad-dressing codes that exist only in 2017-20 are filled from 1720; related to Zenodo "Data S5" (FNDDS nutrient values) | reference (USDA) |
+| `FPED_1516.xls`, `FPED_1720.xls` | USDA Food Patterns Equivalents Database (2015-16 and 2017-20) — the **added-sugars** content (teaspoon equivalents per 100 g) per food code, used to split total sugars into added vs other for E5a–d (`28`); 1516 is preferred, the two salad-dressing codes that exist only in 2017-20 are filled from 1720; related to Zenodo "Data S5", the nutrient values from the USDA Food and Nutrient Database for Dietary Studies (FNDDS) | reference (USDA) |
 | `2015-2016 FNDDS At A Glance…xlsx`, `2019-2020 FNDDS At A Glance…xlsx` | USDA FNDDS — each food code's **WWEIA food category** (and per-100 g nutrients), used to re-derive the diversity model under WWEIA nomenclature for E4f–g (`17b`); 2015-16 preferred, 2019-20 fills the rest | Zenodo "Data S5" (FNDDS nutrient values) |
 
 **`152_combined_DTB.csv`** — one row per food item consumed:
