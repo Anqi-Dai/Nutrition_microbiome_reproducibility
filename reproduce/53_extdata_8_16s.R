@@ -75,6 +75,9 @@ alpha_change <- alpha_df %>%
   theme_light() +
   theme(legend.position = "none", aspect.ratio = 1 / 1.3)
 
+print(paste("There are ", nrow(alpha_df %>% select(c(experiment_no, abx_treatment, diet_treatment, group, mouse_no)) %>% unique()), "individual mice."))
+print(paste("There are ", nrow(alpha_df), "individual samples."))
+
 save_panel(alpha_change, "E8a_alpha_diversity.pdf", width = 5.0, height = 3.4)
 
 # E8b: PCoA on Bray-Curtis ----------------------------------------------------
