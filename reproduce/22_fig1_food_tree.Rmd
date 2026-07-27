@@ -38,6 +38,23 @@ The pipeline is:
 
 Code adapted from <https://github.com/knights-lab/Food_Tree>.
 
+## Sources for the taxonomy levels
+
+The level labels are part USDA and part not. Both citations, and the split
+level by level, are in [Where the level labels come from] below.
+
+1.  U.S. Department of Agriculture, Agricultural Research Service. *USDA Food
+    and Nutrient Database for Dietary Studies 2011-2012, Documentation*,
+    Appendix E, "Food/Beverage Coding Scheme", pp. 58-72. Food Surveys Research
+    Group, 2014.
+    <https://www.ars.usda.gov/ARSUserFiles/80400530/pdf/fndds/fndds_2011_2012_doc.pdf>
+    Levels 1 to 3, and 67 of the level-4 codes.
+2.  Johnson AJ, Vangay P, Al-Ghalith GA, et al. Daily sampling reveals
+    personalized diet-microbiome associations in humans. *Cell Host Microbe*
+    2019;25(6):789-802.e5. doi:10.1016/j.chom.2019.05.005. Label file at
+    <https://github.com/knights-lab/Food_Tree/blob/master/R/data/NodeLabelsMCT.txt>
+    The remaining level-4 codes and all of levels 5 and 6.
+
 # Inputs / outputs
 
 ```{r paths}
@@ -50,7 +67,7 @@ res_dir   <- here::here("results")
 
 # ---- inputs (released_data) ----
 dtb_path        <- file.path(data_root, "152_combined_DTB.csv")           # diet table (per-portion records)
-nodes_path      <- file.path(data_root, "NodeLabelsMCT.txt")              # MCT level-code -> human-readable label
+nodes_path      <- file.path(data_root, "NodeLabelsMCT.txt")              # level code -> label, plus provenance columns
 fg_color_path   <- file.path(data_root, "food_group_color_key_final.csv") # food-group -> ring color
 annot_base_path <- file.path(data_root, "annotation.base.txt")            # GraPhlAn global style header
 
@@ -61,7 +78,10 @@ out_tree_name   <- file.path(inter_dir, "output_food_tree_datatree_name.newick")
 ring_annot_tsv  <- file.path(inter_dir, "ring_annot.txt")
 ring_style_tsv  <- file.path(inter_dir, "ring_itself.txt")
 
-N_LEVELS <- 7   # Food_code is 8 digits; we use the first 7 as taxonomy levels
+# Food_code is 8 digits. L1..L7 are built from the first 1..7 digits, but only
+# L1..L6 become tree levels; the leaf is the food code itself, so L7 is carried
+# in the taxonomy string only.
+N_LEVELS <- 7
 ```
 
 # 1. Load the food database
@@ -90,7 +110,10 @@ Each digit position of `FoodID` is a taxonomy level. We look up each
 level code in the MCT node table to attach a human-readable label.
 
 ```{r build-taxonomy}
-nodes <- read_tsv(nodes_path, col_types = cols(.default = "c"))
+# The label file also carries provenance columns (see the next section); only the
+# code and its label take part in the taxonomy build.
+node_labels <- read_tsv(nodes_path, col_types = cols(.default = "c"))
+nodes <- node_labels %>% select(Level.code, Main.food.description)
 
 # Build columns L1..L7 by progressively taking the first 1..N_LEVELS digits of FoodID.
 main <- food_database %>%
@@ -118,6 +141,55 @@ final_table <- main_named %>%
 
 dir.create(dirname(out_table_csv), showWarnings = FALSE, recursive = TRUE)
 write_csv(final_table, out_table_csv)
+```
+
+## Where the level labels come from
+
+`NodeLabelsMCT.txt` is not a USDA file. Its first two columns come unchanged from
+`R/data/NodeLabelsMCT.txt` in the Knights lab food-tree repository
+(<https://github.com/knights-lab/Food_Tree/blob/master/R/data/NodeLabelsMCT.txt>),
+the code base behind Johnson AJ, Vangay P, Al-Ghalith GA, et al. *Daily sampling
+reveals personalized diet-microbiome associations in humans.* Cell Host Microbe
+2019;25(6):789-802.e5. doi:10.1016/j.chom.2019.05.005. The remaining four columns
+are added here and record where each label came from.
+
+Only part of it is the official USDA food coding scheme:
+
+- Levels 1 to 3 (the first 1, 2 and 3 digits of the food code) are USDA
+  subgroups, published as Appendix E, "Food/Beverage Coding Scheme", pp. 58-72 of
+  the FNDDS 2011-2012 documentation
+  (<https://www.ars.usda.gov/ARSUserFiles/80400530/pdf/fndds/fndds_2011_2012_doc.pdf>).
+  That is the last FNDDS release to publish the scheme below two digits. Current
+  documentation (FNDDS 2021-2023, Appendix H) publishes the first two digits only.
+- Level 4 is official for the 67 four-digit subgroups USDA actually defines
+  (mostly meat/poultry/fish mixtures and beverages). The other 330 four-digit
+  labels are not USDA.
+- Levels 5 and 6 are entirely a Food_Tree extension: 765 five-digit and 27
+  six-digit labels with no USDA counterpart, read off the FNDDS food descriptions
+  by the original authors.
+
+The label file tracks the FNDDS 2011-2012 scheme specifically: the only official
+codes missing from it (415, 2812, 9256, 9257, 9265) are exactly the ones that
+release discontinued or moved, and the ones it adds at level 3 and below (95x
+formulated nutrition beverages, 537x bars) are the ones that release added.
+
+The added columns are `n_digits`, `source` (`usda_fndds` or
+`food_tree_extension`), `usda_fndds_description` (USDA's own wording, where the
+code is official) and `used_in_F1d_tree` (whether any food code in this cohort
+reaches that label, since a label only shapes the tree if some food hits it). The
+USDA wording is a one-time transcription of the Appendix E table above, not
+re-scraped at run time.
+
+```{r provenance-summary}
+# Sanity check: every label carries a source, and the level number matches the code.
+stopifnot(
+  all(node_labels$source %in% c("usda_fndds", "food_tree_extension")),
+  all(as.integer(node_labels$n_digits) == nchar(node_labels$Level.code))
+)
+
+node_labels %>%
+  count(n_digits, source, used_in_F1d_tree) %>%
+  pivot_wider(names_from = c(source, used_in_F1d_tree), values_from = n, values_fill = 0)
 ```
 
 # 3. Write Newick trees
@@ -266,8 +338,12 @@ cp intermediate_data/F1d_food_tree.pdf results/F1d_food_tree.pdf
 ## Figure legend (panel F1d)
 
 > **Figure 1d.** Circular food taxonomy of every food eaten in the cohort.
-> Each leaf is one FNDDS food code; internal nodes are the 7 MCT taxonomy
-> levels. Sectors are colored by major food group (Grains, Vegetables,
+> Each leaf is one FNDDS food code; internal nodes are the six taxonomy
+> levels taken from the first one to six digits of that code. Levels 1 to 3
+> are USDA FNDDS subgroups (FNDDS 2011-2012 documentation, Appendix E);
+> levels 4 to 6 are mostly the finer split distributed with the Knights lab
+> food-tree code (Johnson et al., Cell Host Microbe 2019), which USDA does
+> not publish. Sectors are colored by major food group (Grains, Vegetables,
 > Meats, Sweets, Milk, Fruits, Legumes, Oils, Eggs) using the shared
 > `food_group_color_key_final.csv` palette. The outer ring bar height is
 > the average dehydrated weight of that food per meal across all

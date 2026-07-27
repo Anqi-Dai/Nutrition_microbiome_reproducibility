@@ -1,1480 +1,1480 @@
-Level.code	Main.food.description
-1	Milk_and_Milk_Products
-11	Milks_and_milk_drinks
-110	Milk_human
-111	Milk_fluid
-1111	Milk_fluid_cow_goat_buttermilk
-1112	Milk_dry_reconstituted
-112	Milk_fluid_evaporated_and_condensed
-1121	Milk_evaporated
-1122	Milk_condensed
-113	Milk_fluid_imitation
-1132	Milk_soy
-1134	Milk_imitation
-1135	Milk_almond
-114	Yogurt
-1141	Yogurt_plain
-1142	Yogurt_vanilla
-1143	Yogurt_fruit_variety
-1144	Yogurt_parfait
-1145	Yogurt_frozen_NS
-1146	Yogurt_frozen_flavored
-1148	Yogurt_baby_food
-115	Flavored_milk_and_milk_drinks_fluid
-1151	Chololate_or_other_flavored
-1152	Malted_flavored
-1153	Eggnog
-1154	Milkshake
-1155	Milk_fruit_smoothie
-1156	Coffee_and_whey_flavors
-117	Infant_formulas_fluid_reconstituted
-1171	Infant_formula_fluit
-1172	Infant_formula_from_powder
-1174	Infant_formula_from_concentrate
-118	Milk_dry_and_powdered_mixtures_with
-1181	Milk_dry_not_reconstituted
-1182	Whey_sweet_dry
-1183	Milk_dry_with_flavors
-12	Creams_and_cream_substitutes
-121	Sweet_dairy_cream
-1211	Cream_light
-1212	Cream_half_and_half
-1213	Cream_heavy
-1214	Cream_whipped_pressurized
-122	Cream_substitutes
-1221	Cream_substitutes_NS
-1222	Whipped_toppings
-123	Sour_cream
-1231	Sour_cream_NS
-1232	Sour_cream_nondairy
-1235	Dip_sour_cream_base
-13	Milk_desserts_sauces_gravies
-131	Milk_desserts_frozen
-1311	Ice_cream
-1312	Ice_cream_bar_cone_cake
-1313	Light_ice_cream
-1314	Light_ice_cream_bar_cone_cake
-1315	Sherbert
-1316	Fat_free_ice_cream
-1317	Baked_Alaska
-132	Puddings_custards_and_other_milk
-1321	Bread_and_rice_pudding
-1322	Pudding_ready_to_eat
-1323	Pudding_ready_to_eat
-1324	Pudding_with_fruit
-1325	Mousse_or_Tiramisu
-133	Milk_desserts_baby_food
-134	White_sauces_and_milk_gravies
-14	Cheeses
-140	Cheese_NS_as_to_type
-141	Natural_cheeses
-1410	Natural_cheeses
-14101	Blue_or_Rouquefort
-14102	Brick
-14103	Camembert_or_Brie
-14104	Cheddar_Colby_Feta_Fontina_Goat
-141041	Cheddar
-141042	Colby_or_Colby_Jack
-141044	Feta
-141046	Fontina
-141047	Goat
-14105	Gouda_or_Gruyere
-141050	Gouda_or_Edam
-141052	Gruyere
-14106	Limberger_or_Monterey
-141060	Limberger
-141062	Monterey
-14107	Mozzarella_or_Muenster
-141070	Mozzarella
-141072	Muenster
-14108	Parmesan_Port_du_Salut_Provolone
-141080	Parmesan
-141082	Port_du_Salut
-141084	Provolone
-14109	Swiss
-1411	Cheddar_reduced_sodium
-1412	Cheese_Mexican_blend
-1413	Queso_cheeses
-142	Cottage_cheeses
-1420	Cottage_chesses_NFS
-14201	Cottage_cheese_or_Ricotta
-14202	Cottage_cheese_with_fruit_or_vegetables
-14203	Cheese_cottage_dry_or_salted_curd
-14204	Cheese_cottage_lowfat
-143	Cream_cheeses
-144	Processed_cheeses_and_cheese_spreads
-1441	Cheese_processed
-1442	Cheese_spread
-145	Imitation_cheeses
-146	Cheese_mixtures
-1461	Cheese_with_gelatin_fruits_vegetables_or_nuts
-1462	Cheese_dip_or_topping
-1463	Cheese_fondue_or_souffle
-1464	Cheese_sandwhich
-1465	Cheese_based_sauce
-1466	Cheese_fried
-1467	Cheese_based_salad
-147	Cheese_soups
-2	Meat_Poultry_Fish_and_Mixtures
-20	Meat
-200	Meat_NS_as_to_type
-21	Beef
-210	Beef_NS
-2100	Beef_NS
-21000	Beef_NS_cut
-21001	Steak_NS_cut
-21002	Beef_pickled
-21003	Beef_NS_fried
-211	Beef_steak
-213	Beef_oxtails_neckbones_short_ribs_head
-214	Beef_roasts_stew_meat_corned_beef_beef_brisket_sandwich_steaks
-215	Ground_beef_beef_patties_beef_meatballs
-216	Other_beef_items_beef_bacon_dried_beef_pastrami
-217	Beef_baby_food
-22	Pork
-220	Pork_NFS_ground_dehydrated
-221	Pork_chops
-222	Pork_steaks_cutlets
-2220	Pork_steaks_cutlets
-2221	Pork_tenderloin
-223	Ham
-2230	Ham_fried_breaded_fresh
-2231	Ham_smoked_or_cured
-2232	Ham_smoked_or_cured_ground
-224	Pork_roasts
-2240	Pork_roasts_NS_or_loin
-2241	Pork_roast_shoulder_cooked
-2242	Pork_roast_smoked_or_cured
-2243	Pork_roll_cured
-225	Canadian_bacon
-226	Bacon_salt_pork
-2260	Bacon_NS
-2262	Salt_pok_fat_back
-227	Other_pork_items
-228	Pork_baby_food
-23	Lamb_veal_game_other
-230	Lamb_NFS
-231	Lamb_and_goat
-2310	Lamb_chop_loin_shoulder
-2311	Lamb_ribs_hocks
-2312	Lamb_roast
-2313	Lamb_ground
-2315	Goat_NS_cooked
-232	Veal
-2320	Veal_NS_chop_or_cutlet
-2321	Veal_roasted
-2322	Veal_ground_or_patty
-233	Game
-2331	Rabit_NS
-2332	Large_game
-23321	Venisondeer_NS_cooked
-23322	Venisondeer_NS_processed
-23323	Moose_or_bear
-23324	Caribou
-23326	Bison
-2333	Hog_opossum_squirrel_beaver_raccoon
-2334	Armadillo_wild_pig
-2335	Ostrich
-234	Lamb_or_veal_baby_food
-24	Poultry
-241	Chicken
-2410	Chicken_NS_as_to_part
-2412	Chicken_breast
-2413	Chicken_leg_drumstick_and_thigh
-2414	Chicken_drumstick
-2415	Chicken_thigh
-2416	Chicken_wing
-2417	Chicken_back
-2418	Chicken_neck_or_ribs
-2419	Chicken_other_part_or_processed
-242	Turkey
-2420	Turkey_NS
-24201	Turkey_NS_light_or_dark_meat
-24202	Turkey_drumstick_or_thigh
-24203	Turkey_wing
-24204	Turkey_rolled_roast
-24205	Turkey_tail_or_back
-243	Duck
-2430	Duck_NS
-2431	Goose
-244	Other_poultry
-247	Poultry_baby_food
-25	Organ_meats_sausages_and_lunchmeats
-251	Organ_meats_and_mixtures
-2511	Liver
-25110	Liver_NS
-251101	Beef
-251104	Chicken
-2512	Hearts
-2513	Kidney
-2514	Sweetbreads
-2515	Brains
-2516	Tongue
-2517	Other_variety_meats
-252	Frankfurters_sausages_lunchmeats_meat_spreads
-2521	Frankfurters
-2522	Sausages
-2523	Luncheon_meats
-2524	Potted_meatspreads
-26	Fish_and_shellfish
-261	Finfish
-2610	Finfish_NS
-26100	Fish_NS
-26101	Anchovy
-26103	Barracuda
-26105	Carp
-26107	Catfish
-26109	Cod
-2611	Finfish_NS
-26111	Croaker
-26113	Eel
-26115	Flounder
-26117	Haddock
-26118	Halibut
-26119	Herring
-2612	Finfish_NS
-26121	Mackerel
-26123	Mullet
-26125	Ocean_perch
-26127	Perch
-26129	Pike
-2613	Finfish_NS
-26131	Pompano
-26133	Porgy
-26135	Ray
-26137	Salmon
-26139	Sardines
-2614	Finfish_NS
-26141	Sea_bass
-26143	Shark
-26147	Sturgeon
-26149	Swordfish
-2615	Finfish_NS
-26151	Trout
-26153	Tuna_fresh
-26155	Tuna_canned
-26157	Whiting
-26158	Tilapia
-262	Other_seafood
-2620	Other_seafood_NS
-26203	Frog
-26205	Octopus
-26207	Roe_shad
-26209	Roe_herring
-2621	Other_seafood_NS
-26211	Roe_sturgeon
-26213	Squid
-26215	Turtle
-263	Shellfish
-2630	Shellfish_NS
-26301	Abalone
-26303	Clams
-26305	Crab_hard_shell
-26307	Crab_soft_shell
-26309	Crayfish
-2631	Shellfish_NS
-26311	Lobster
-26313	Mussels
-26315	Oysters
-26317	Scallops
-26319	Shrimp
-2632	Shellfish_NS
-26321	Snails
-27	Meatpoultry_fish_with_nonmeat
-271	meatpoultryfish_in_gravy
-2711	Beef_in_gravy_or_sauce
-2712	Pork_with_gravy_or_sauce
-2713	Lamb_and_veal_with_gravy_or_sauce
-2714	Poultry_with_gravy_or_sauce
-2715	Fish_shellfish_with_gravy_or_sauce
-2716	Miscellaneous_meats_with_gravy_or_sauce
-272	Meatpoultry_fish_with_starch_item
-2721	Beef_with_starch_item
-2722	Pork_with_starch_item
-2723	Lamb_veal_game_with_starch_item
-2724	Poultry_with_starch_item
-2725	Fish_shellfish_with_starch_item
-2726	Miscellaneous_meats_with_starch_item
-273	Meatpoultry_fish_with_starch_item_and_vegetables
-2731	Beef_with_starch_and_vegetable
-2732	Pork_with_starch_and_vegetable
-2733	Lamb_veal_game_with_starch_and_vegetable
-2734	Poultry_with_starch_and_vegetable
-2735	Fish_shellfish_with_starch_and_vegetable
-2736	Miscellaneous_meats_with_starch_and_vegetable
-274	Meat_poultry_fish_with_vegetables
-2741	Beef_with_vegetable_no_potatoes
-2742	Pork_with_vegetable_no_potatoes
-2743	Lamb_veal_game_with_vegetable_no_potatoes
-2744	Poultry_with_vegetables_no_potatoes
-2745	Fish_shellfish_with_vegetables_no_potatoes
-2746	Miscellaneous_meats_with_vegetable_no_potatoes
-275	Sandwiches_with_meat_poultry_fish
-2751	Beef_sandwiches
-2752	Pork_sandwiches
-2754	Poultry_sandwiches
-2755	Fish_shellfish_sandwiches
-2756	Frankfurters_luncheon_meat_potted_meat_sandwiches
-2757	Hors_doeuvres_finger_sandwiches
-276	Meat_poultry_fish_with_nonmeat_items_baby_food
-2761	Beef_mixtures_baby_food
-2764	Poultry_mixtures_baby_food
-28	Frozen_and_shelfstable_plate_meals_soups_and_gravies
-281	Frozen_or_shelfstable_plate_meals_with_meat_poultry_fish
-2811	Beef_frozen_or_shelfstable_meals
-2813	Veal_frozen_or_shelfstable_meals
-2814	Poultry_frozen_or_shelfstable_meals
-2815	Fishshellfish_frozen_meals
-2816	Miscellaneous_meat_frozen_or_shelfstable_meals
-283	Soups_broths_extracts_from_meat_poultry_fish_base
-2831	Beef_soups
-2832	Pork_soups
-2833	Lamb_soups
-2834	Poultry_soups
-28345	Poultry_cream_soups
-2835	Fishshellfish_soups
-2836	Puerto_Rican_soups
-284	Gelatin_and_gelatinbased_meal_supplements
-285	Gravies_from_meat_poultry_fish_base
-3	Eggs
-31	Eggs
-311	Chicken_eggs
-3110	Egg_whole_or_white
-3111	Egg_yolk_only
-312	Other_poultry_eggs
-32	Egg_mixtures
-321	Egg_dishes_made_with_whole_eggs
-3213	Egg_omelet_or_scrambled
-322	Egg_sandwiches
-3220	Egg_sandwiches
-32201	Fried_egg_sandwhich
-32202	Egg_with_cheese_or_meat
-32203	Egg_salad_sandwhich
-32204	Scrambled_egg_sandwhich
-323	Egg_soups
-324	Mixtures_made_with_egg_whites
-33	Egg_substitutes
-330	Egg_substitute_NS_as_to_form
-334	Mixtures_made_with_egg_substitutes
-35	Frozen_plate_meals_with_egg_as_major
-350	Frozen_plate_meals_with_egg_as_major
-4	Dry_Beans_Peas_Other_Legumes_Nuts_and_Seeds
-41	Legumes
-411	Dried_beans
-4110	Beans_NS_to_type
-41101	White_or_NS
-411010	Beans_dry_NS
-411011	White_beans_dry
-411012	White_beans_canned
-41102	Black_brown_bayo_or_fava
-411020	Black_brown_or_bayo_beans_dry
-411021	Black_brown_or_bayo_beans_canned
-411022	Fava_beans
-41103	Lima_or_pink_beans
-41104	Pinto_calico_or_red_Mexican_beans
-411040	Pinto_calico_or_red_Mexican_beans_dry
-411041	Pinto_calico_or_red_Mexican_beans_canned
-411042	Pinto_calico_or_red_Mexican_beans_canned
-41106	Red_kidney_beans
-411060	Red_kidney_beans_dry
-411061	Red_kidney_beans_canned
-41107	Soybeans
-41108	Mung_beans
-41109	Mungo_beans
-412	Dried_beans_mixtures
-4120	Dried_beans_mixtures
-41201	Baked_beans
-41202	Beans_and_tomatoes
-41203	Black_beans
-41204	Boston_beans
-41205	Bean_dips_and_sauces
-41206	Beans_and_franks
-41207	Beans_with_beef
-41208	Beans_with_pork
-41209	Falafel
-4121	Mixed_bean_dishes
-4122	Low_sodium_or_meatless_beans
-413	Dried_peas_lentils_and_mixtures
-414	Soybean_derived_products_excluding_milks
-4141	Soy_snacks
-4142	Soybean_derived_products
-41420	Curds_and_sauces
-41421	Soybean_curd_fried
-41422	Soybean_meal
-41425	Soybean_vermicelli
-4144	Textured_vegetable_protein
-4148	Tofu_frozen_dessert
-416	Soups_with_legumes_as_major_ingredient
-418	Meat_substitutes_mainly_legume_protein
-419	Meat_substitute_sandwiches
-42	Nuts_nut_butters_and_nut_mixtures
-421	Nuts
-4210	Nuts_NFS
-42100	Almonds_NFS
-42101	Almonds
-42102	Brazil_nuts
-42104	Cashew_nuts
-42105	Chestnuts
-42106	Coconuts
-42107	Hazelnuts
-42109	Macadamia_nuts
-4211	Mixed_nuts_NFS
-42110	Mixed_nuts_NFS
-42111	Peanuts
-42112	Pecans
-42113	Pine_nuts
-42114	Pistachio_nuts
-42116	Walnuts
-422	Nut_butters
-4220	Nut_butters
-42200	Almond_butter
-42201	Cashew_butter
-42202	Peanut_butter
-42203	Peanut_butter_and_jelly
-42204	Peanut_sauce_or_gravy
-423	Nut_butter_sandwiches
-424	Coconut_beverages
-425	Nut_mixtures
-43	Seeds_and_seed_mixtures
-431	Seeds
-4310	Seeds_NS
-43101	Pumpkin
-43102	Sunflower
-43103	Sesame_seeds
-43104	Flax_seeds
-43107	Mixed_seeds
-44	Carob_products
-441	Carob_powder_flour
-442	Carob_chips_syrup
-5	Grain_Product
-50	Flour_and_dry_mixes
-500	Flour_and_dry_mixes
-51	Yeast
-510	Breadrolls_NFS
-511	White_breads_rolls
-5110	White_breads_rolls
-51101	Bread_white
-51102	Bread_white_with_whole_wheat_swirl
-51105	Bread_cuban
-51106	Bread_Native
-51107	Bread_French
-51108	Flatbread
-51109	Bread_pita_style
-5111	Bread_with_toppings
-51111	Bread_cheese
-51113	Bread_cinnamon
-51115	Bread_molasses
-51119	Bread_egg_Challah
-5112	Bread_with_additions
-51121	Bread_garlic_or_onion
-51122	Bread_reduced_calorie_or_added_fiber
-51123	Bread_high_protein
-51127	Bread_potato
-51129	Bread_raisin
-5113	Bread_with_modifications
-51130	Bread_white_low_sodium
-51133	Sour_dough
-51134	Bread_sweet_potato
-51135	Bread_vegetable
-51136	Bruschetta
-5114	Bread_dough_fried
-5115	Rolls
-51150	Roll_white
-51151	Roll_white_homemade
-51152	Roll_white_reduced_calorie
-51153	Roll_white_hard
-51154	Roll_diet_egg_or_cheese
-51155	Roll_French
-51156	Roll_garlic
-51157	Roll_hoagie
-51158	Roll_Mexican_bolillo
-51159	Roll_sour_dough
-5116	Rolls
-51160	Roll_sweet
-51161	Roll_sweet_with_toppings
-51165	Coffee_cake
-51166	Croissant
-51167	Brioche
-51168	Bread_Spanish_coffee
-5118	Bagels_bread_sticks_English_muffins
-51180	Bagel
-51182	Bread_stuffings
-51184	Bread_sticks
-51185	Croutons
-51186	Muffin_English
-51187	Melba_or_Anisette_toast
-55188	Sweet_bread_or_Zwieback_toast
-512	Whole_wheat_breads_rolls
-5120	Whole_wheat_breads
-51201	Whole_wheat_bread_or_pita
-51202	Muffin_English_whole_wheat
-51207	Bread_sprouted_wheat
-51208	Bagel_whole_wheat
-5122	Roll_whole_wheat
-513	Wheat_cracked_wheat_breads_rolls
-5130	Wheat_cracked_wheat_breads_rolls
-51300	Whole_grain_wheat_or_whole_grain_white
-51301	Whole_wheat_bread_pita_or_bagel
-51302	Muffin_English_wheat_bran
-51303	Muffin_English_wheat_or_whole_wheat
-51306	Bread_stick_whole_wheat
-5132	Wheat_cracked_wheat_breads_rolls
-51320	Roll_wheat
-514	Rye_breads_rolls
-5140	Bread_rye
-51401	Bread_rye
-51404	Bread_pumpernickel
-51407	Bread_black
-5142	Roll_rye
-51420	Roll_rye
-51421	Roll_pumpernickel
-515	Oat_breads
-5150	Oat_breads
-51501	Bread_oatmeal
-51502	Roll_oatmeal
-51503	Muffin_English_oat_bran
-516	Multigrain_breads_rolls
-5160	Bread_multigrain
-5162	Roll_multigrain
-5163	Bagel_or_English_muffin_multigrain
-518	Other_breads
-5180	Other_breads
-51801	Bread_barley
-51804	Bread_soy
-51805	Bread_sunflower_meal
-51806	Bread_rice
-51807	Injera
-51808	Bread_low_gluten
-52	Quick_breads
-521	Biscuits
-5210	Biscuits
-52101	Biscuit_or_crumpet
-52102	Biscuit_or_crumpet
-52103	Commercially_baked
-52104	Biscuit_with_additions
-52105	Scone
-522	Cornbread_corn_muffins_tortillas
-5220	Cornbreads
-52201	Cornbread_from_mix
-52202	Cornbread_home_recipe
-52204	Cornbread_stuffing
-52206	Cornbread_muffin
-52207	Corn_flour
-52208	Corn_pone
-52209	Hush_puppy
-5221	Tortillas
-52211	Johnnycake
-52213	Spoonbread
-52215	Tortillas_and_tacos
-5222	Cornbreads
-523	Other_muffins_popovers
-5230	Muffin
-5231	Popover
-524	Other_quick_breads
-5240	Other_quick_breads
-52401	Bread_Boston_Brown
-52403	Bread_nut
-52404	Bread_pumpkin
-52405	Bread_fruit
-52407	Bread_zucchini
-52408	Bread_Irish_soda
-53	Cakes_cookies_pies_pastries_bars
-531	Cakes
-5310	Cakes
-53100	Cake_NS
-53101	Cake_angel
-53102	Cake_with_fruit
-53103	Cake_Boston_cream_pie
-53104	Cake_carrot_coconut_or_cheesecake
-53105	Cake_chocolate
-53106	Cake_cream
-53108	Snack_cake
-53109	Snack_cake
-5311	Cakes
-53110	Cake_fruit
-53111	Cake_gingerbread
-53112	Cake_ice_cream
-53113	Cake_jelly_roll
-53114	Cake_lemon
-53115	Cake_marble_oatmeal_peanutbutter
-53116	Cake_pound_pumpkin_raisin_nut
-53117	Cake_spice
-53118	Cake_sponge
-53119	Cake_upside_down
-5312	Cake
-53120	Cake_white
-53121	Cake_yellow
-53122	Cake_shortcake
-53123	Cake_shortcake_with_fruit
-53124	Cake_zucchini
-532	Cookies
-5320	Cookies
-53200	Cookie_batter
-53201	Cookie_NS
-53202	Cookie_almond
-53203	Cookie_applesauce_or_biscotti
-53204	Cookie_brownie
-53205	Cookie_bar
-53206	Cookie_chocolate_chip
-53207	Cookie_chocolate_or_fudge
-53208	Cookie_marshmallow
-53209	Cookie_sandwich
-5321	Cookies
-53211	Cookie_bar_with_nuts
-53215	Cookie_coconut
-5322	Cookies
-53220	Cookie_with_fruit
-53222	Cookie_fortune_or_shell
-53223	Cookie_granola_or_ginger
-53224	Cookie_ladyfinger_or_lemon_bar
-53225	Cookie_macaroon
-53226	Cookie_marshmallow_with_rice_cereal
-53228	Cookie_meringue
-5323	Cookies
-53230	Cookie_molasses
-53231	Cookie_Lebkuchen_or_high_fiber
-53233	Cookie_oatmeal
-53234	Cookie_peanut_butter
-53235	Cookie_peanut_butter_sandwich
-53236	Cookie_pumplin_or_Italian_sytle
-53237	Cookie_raisin
-53238	Cookie_sandwich_not_chocolate_or_vanilla
-53239	Cookie_shortbread
-5324	Cookies
-53240	Cookie_animal
-53241	Cookie_butter
-53242	Cookie_sugar_or_toffee
-53243	Cookie_vanilla_sandwich
-53244	Cookie_butter_with_chocolate
-53246	Cookie_Japanese
-53247	Cookie_vanilla_wafer
-5325	Cookies
-53251	Cookie_rugelach
-5326	Cookies_sugarfree
-5327	Cookies_Puerto_Rican
-533	Pies_fruit_pies_pie_tarts
-5330	Pies_fruit_pies_pie_tarts
-53300	Pie_NS
-53301	Pie_apple
-53302	Pie_apricot
-53303	Pie_berry_not_blueberry
-53304	Pie_blueberry
-53305	Pie_cherry_or_lemon
-53306	Pie_mince
-53307	Pie_peach_or_pear
-53308	Pie_pineapple_plum_or_prune
-53309	Pie_raisin
-5331	Pies_fruit_pies_pie_tarts
-53310	Pie_raspberry
-53311	Pie_rhubarb
-53312	Pie_strawberry
-53313	Pie_strawberry
-53314	Pie_strawberry
-5334	Pies_fruit_pies_pie_tarts_cream
-53340	Pie_fruit_sour_cream
-53341	Pie_banana_cream
-53342	Pie_chocolate_cream
-53343	Pie_coconut_cream
-53344	Pie_custard
-53345	Pie_lemon
-53346	Pie_peanut_butter_or_pineapple_cream
-53347	Pie_squash
-53348	Pie_strawberry_cream
-5336	Pies_fruit_pies_pie_tarts_cream
-5337	Pies_chiffon_or_black_bottom
-5338	Pies_pudding_and_lemon_meringue
-5339	Pie_shells
-534	Cobblers_eclairs_turnovers_other_pastries
-5340	Cobblers_eclairs_turnovers_other_pastries
-53400	Blintz_fruit_filled
-5341	Cobblers_eclairs_turnovers_other_pastries
-53410	Cobblers
-53415	Crisps_and_fritters
-5342	Cobblers_eclairs_turnovers_other_pastries
-53420	Cream_puff
-5343	Cobblers_eclairs_turnovers_other_pastries
-53430	Crepe_or_tamale_sweet
-5344	Cobblers_eclairs_turnovers_other_pastries
-53440	Strudel
-53441	Baklava_or_basbousa
-5345	Cobblers_eclairs_turnovers_other_pastries
-53450	Turnover_or_dumpling
-53451	Turnover
-53452	Filled_pastry
-53453	Empanada
-535	Danish_breakfast_pastries_doughnuts
-5350	Breakfast_pastry_NS
-5351	Danish_pastry
-5352	Doughnut
-5353	Breakfast_tart
-536	Coffee_cake_not_yeast
-537	Bars
-5371	Cereal_bars_granola_bars
-5372	Nutrition_bars_protein_energy_meal
-538	Cookies_and_bars_baby_food
-54	Crackers_and_salty_snacks_from_grain
-540	Crackers_NS_as_to_type
-541	Sweet_crackers
-542	Low_sodium_crackers
-543	Nonsweet_crackers
-5430	Nonsweet_crackers
-54301	Cracker_snack
-54304	Cracker_cheese
-54305	Crispbread_wheat
-54307	Crackers_matzo
-54308	Crackers_milk
-54309	Crackers_oat
-5431	Nonsweet_crackers
-54313	Crackers_oyster
-54318	Cracker_rice
-54319	Cracker_rice
-5432	Nonsweet_crackers
-54322	Crispbread_rye
-54325	Crackers_saltine
-54326	Crackers_multigrain
-54327	Crackers_peanut_butter
-54328	Crackers_sandwich_type
-5433	Nonsweet_crackers
-54334	Crackers_toast
-54336	Crackers_water_biscuits
-54337	Cracker_whole_wheat
-54338	Cracker_wheat
-54339	Cracker_corn
-5435	Crackers_baby_food
-5436	Crackers_baby_food
-544	Salty_snacks_from_grain_products
-5440	Salty_snacks_from_grain_products
-54401	Salty_snacks_corn
-54402	Salty_snacks_corn_wheat_multigrain_potatoes_or_pita
-54403	Popcorn
-55406	Onion_or_shrimp_flavored_snacks
-54408	Pretzels
-5441	Salty_snacks_from_grain_products
-54412	Wheat_sticks
-5442	Salty_snacks_from_grain_products
-54420	Snack_mix
-5443	Yogurt_chips
-5444	Bagel_chips
-55	Pancakes_waffles_French_toast_other
-551	Pancakes
-5510	Pancakes
-55101	Pancakes_plain
-55103	Pancakes_with_fruit_or_chocolate
-55105	Pancakes_other_grains
-552	Waffles
-5520	Waffles
-55201	Waffle_plain
-55202	Waffle_multigrain
-55203	Waffle_with_fruit_nuts_chocolate
-55204	Waffle_cornmeal
-55205	Waffle_100_whole_wheat
-55206	Waffle_oat_bran
-55207	Waffle_multi_bran
-5521	Waffles
-55211	Waffle_reduced_fat
-55212	Waffle_reduced_fat_whole_wheat
-553	French_toast
-554	Crepes
-555	Flourwater_patties
-556	Flourmilk_dumplings_plain
-557	Rice_flour_cakes
-558	Funnel_cakes
-56	Pastas_cooked_cereals_rice
-561	Pastas
-5610	Macaroni
-56101	Macaroni_cooked
-56102	Macaroni_whole_wheat
-56103	Macaroni_cooked_spinach
-56104	Macaroni_cooked_vegetable
-5611	Noodles
-56112	Noodles_cooked
-56113	Noodles_cooked_whole_wheat
-56114	Noodles_cooked_spinach
-56116	Chow_mein_or_long_rice_noodles
-56117	Chow_mein_or_long_rice_noodles
-5613	Spaghetti
-56130	Spaghetti_cooked_NS
-56131	Spaghetti_cooked_fat_added
-56132	Spaghetti_whole_wheat_NS
-56133	Spaghetti_whole_wheat
-562	Cooked_cereals_rice
-5620	Cooked_cereals_rice
-56200	Cereal_cooked_barley_or_buckwheat
-56201	Grits_cooked_cornmeal_or_cornstarch
-56202	Millet_or_oatmeal
-56203	Oatmeal
-56204	Quinoa
-56205	Rice
-56206	Wheat_cream_of_bulgur_couscous
-56207	Wheat_cream_of_bulgur_couscous
-56208	Oat_bran_cereal
-56209	Rye
-5621	Cooked_cereals_rice
-56210	Nestum_cereal
-57	Cereals_not_cooked_or_NS_as_to_cooked
-570	Cereal_NS_as_to_cooked
-571	Readytoeat_cereals
-572	Readytoeat_cereals
-573	Readytoeat_cereals
-574	Readytoeat_cereals
-576	Cereal_grains_not_cooked
-578	Cereals_baby_food
-58	Grain_mixtures_frozen_plate_meals_soups
-581	Mixtures_mainly_grain_pasta_or_bread
-5810	Mixtures_mainly_grain_pasta_or_bread
-58100	Burrito_chilaquiles_or_enchilada
-58101	Taco_or_tostada
-58103	Tamale
-58104	Nachos_gordita_chimichanga_quesadilla_taquito
-58105	Fajita_pupusa
-58106	Pizza
-58107	Pizza_no_cheese_or_white_pizza
-58108	Calzone_or_pizza_roll
-5811	Mixtures_mainly_grain_pasta_or_bread
-58110	Egg_roll
-58111	Won_ton
-58112	Dumpling
-58115	Puerto_Rican_tamale_or_taco
-58116	Empanada
-58117	Puerto_Rican_fritter
-58118	Puerto_Rican_dessert
-5812	Mixtures_mainly_grain_pasta_or_bread
-58120	Crepes_with_meat
-58121	Dumpling_meat_vegetable
-58122	Gnocchi_Kishke
-58123	Knish_or_sweet_bread
-58124	Filled_pastry
-58125	Quiche
-58126	Turnover
-58127	Vegetable_sandwich_or_pastry
-58128	Biscuit_or_dressing
-5813	Mixtures_mainly_grain_pasta_or_bread
-58130	Lasagna
-58131	Ravioli
-58132	Spaghetti
-58133	Manicotti
-58134	Stuffed_shells_or_tortellini
-58135	Chow_fun_noodles
-58136	Lo_mein
-58137	Pad_Thai
-5814	Mixtures_mainly_grain_pasta_or_bread
-58140	Pasta_with_tuna_or_corned_beef
-58145	Macaroni_or_noodles_with_cheese
-58146	Pasta_with_sauce
-58147	Pasta_with_other_additions
-58148	Macaroni_or_pasta_salad
-58149	Noodle_pudding_or_somen_salad
-5815	Mixtures_mainly_grain_pasta_or_bread
-58150	Bibimbop_or_fried_rice
-58151	Sushi
-58155	Rice_dishes_or_paella
-58156	Puerto_Rican_rice_dishes
-58157	Rice_pudding
-5816	Mixtures_mainly_grain_pasta_or_bread
-58160	Rice_with_vegetables_or_lentils
-58161	Rice_brown_with_vegetables
-58162	Stuffed_vegetables_with_rice
-58163	Dirty_rice_flavored_rice_or_Spanish_rice
-58164	Mixed_rice_dishes
-58165	Rice_with_vegetables_and_sauce
-5817	Mixtures_mainly_grain_pasta_or_bread
-58174	Upma_Indian_breakfast_dish
-58175	Tabbouleh_bulgar
-582	Mixtures_mainly_grain_pasta_or_bread
-5820	Wrap_sandwich
-583	Frozen_plate_meals_with_grain_mixture_as_major_ingredient
-584	Soups_with_grain_product_as_major_ingredient
-585	Grain_mixtures_baby_food
-59	Meat_substitutes_mainly_cereal_protein
-590	Meat_substitutes_mainly_cereal_protein
-6	Fruits
-61	Citrus_fruits_juices
-611	Citrus_fruits
-6110	Citrus_fruits
-61100	Calamondin
-61101	Grapefruit
-61104	Grapefruit_and_orange
-6111	Citrus_fruits
-61110	Kumquat
-61113	Lemon
-61116	Lime
-61119	Orange
-6112	Citrus_fruits
-61122	Orange_mandarin
-61125	Tangelo_or_tangerine
-612	Citrus_fruit_juices
-6120	Grapefruit_lemon_lime_juice
-6121	Orange_tangerine_or_juice_blend
-62	Dried_fruits
-621	Dried_fruits
-6210	Dried_fruits
-62101	Fruit_NS_or_apple
-62104	Apricot
-62105	Blueberries
-62106	Cherries
-62107	Banana
-62108	Currants
-62109	Cranberries
-6211	Dried_fruits
-62110	Date
-62113	Fig
-62114	Lychee_or_mango
-62116	Peach
-62119	Pear
-6212	Dried_fruits
-62120	Pineapple
-62121	Plum
-62122	Prune
-62125	Raisins
-62126	Tamarind
-63	Other_fruits
-631	Fruits_excluding_berries
-6310	Fruits_excluding_berries
-63100	Fruit_NS
-63101	Apple_or_applesauce
-63103	Apricot
-63105	Avocado
-63107	Banana
-63109	Cantaloupe_or_starfruit
-6311	Fruits_excluding_berries
-63110	Cassaba_melon
-63111	Cherries_maraschino
-63113	Cherries_sour
-63115	Cherries_sweet
-63117	Currants
-63119	Figs
-6312	Fruits_excluding_berries
-63123	Grapes
-63125	Guava
-63126	Juneberry_Kiwi_Lychee
-63127	Honeydew
-63129	Mango
-6313	Fruits_excluding_berries
-63131	Nectarine
-63133	Papaya
-63134	Passion_fruit
-63135	Peach
-63137	Pear
-63139	Persimmon
-6314	Fruits_excluding_berries
-63141	Pineapple
-63143	Plum
-63145	Pomegranate
-63147	Rhubarb
-63148	Tamarind
-63149	Watermelon
-632	Berries
-6320	Berries
-63200	Berries_NS
-63201	Blackberries
-63203	Blueberries
-63205	Boysenberries
-63207	Cranberries
-63208	Dewberries
-6321	Berries
-63214	Huckleberries
-63215	Loganberries
-63217	Mulberries
-63219	Raspberries
-6322	Berries
-63223	Strawberries
-63224	Youngberries
-633	Mixtures_of_two_or_more_fruits
-6330	Ambrosia_or_cranberry
-6331	Fruit_salad_or_cocktail
-6332	Fruit_salad_mixture
-634	Mixtures_of_fruits_and_nonfruit_items
-6340	Mixtures_of_fruits_and_nonfruit_items
-63401	Candied_or_chocolate_covered_or_salad_with_dressing
-63402	Whip_fried_or_fruit_salad
-63403	Whip_fried_or_fruit_salad
-63409	Guacamole_or_chutney
-6341	Cranberry_or_pineapple_salad_or_fruit_soup
-6342	Fruit_juice_bar_frozen
-6343	Sorbet_or_cream_juice_bar
-64	Fruit_juices_and_nectars_excluding_citrus
-641	Fruit_juices_excluding_citrus
-642	Nectars
-644	Vinegar
-67	Fruits_and_juices_baby_food
-671	Fruits_and_fruit_mixtures_baby_food
-6710	Fruits_and_fruit_mixtures_baby_food
-67100	Fruit_baby_NFS
-67101	Apple_baby_food
-67102	Applesauce_baby_food
-67104	Applesauce_and_other_fruit_baby_food
-67105	Bananas_baby_food
-67106	Bananas_with_other_fruit_baby_food
-67108	Peaches_baby_food
-67109	Pears_baby_food
-6711	Furits_and_fruit_mixtures_baby_food
-67110	Prunes_baby_food
-67113	Apples_and_pears_baby_food
-67114	Pears_and_pineapple_baby_food
-672	Fruit_juice_and_fruit_juice_mixtures_baby
-673	Fruits_with_cereal_baby_food
-674	Fruit_desserts_and_fruitflavored_pudding
-675	Fruits_with_meat_or_poultry_baby_food
-676	Fruits_and_vegetables_mixtures_baby_food
-7	Vegetables
-71	White_potatoes_and_Puerto_Rican_starchy_vegetables
-710	White_potatoes_NFS
-711	White_potatoes_baked_and_boiled
-7110	White_potatoes_baked_and_boiled
-71101	White_potatoes_baked
-71103	White_potatoes_boiled
-71104	White_potatoes_roasted
-71106	Puerto_Rican_style_potatoes
-712	White_potatoes_chips_and_sticks
-7120	White_potatoes_chips_and_sticks
-71201	White_potato_chips
-71202	White_potato_chips_unsalted
-71204	White_potato_puffs
-71205	White_potato_sticks
-7121	White_potato_skins_or_vegetable_chips
-713	White_potatoes_creamed_scalloped_au_gratin
-7130	White_potatoes_creamed_scalloped_au_gratin
-71301	White_potato_cooked_with_sauce_or_cheese
-71305	White_potato_scalloped
-714	White_potatoes_fried
-7140	White_potatoes_fried
-71401	White_potato_french_fries
-71402	White_potato_french_fries_with_cheese_or_meat
-71403	White_potato_home_fries
-71405	White_potato_hash_brown
-7141	White_potato_skins_with_adhering_flesh_fried
-71410	White_potato_skins_fried_with_or_without_cheese
-71411	White_Potato_skins_fried_with_bacon
-715	White_potatoes_mashed_stuffed_puffs
-7150	White_potatoes_mashed_stuffed_puffs
-71501	White_potato_mashed
-71503	White_potato_patty
-71505	White_potato_puffs
-71507	White_potato_stuffed_peel_not_eaten
-71508	White_potato_stuffed_peel_eaten
-716	Potato_salad
-7160	Potato_salad
-71601	Potato_salad_with_egg
-71602	Potato_salad_German_style
-71603	Potato_salad_with_dressing
-717	Potato_recipes
-7170	Potato_recipes
-71701	Potato_pancake
-71702	Potato_pudding
-71703	Stewed_potatoes_Mexican_style
-71704	Stewed_potatoes_with_tomatoes
-718	Potato_soups
-7180	Potato_soup
-7185	Plantain_soup
-719	Puerto_Rican_starchy_vegetables
-7190	Plantain_fried_or_boiled
-7191	Green_banana
-7193	Cassava_yuca_blanca
-7194	Sweet_potatoes_or_yam_Puerto_Rican
-7195	Tannier
-7196	Celeriac_dasheen_or_Taro
-7197	Other_starchy_vegetables
-7198	Poi_or_taro
-72	Darkgreen_vegetables
-721	Darkgreen_leafy_vegetables
-7210	Darkgreen_leafy_vegetables
-72101	Beet_greens
-72103	Broccoli_raab
-72104	Chard
-72107	Collards
-7211	Darkgreen_leafy_vegetables
-72110	Cress
-72113	Dandelion_greens
-72116	Endive_chicory_escarole_or_romain_lettuce
-72118	Greens_cooked_NS
-72119	Kale
-7212	Darkgreen_leafy_vegetables
-72120	Lambsquarter
-72121	Mustard_cabbage
-72122	Mustard_greens
-72123	Poke_greens
-72124	Radicchio
-72125	Spinach
-72126	Taro_leaves
-72127	Thistle_leaves
-72128	Turnip_greens
-7213	Darkgreen_leafy_vegetables
-72130	Watercress
-72132	Bitter_melon_leaves
-72133	Other_vegetable_leaves
-722	Darkgreen_nonleafy_vegetables
-7220	Broccoli
-723	Darkgreen_vegetable_soups
-73	Deepyellow_vegetables
-731	Carrots
-7310	Carrots
-73101	Carrots_raw
-73102	Carrots_cooked
-73103	Carrots_canned
-73105	Carrot_juice
-7311	Carrots
-73111	Peas_and_carrots
-73112	Carrot_chips
-732	Pumpkin
-7320	Pumpkin
-73201	Pumpkin_cooked
-7321	Calabaza_or_other_pumpkin_dishes
-733	Squash_winter
-7330	Squash_winter
-73301	Squash_winter_mashed
-73302	Squash_winter_raw
-73303	Squash_winter_baked
-73304	Squash_winter_fritter_or_cake
-73305	Squash_winter_with_cheese
-734	Sweet_potatoes
-7340	Sweet_potatoes
-73401	Sweet_potato_NFS
-73402	Sweet_potato_baked_peel_eaten
-73403	Sweet_potato_baked_peel_not_eaten
-73405	Sweet_potato_boiled
-73406	Sweet_potato_candied
-73407	Sweet_potato_canned
-73409	Sweet_potato_casserole_or_mashed
-7341	Sweet_potato_fried
-7342	Sweet_potato_yellow_Puerto_Rican	
-735	Deepyellow_vegetable_soups
-74	Tomatoes_and_tomato_mixtures
-741	Tomatoes_raw
-7410	Tomatoes_raw
-74101	Tomatoes_raw
-74102	Tomatoes_green
-742	Tomatoes_cooked
-7420	Tomatoes_cooked
-74201	Tomatoes_cooked_NS
-74202	Tomatoes_broiled_or_fried
-74203	Tomatoes_scalloped
-74204	Tomatoes_stewed_or_canned
-74205	Tomatoes_green_cooked_or_pickled
-74206	Tomatoes_dried
-743	Tomato_juices
-744	Tomato_sauces
-7440	Tomato_sauces
-74401	Tomato_catsup
-74402	Chili_sauce_or_salsa
-74404	Spaghetti_sauce
-74405	Tomato_relish
-74406	Barbecue_steak_or_cocktail_sauce
-7441	Puerto_Rican_seasoning_with_ham
-7442	Puerto_Rican_seasoning_without_ham
-745	Tomato_mixtures
-7450	Tomato_mixtures
-74501	Tomato_aspic
-74503	Tomato_and_corn
-74504	Tomato_and_okra_or_onion_or_celery
-74505	Tomato_and_corn
-74506	Tomato_and_cucumber
-746	Tomato_soups
-7460	Tomato_soups
-74601	Tomato_soup_NS
-74602	Tomato_soup_instant_or_canned
-74603	Tomato_beef_soup
-74604	Tomato_with_beef_or_noodles
-74605	Tomato_and_rice
-74606	Tomato_and_vegetable
-747	Tomato_sandwiches
-75	Other_vegetables
-751	Other_vegetables_raw
-7510	Other_vegetables_raw
-7511	Other_vegetables_raw
-7512	Other_vegetables_raw
-7513	Mixed_vegetable_juice
-7514	Raw_vegetable_mixtures
-75140	Broccoli_or_cabbage
-75141	Cabbage_salad_or_coleslaw_or_celery
-75142	Cucumber_salad
-75143	Lettuce_salad
-75144	Lettuce_wilted
-75145	Seven_layer_salad
-75146	Greek_salad
-75147	Spinach_salad
-75148	Cobb_salad
-752	Other_vegetables_cooked
-7520	Other_vegetables_cooked
-75200	Vegetables_NS_or_algae_or_aloe
-75201	Artichoke
-75202	Asparagus
-75203	Bamboo
-75204	Beans_lima_or_string
-75205	Beans_lima_or_string
-75206	Beans_string_yellow
-75207	Bean_sprouts
-75208	Beets_bitter_melon_bread_fruit_broccoflower
-75209	Brussels_sprouts
-7521	Other_vegetables_cooked
-75210	Cabbage_Chinese
-75211	Cabbage_green
-75212	Cabbage_red
-75213	Cabbage_savoy_or_cactus
-75214	Cauliflower
-75215	Celery_fennel_or_christophine
-75216	Corn_or_cucumber
-75217	Eggplant_squash_flowers_or_hominy
-75218	Kohlrabi_leek_or_lotus
-75219	Mushrooms
-7522	Other_vegetables_cooked
-75220	Okra_lettuce_or_luffa
-75221	Onions_palm_hearts_or_parsley
-75222	Parsnips
-75223	Peas_cowpeas
-75224	Peas_green
-75225	Pigeon_peas
-75226	Peppers
-75227	Radish
-75228	Rutabaga
-75229	Salsify
-7523	Other_vegetables_cooked
-75230	Sauerkraut
-75231	Snowpea
-75232	Seaweed
-75233	Squash
-75234	Turnip
-75235	Water_chestnut_winter_mellon
-75236	Yeast_or_yeast_extract_spread
-753	Other_vegetable_mixtures_cooked
-7530	Other_vegetable_mixtures_cooked
-75301	Beans_lima_corn
-75302	Beans_string_with_vegetables
-75303	Corn_with_peppers
-75306	Eggplant_in_tomato_sauce
-75307	Green_peppers_and_onions
-7531	Other_vegetable_mixtures_cooked
-75311	Mixed_vegetables
-75315	Peas_and_vegetables
-75316	Squash_and_vegetables
-75317	Vegetables_stew_type
-7533	Vegetable_combination
-7534	Vegetable_combinations_Asian_style
-7536	Vegetable_mixture_dried
-754	Other_cooked_vegetables_cooked_with_sauces_batters_casseroles
-7540	Other_cooked_vegetables_cooked_with_sauces_batters_casseroles
-75401	Asparagus
-75402	Beans_lima
-75403	Beans_string_green
-75404	Beans_string_yellow
-75405	Beets
-75406	Brussels_sprouts
-75407	Cabbage
-75409	Cauliflower
-7541	Other_cooked_vegetables_cooked_with_sauces_batters_casseroles
-75410	Celery_chiles_or_jalapeno
-75411	Corn
-75412	Eggplant
-75413	Kohlrabi
-75414	Mushrooms_or_okra
-75415	Onions
-75416	Parsnips_or_peas
-75417	Peas
-75418	Squash_or_turnips
-7543	Vegetable_stew
-7544	Vegetable_combinations_with_tomato_or_curry
-7545	Vegetable_combinations_with_cream_sauce
-7546	Vegetable_combinations_with_pasta_or_noodles
-755	Olives_pickles_relishes_excluding_tomatoes
-756	Vegetable_soups
-7560	Vegetable_soups
-75600	Soup_cream_of_NS
-75601	Asparagus_beet_cabbage
-75603	Celery
-75604	Corn_or_gazpacho
-75605	Leek
-75607	Mushroom
-75608	Onion
-75609	Pea
-7561	Vegetable_soups
-75611	Vegetable_soup_prepared_with_milk
-75612	Zucchini_with_milk
-7564	Vegetable_soup
-7565	Vegetable_soup_with_meat_pasta_or_noodles
-76	Vegetables_and_mixtures_mostly_vegetables_baby_food
-761	Darkgreen_vegetables_baby_food
-762	Deepyellow_vegetables
-764	Vegetables_other_than_darkgreen_deepyellow_and_tomato
-765	Vegetables_with_grain_baby_food
-766	Vegetables_with_meat_baby_food
-77	Vegetables_with_meat_poultry_fish
-771	White_potato_with_meat_poultry_fish_mixtures
-772	Puerto_Rican_starchy_vegetable_viandas_mixtures
-773	Other_vegetable_mixtures
-775	Puerto_Rican_stews_or_soups_with_starchy_vegetables
-78	Mixtures_mostly_vegetables_without_meat_poultry_fish
-781	Vegetable_and_fruit_juice_blends_100_juice
-8	Fats_Oils_and_Salad_Dressings
-81	Fats
-811	Table_fats
-8110	Table_fats
-81100	Table_fats_NFS
-81101	Butter
-81102	Margarine_stick_or_tub
-81103	Margarine_like_spread
-81104	Margarine_like_spread_or_vegetable_oil_spread
-81105	Butter_margarine_blend
-81106	Butter_replacement
-812	Cooking_fats
-8120	Cooking_fats
-81201	Animal_fat_or_drippings
-81202	Lard
-81203	Shortening
-81204	Ghee
-813	Other_fats
-82	Oils
-821	Vegetable_oils
-8210	Vegetable_oils
-82101	Vegetable_almond_or_coconut
-82102	Corn_and_canola
-82103	Cottonseed_or_flaxseed
-82104	Olive_oil
-82105	Peanut_rapeseed_canola_soybean
-82106	Safflower_oil
-83107	Sesame_oil
-83108	Walnut_oil
-83109	Wheat_germ_oil
-83	Salad_dressings
-831	Regular_salad_dressings
-832	Light_salad_dressings
-833	Fat_free_salad_dressings
-9	Sugars_Sweets_and_Beverages
-91	Sugars_and_sweets
-911	Sugars_and_sugarsugar_substitute_blends
-9110	Sugars_and_sugarsugar_substitute_blends
-91101	Sugar_white
-91102	Sugar_brown
-91103	Sugar_maple
-91104	Sugar_cinnamon_or_raw
-91105	Fructose_sugar_substitute
-91106	Aspartame_sugar_substitute
-91107	Sucralose_sugar_substitute
-91108	Herbal_extract_sweetener
-91109	Agave_liquid
-912	Sugar_replacements_or_substitute
-9120	Saccharin_or_aspartame
-91200	Saccharin
-91201	Aspartame
-913	Syrups_honey_molasses_sweet_toppings
-9130	Syrups_honey_molasses
-91300	Pancake_syrup
-91301	Thin_syrups
-91302	Honey
-91303	Thick_syrups
-91304	Toppings
-91305	Icing
-9135	Dietetic_syrup
-9136	Sweet_toppings
-914	Jellies_jams_preserves
-9140	Jellies_jams_preserves
-91401	Jelly
-91402	Preserves
-91403	Fruit_butter
-91404	Marmalade
-91405	Jelly_reduced_sugar
-91406	Jams_low_sugar
-91407	Pastes
-91408	Sweet_vegetable
-915	Gelatin_desserts_or_salads
-9150	Gelatin_desserts_or_salads
-9151	Gelatin_desserts_or_salads
-9152	Bean_paste_dessert
-9155	Cream_cake_or_custard
-9156	Coconut_pudding
-9158	Frozen_gelatin
-916	Ices_or_popsicles
-9160	Ice_fruit
-9161	Ice_pop
-9162	Snow_cone
-917	Candies
-9170	Candies
-91700	Candy_NFS
-91701	Almonds
-91702	Butterscotch
-91703	Caramel_or_coffee_containing_candy
-91705	Milk_or_white_chocolate
-91706	Coconut_candy
-91707	Fondant
-91708	Fruit_candy
-91709	Gumdrops
-9171	Candies
-91713	Fudge_chocolate_peanut_butter_vanilla
-91715	Chocolate_and_caramel_candy
-91716	Halvah
-91718	Honey_or_peanut_butter_candy
-9172	Candies
-91721	Licorice
-91723	Marshmallow
-91726	Nougat_candy
-91727	Nuts_candy
-91728	Nuts_and_nougat
-9173	Candies
-91731	Coated_peanut_candy
-91732	Peanut_candy
-91733	Peanut_brittle
-91734	Peanut_butter_candy
-91735	Pralines
-91736	Pineapple_candy
-91739	Coated_raisins
-9174	Candies
-91742	Sesame
-91745	Hard_candy
-91746	Chocolate_candy
-9175	Taffy
-9176	Toffee_and_truffles
-9177	Low_sugar_candy
-918	Chewing_gums
-92	Nonalcoholic_beverages
-921	Coffee
-9210	Coffee
-92100	Coffee_NS
-92101	Coffee_from_ground
-92103	Coffee_from_powdered
-92104	Coffee_instant
-92105	Coffee_liquid_concentrate
-92106	Acid_neutralized
-9211	Coffee_decaffeinated
-9212	Coffee_from_powder_with_sweetener
-9213	Coffee_presweetened
-9215	Coffee_and_chicory
-9216	Cappuccino
-9219	Coffee_from_powder
-922	Coffee_substitutes
-923	Tea
-9230	Tea
-92301	Tea_NS
-92302	Tea_leaf
-92304	Tea_from_frozen_concentrate
-92305	Tea_from_powdered_instant
-92306	Tea_herbal
-92307	Tea_powdered_or_tea_and_lemonade
-924	Soft_drinks_carbonated
-9240	Soft_drink_NS
-9241	Carbonated_soft_drinks
-9243	Carbonated_juice_drinks
-925	Fruit_drinks
-9251	Fruit_juice_drinks_and_fruitflavored_drinks
-9253	Fruit_juice_drinks_and_fruit_flavored_drinks_with_high_vitamin_C
-9254	Fruit_flavored_drinks_made_from_powdered_mix
-9255	Fruit_juice_drinks_and_fruit_flavored_drinks_low_calorie
-9258	Fruit_juice_drinks_and_fruit_flavored_drinks_fortified_with_calcium
-926	Beverages_nonfruit
-928	Nonalcoholic_beers_wines_cocktails
-929	Beverage_concentrates_dry_not_reconstituted
-93	Alcoholic_beverages
-931	Beers_and_ales
-932	Cordials_and_liqueurs
-933	Cocktails
-934	Wines
-935	Distilled_liquors
-94	Water_noncarbonated
-940	Water_not_bottled
-941	Water_bottled
-942	Water_bottled_fortified
-943	Water_baby_food
-95	Formulated_nutrition_beverages_energy_drinks_sports_drinks_function
-951	Nutrition_drinks
-952	Nutrition_powders
-9531	Energy_drinks
-9532	Sports_drinks
-9533	Fluid_replacements
-9534	Other_functional_beverages
+Level.code	Main.food.description	n_digits	source	usda_fndds_description	used_in_F1d_tree
+1	Milk_and_Milk_Products	1	usda_fndds	Milk and Milk Products	TRUE
+11	Milks_and_milk_drinks	2	usda_fndds	Milks and milk drinks	TRUE
+110	Milk_human	3	usda_fndds	Milk, human	FALSE
+111	Milk_fluid	3	usda_fndds	Milk, fluid (regular; filled; buttermilk; and dry reconstituted)	TRUE
+1111	Milk_fluid_cow_goat_buttermilk	4	food_tree_extension		TRUE
+1112	Milk_dry_reconstituted	4	food_tree_extension		FALSE
+112	Milk_fluid_evaporated_and_condensed	3	usda_fndds	Milk, fluid, evaporated and condensed	FALSE
+1121	Milk_evaporated	4	food_tree_extension		FALSE
+1122	Milk_condensed	4	food_tree_extension		FALSE
+113	Milk_fluid_imitation	3	usda_fndds	Milk, fluid, imitation	TRUE
+1132	Milk_soy	4	food_tree_extension		TRUE
+1134	Milk_imitation	4	food_tree_extension		FALSE
+1135	Milk_almond	4	food_tree_extension		TRUE
+114	Yogurt	3	usda_fndds	Yogurt	TRUE
+1141	Yogurt_plain	4	food_tree_extension		TRUE
+1142	Yogurt_vanilla	4	food_tree_extension		FALSE
+1143	Yogurt_fruit_variety	4	food_tree_extension		TRUE
+1144	Yogurt_parfait	4	food_tree_extension		TRUE
+1145	Yogurt_frozen_NS	4	food_tree_extension		FALSE
+1146	Yogurt_frozen_flavored	4	food_tree_extension		FALSE
+1148	Yogurt_baby_food	4	usda_fndds	Yogurt, baby food	FALSE
+115	Flavored_milk_and_milk_drinks_fluid	3	usda_fndds	Flavored milk and milk drinks, fluid	TRUE
+1151	Chololate_or_other_flavored	4	food_tree_extension		TRUE
+1152	Malted_flavored	4	food_tree_extension		FALSE
+1153	Eggnog	4	food_tree_extension		FALSE
+1154	Milkshake	4	food_tree_extension		TRUE
+1155	Milk_fruit_smoothie	4	food_tree_extension		TRUE
+1156	Coffee_and_whey_flavors	4	food_tree_extension		FALSE
+117	Infant_formulas_fluid_reconstituted	3	usda_fndds	Infant formulas, fluid, reconstituted concentrate, reconstituted dry, and ready-to-feed	FALSE
+1171	Infant_formula_fluit	4	food_tree_extension		FALSE
+1172	Infant_formula_from_powder	4	food_tree_extension		FALSE
+1174	Infant_formula_from_concentrate	4	food_tree_extension		FALSE
+118	Milk_dry_and_powdered_mixtures_with	3	usda_fndds	Milk, dry, and powdered mixtures with dry milk, not reconstituted	FALSE
+1181	Milk_dry_not_reconstituted	4	food_tree_extension		FALSE
+1182	Whey_sweet_dry	4	food_tree_extension		FALSE
+1183	Milk_dry_with_flavors	4	food_tree_extension		FALSE
+12	Creams_and_cream_substitutes	2	usda_fndds	Creams and cream substitutes	TRUE
+121	Sweet_dairy_cream	3	usda_fndds	Sweet dairy cream	TRUE
+1211	Cream_light	4	food_tree_extension		FALSE
+1212	Cream_half_and_half	4	food_tree_extension		TRUE
+1213	Cream_heavy	4	food_tree_extension		TRUE
+1214	Cream_whipped_pressurized	4	food_tree_extension		TRUE
+122	Cream_substitutes	3	usda_fndds	Cream substitutes	TRUE
+1221	Cream_substitutes_NS	4	food_tree_extension		TRUE
+1222	Whipped_toppings	4	food_tree_extension		FALSE
+123	Sour_cream	3	usda_fndds	Sour cream	TRUE
+1231	Sour_cream_NS	4	food_tree_extension		TRUE
+1232	Sour_cream_nondairy	4	food_tree_extension		FALSE
+1235	Dip_sour_cream_base	4	food_tree_extension		TRUE
+13	Milk_desserts_sauces_gravies	2	usda_fndds	Milk desserts, sauces, gravies	TRUE
+131	Milk_desserts_frozen	3	usda_fndds	Milk desserts, frozen	TRUE
+1311	Ice_cream	4	food_tree_extension		TRUE
+1312	Ice_cream_bar_cone_cake	4	food_tree_extension		FALSE
+1313	Light_ice_cream	4	food_tree_extension		TRUE
+1314	Light_ice_cream_bar_cone_cake	4	food_tree_extension		FALSE
+1315	Sherbert	4	food_tree_extension		FALSE
+1316	Fat_free_ice_cream	4	food_tree_extension		FALSE
+1317	Baked_Alaska	4	food_tree_extension		FALSE
+132	Puddings_custards_and_other_milk	3	usda_fndds	Puddings, custards, and other milk desserts	TRUE
+1321	Bread_and_rice_pudding	4	food_tree_extension		TRUE
+1322	Pudding_ready_to_eat	4	food_tree_extension		FALSE
+1323	Pudding_ready_to_eat	4	food_tree_extension		TRUE
+1324	Pudding_with_fruit	4	food_tree_extension		FALSE
+1325	Mousse_or_Tiramisu	4	food_tree_extension		FALSE
+133	Milk_desserts_baby_food	3	usda_fndds	Milk desserts baby food	FALSE
+134	White_sauces_and_milk_gravies	3	usda_fndds	White sauces and milk gravies	FALSE
+14	Cheeses	2	usda_fndds	Cheeses	TRUE
+140	Cheese_NS_as_to_type	3	usda_fndds	Cheese, NS	TRUE
+141	Natural_cheeses	3	usda_fndds	Natural cheeses	TRUE
+1410	Natural_cheeses	4	food_tree_extension		TRUE
+14101	Blue_or_Rouquefort	5	food_tree_extension		FALSE
+14102	Brick	5	food_tree_extension		FALSE
+14103	Camembert_or_Brie	5	food_tree_extension		FALSE
+14104	Cheddar_Colby_Feta_Fontina_Goat	5	food_tree_extension		TRUE
+141041	Cheddar	6	food_tree_extension		TRUE
+141042	Colby_or_Colby_Jack	6	food_tree_extension		TRUE
+141044	Feta	6	food_tree_extension		TRUE
+141046	Fontina	6	food_tree_extension		TRUE
+141047	Goat	6	food_tree_extension		FALSE
+14105	Gouda_or_Gruyere	5	food_tree_extension		TRUE
+141050	Gouda_or_Edam	6	food_tree_extension		FALSE
+141052	Gruyere	6	food_tree_extension		TRUE
+14106	Limberger_or_Monterey	5	food_tree_extension		FALSE
+141060	Limberger	6	food_tree_extension		FALSE
+141062	Monterey	6	food_tree_extension		FALSE
+14107	Mozzarella_or_Muenster	5	food_tree_extension		TRUE
+141070	Mozzarella	6	food_tree_extension		TRUE
+141072	Muenster	6	food_tree_extension		TRUE
+14108	Parmesan_Port_du_Salut_Provolone	5	food_tree_extension		TRUE
+141080	Parmesan	6	food_tree_extension		TRUE
+141082	Port_du_Salut	6	food_tree_extension		FALSE
+141084	Provolone	6	food_tree_extension		TRUE
+14109	Swiss	5	food_tree_extension		TRUE
+1411	Cheddar_reduced_sodium	4	food_tree_extension		FALSE
+1412	Cheese_Mexican_blend	4	food_tree_extension		FALSE
+1413	Queso_cheeses	4	food_tree_extension		FALSE
+142	Cottage_cheeses	3	usda_fndds	Cottage cheeses	TRUE
+1420	Cottage_chesses_NFS	4	food_tree_extension		TRUE
+14201	Cottage_cheese_or_Ricotta	5	food_tree_extension		TRUE
+14202	Cottage_cheese_with_fruit_or_vegetables	5	food_tree_extension		FALSE
+14203	Cheese_cottage_dry_or_salted_curd	5	food_tree_extension		FALSE
+14204	Cheese_cottage_lowfat	5	food_tree_extension		TRUE
+143	Cream_cheeses	3	usda_fndds	Cream cheeses	TRUE
+144	Processed_cheeses_and_cheese_spreads	3	usda_fndds	Processed cheeses and cheese spreads	TRUE
+1441	Cheese_processed	4	food_tree_extension		TRUE
+1442	Cheese_spread	4	food_tree_extension		TRUE
+145	Imitation_cheeses	3	usda_fndds	Imitation cheeses	FALSE
+146	Cheese_mixtures	3	usda_fndds	Cheese mixtures	TRUE
+1461	Cheese_with_gelatin_fruits_vegetables_or_nuts	4	food_tree_extension		FALSE
+1462	Cheese_dip_or_topping	4	food_tree_extension		TRUE
+1463	Cheese_fondue_or_souffle	4	food_tree_extension		TRUE
+1464	Cheese_sandwhich	4	food_tree_extension		TRUE
+1465	Cheese_based_sauce	4	food_tree_extension		TRUE
+1466	Cheese_fried	4	food_tree_extension		FALSE
+1467	Cheese_based_salad	4	food_tree_extension		FALSE
+147	Cheese_soups	3	usda_fndds	Cheese soups	FALSE
+2	Meat_Poultry_Fish_and_Mixtures	1	usda_fndds	Meat, Poultry, Fish, and Mixtures	TRUE
+20	Meat	2	usda_fndds	Meat, NS as to type	FALSE
+200	Meat_NS_as_to_type	3	usda_fndds	Meat, NS as to type	FALSE
+21	Beef	2	usda_fndds	Beef	TRUE
+210	Beef_NS	3	usda_fndds	Beef, NFS	FALSE
+2100	Beef_NS	4	food_tree_extension		FALSE
+21000	Beef_NS_cut	5	food_tree_extension		FALSE
+21001	Steak_NS_cut	5	food_tree_extension		FALSE
+21002	Beef_pickled	5	food_tree_extension		FALSE
+21003	Beef_NS_fried	5	food_tree_extension		FALSE
+211	Beef_steak	3	usda_fndds	Beef steak	TRUE
+213	Beef_oxtails_neckbones_short_ribs_head	3	usda_fndds	Beef oxtails, neckbones, short ribs, head	TRUE
+214	Beef_roasts_stew_meat_corned_beef_beef_brisket_sandwich_steaks	3	usda_fndds	Beef roasts, stew meat, corned beef, beef brisket, sandwich steaks	TRUE
+215	Ground_beef_beef_patties_beef_meatballs	3	usda_fndds	Ground beef, beef patties, beef meatballs	FALSE
+216	Other_beef_items_beef_bacon_dried_beef_pastrami	3	usda_fndds	Other beef items (beef bacon; dried beef; pastrami)	FALSE
+217	Beef_baby_food	3	usda_fndds	Beef baby food	FALSE
+22	Pork	2	usda_fndds	Pork	TRUE
+220	Pork_NFS_ground_dehydrated	3	usda_fndds	Pork, NFS; ground, dehydrated	FALSE
+221	Pork_chops	3	usda_fndds	Pork chops	TRUE
+222	Pork_steaks_cutlets	3	usda_fndds	Pork steaks, cutlets	FALSE
+2220	Pork_steaks_cutlets	4	food_tree_extension		FALSE
+2221	Pork_tenderloin	4	food_tree_extension		FALSE
+223	Ham	3	usda_fndds	Ham	FALSE
+2230	Ham_fried_breaded_fresh	4	food_tree_extension		FALSE
+2231	Ham_smoked_or_cured	4	food_tree_extension		FALSE
+2232	Ham_smoked_or_cured_ground	4	food_tree_extension		FALSE
+224	Pork_roasts	3	usda_fndds	Pork roasts	FALSE
+2240	Pork_roasts_NS_or_loin	4	food_tree_extension		FALSE
+2241	Pork_roast_shoulder_cooked	4	food_tree_extension		FALSE
+2242	Pork_roast_smoked_or_cured	4	food_tree_extension		FALSE
+2243	Pork_roll_cured	4	food_tree_extension		FALSE
+225	Canadian_bacon	3	usda_fndds	Canadian bacon	FALSE
+226	Bacon_salt_pork	3	usda_fndds	Bacon, salt pork	TRUE
+2260	Bacon_NS	4	food_tree_extension		TRUE
+2262	Salt_pok_fat_back	4	food_tree_extension		FALSE
+227	Other_pork_items	3	usda_fndds	Other pork items (spareribs; cracklings; skin; miscellaneous parts)	FALSE
+228	Pork_baby_food	3	usda_fndds	Pork baby food	FALSE
+23	Lamb_veal_game_other	2	usda_fndds	Lamb, veal, game, other carcass meat	TRUE
+230	Lamb_NFS	3	usda_fndds	Lamb, NFS	FALSE
+231	Lamb_and_goat	3	usda_fndds	Lamb and goat	TRUE
+2310	Lamb_chop_loin_shoulder	4	food_tree_extension		TRUE
+2311	Lamb_ribs_hocks	4	food_tree_extension		FALSE
+2312	Lamb_roast	4	food_tree_extension		TRUE
+2313	Lamb_ground	4	food_tree_extension		FALSE
+2315	Goat_NS_cooked	4	food_tree_extension		FALSE
+232	Veal	3	usda_fndds	Veal	FALSE
+2320	Veal_NS_chop_or_cutlet	4	food_tree_extension		FALSE
+2321	Veal_roasted	4	food_tree_extension		FALSE
+2322	Veal_ground_or_patty	4	food_tree_extension		FALSE
+233	Game	3	usda_fndds	Game	FALSE
+2331	Rabit_NS	4	food_tree_extension		FALSE
+2332	Large_game	4	food_tree_extension		FALSE
+23321	Venisondeer_NS_cooked	5	food_tree_extension		FALSE
+23322	Venisondeer_NS_processed	5	food_tree_extension		FALSE
+23323	Moose_or_bear	5	food_tree_extension		FALSE
+23324	Caribou	5	food_tree_extension		FALSE
+23326	Bison	5	food_tree_extension		FALSE
+2333	Hog_opossum_squirrel_beaver_raccoon	4	food_tree_extension		FALSE
+2334	Armadillo_wild_pig	4	food_tree_extension		FALSE
+2335	Ostrich	4	food_tree_extension		FALSE
+234	Lamb_or_veal_baby_food	3	usda_fndds	Lamb or veal baby food	FALSE
+24	Poultry	2	usda_fndds	Poultry	TRUE
+241	Chicken	3	usda_fndds	Chicken (breast; leg; drumstick; wing; back; neck or ribs; misc.)	TRUE
+2410	Chicken_NS_as_to_part	4	food_tree_extension		FALSE
+2412	Chicken_breast	4	food_tree_extension		TRUE
+2413	Chicken_leg_drumstick_and_thigh	4	food_tree_extension		FALSE
+2414	Chicken_drumstick	4	food_tree_extension		FALSE
+2415	Chicken_thigh	4	food_tree_extension		FALSE
+2416	Chicken_wing	4	food_tree_extension		TRUE
+2417	Chicken_back	4	food_tree_extension		FALSE
+2418	Chicken_neck_or_ribs	4	food_tree_extension		FALSE
+2419	Chicken_other_part_or_processed	4	food_tree_extension		TRUE
+242	Turkey	3	usda_fndds	Turkey	TRUE
+2420	Turkey_NS	4	food_tree_extension		TRUE
+24201	Turkey_NS_light_or_dark_meat	5	food_tree_extension		TRUE
+24202	Turkey_drumstick_or_thigh	5	food_tree_extension		FALSE
+24203	Turkey_wing	5	food_tree_extension		FALSE
+24204	Turkey_rolled_roast	5	food_tree_extension		FALSE
+24205	Turkey_tail_or_back	5	food_tree_extension		FALSE
+243	Duck	3	usda_fndds	Duck	FALSE
+2430	Duck_NS	4	food_tree_extension		FALSE
+2431	Goose	4	food_tree_extension		FALSE
+244	Other_poultry	3	usda_fndds	Other poultry	FALSE
+247	Poultry_baby_food	3	usda_fndds	Poultry baby food	FALSE
+25	Organ_meats_sausages_and_lunchmeats	2	usda_fndds	Organ meats, sausages and lunchmeats, and meat spreads	TRUE
+251	Organ_meats_and_mixtures	3	usda_fndds	Organ meats and mixtures	FALSE
+2511	Liver	4	usda_fndds	Liver	FALSE
+25110	Liver_NS	5	food_tree_extension		FALSE
+251101	Beef	6	food_tree_extension		FALSE
+251104	Chicken	6	food_tree_extension		FALSE
+2512	Hearts	4	usda_fndds	Hearts	FALSE
+2513	Kidney	4	usda_fndds	Kidney	FALSE
+2514	Sweetbreads	4	usda_fndds	Sweetbreads	FALSE
+2515	Brains	4	usda_fndds	Brains	FALSE
+2516	Tongue	4	usda_fndds	Tongue	FALSE
+2517	Other_variety_meats	4	usda_fndds	Other variety meats	FALSE
+252	Frankfurters_sausages_lunchmeats_meat_spreads	3	usda_fndds	Frankfurters, sausages, lunchmeats, meat spreads	TRUE
+2521	Frankfurters	4	usda_fndds	Frankfurters	TRUE
+2522	Sausages	4	usda_fndds	Sausages	TRUE
+2523	Luncheon_meats	4	usda_fndds	Luncheon meats (loaf)	TRUE
+2524	Potted_meatspreads	4	usda_fndds	Potted meat, spreads	TRUE
+26	Fish_and_shellfish	2	usda_fndds	Fish and shellfish	TRUE
+261	Finfish	3	usda_fndds	Finfish	TRUE
+2610	Finfish_NS	4	food_tree_extension		TRUE
+26100	Fish_NS	5	food_tree_extension		TRUE
+26101	Anchovy	5	food_tree_extension		FALSE
+26103	Barracuda	5	food_tree_extension		FALSE
+26105	Carp	5	food_tree_extension		FALSE
+26107	Catfish	5	food_tree_extension		FALSE
+26109	Cod	5	food_tree_extension		TRUE
+2611	Finfish_NS	4	food_tree_extension		TRUE
+26111	Croaker	5	food_tree_extension		FALSE
+26113	Eel	5	food_tree_extension		FALSE
+26115	Flounder	5	food_tree_extension		TRUE
+26117	Haddock	5	food_tree_extension		FALSE
+26118	Halibut	5	food_tree_extension		FALSE
+26119	Herring	5	food_tree_extension		FALSE
+2612	Finfish_NS	4	food_tree_extension		FALSE
+26121	Mackerel	5	food_tree_extension		FALSE
+26123	Mullet	5	food_tree_extension		FALSE
+26125	Ocean_perch	5	food_tree_extension		FALSE
+26127	Perch	5	food_tree_extension		FALSE
+26129	Pike	5	food_tree_extension		FALSE
+2613	Finfish_NS	4	food_tree_extension		TRUE
+26131	Pompano	5	food_tree_extension		FALSE
+26133	Porgy	5	food_tree_extension		FALSE
+26135	Ray	5	food_tree_extension		FALSE
+26137	Salmon	5	food_tree_extension		TRUE
+26139	Sardines	5	food_tree_extension		FALSE
+2614	Finfish_NS	4	food_tree_extension		TRUE
+26141	Sea_bass	5	food_tree_extension		TRUE
+26143	Shark	5	food_tree_extension		FALSE
+26147	Sturgeon	5	food_tree_extension		FALSE
+26149	Swordfish	5	food_tree_extension		TRUE
+2615	Finfish_NS	4	food_tree_extension		TRUE
+26151	Trout	5	food_tree_extension		FALSE
+26153	Tuna_fresh	5	food_tree_extension		FALSE
+26155	Tuna_canned	5	food_tree_extension		FALSE
+26157	Whiting	5	food_tree_extension		FALSE
+26158	Tilapia	5	food_tree_extension		TRUE
+262	Other_seafood	3	usda_fndds	Other seafood	FALSE
+2620	Other_seafood_NS	4	food_tree_extension		FALSE
+26203	Frog	5	food_tree_extension		FALSE
+26205	Octopus	5	food_tree_extension		FALSE
+26207	Roe_shad	5	food_tree_extension		FALSE
+26209	Roe_herring	5	food_tree_extension		FALSE
+2621	Other_seafood_NS	4	food_tree_extension		FALSE
+26211	Roe_sturgeon	5	food_tree_extension		FALSE
+26213	Squid	5	food_tree_extension		FALSE
+26215	Turtle	5	food_tree_extension		FALSE
+263	Shellfish	3	usda_fndds	Shellfish	TRUE
+2630	Shellfish_NS	4	food_tree_extension		FALSE
+26301	Abalone	5	food_tree_extension		FALSE
+26303	Clams	5	food_tree_extension		FALSE
+26305	Crab_hard_shell	5	food_tree_extension		FALSE
+26307	Crab_soft_shell	5	food_tree_extension		FALSE
+26309	Crayfish	5	food_tree_extension		FALSE
+2631	Shellfish_NS	4	food_tree_extension		TRUE
+26311	Lobster	5	food_tree_extension		FALSE
+26313	Mussels	5	food_tree_extension		FALSE
+26315	Oysters	5	food_tree_extension		FALSE
+26317	Scallops	5	food_tree_extension		FALSE
+26319	Shrimp	5	food_tree_extension		TRUE
+2632	Shellfish_NS	4	food_tree_extension		FALSE
+26321	Snails	5	food_tree_extension		FALSE
+27	Meatpoultry_fish_with_nonmeat	2	usda_fndds	Meat, poultry, fish with nonmeat items	TRUE
+271	meatpoultryfish_in_gravy	3	usda_fndds	Meat, poultry, fish in gravy or sauce or creamed	TRUE
+2711	Beef_in_gravy_or_sauce	4	usda_fndds	Beef in gravy or sauce (tomato-based sauce; gravy; cream, white, or soup- based sauce; soy-based sauce; other sauce; Puerto Rican)	TRUE
+2712	Pork_with_gravy_or_sauce	4	usda_fndds	Pork with gravy or sauce	FALSE
+2713	Lamb_and_veal_with_gravy_or_sauce	4	usda_fndds	Lamb and veal with gravy or sauce	FALSE
+2714	Poultry_with_gravy_or_sauce	4	usda_fndds	Poultry with gravy or sauce (tomato-based sauce; gravy; cream, white, or soup-based sauce; soy-based sauce; other sauces; Puerto Rican)	TRUE
+2715	Fish_shellfish_with_gravy_or_sauce	4	usda_fndds	Fish, shellfish with gravy or sauce	FALSE
+2716	Miscellaneous_meats_with_gravy_or_sauce	4	usda_fndds	Miscellaneous meats with gravy or sauce	TRUE
+272	Meatpoultry_fish_with_starch_item	3	usda_fndds	Meat, poultry, fish with starch item (includes white potatoes)	TRUE
+2721	Beef_with_starch_item	4	usda_fndds	Beef with starch item (potatoes; noodles; rice; bread; Puerto Rican)	TRUE
+2722	Pork_with_starch_item	4	usda_fndds	Pork with starch item	FALSE
+2723	Lamb_veal_game_with_starch_item	4	usda_fndds	Lamb, veal, game with starch item	FALSE
+2724	Poultry_with_starch_item	4	usda_fndds	Poultry with starch item (potatoes; noodles; rice; bread)	TRUE
+2725	Fish_shellfish_with_starch_item	4	usda_fndds	Fish, shellfish with starch item	TRUE
+2726	Miscellaneous_meats_with_starch_item	4	usda_fndds	Miscellaneous meats with starch item	FALSE
+273	Meatpoultry_fish_with_starch_item_and_vegetables	3	usda_fndds	Meat, poultry, fish with starch item and vegetables	TRUE
+2731	Beef_with_starch_and_vegetable	4	usda_fndds	Beef with starch and vegetable (potatoes; noodles; rice; bread; Puerto Rican)	TRUE
+2732	Pork_with_starch_and_vegetable	4	usda_fndds	Pork with starch and vegetable	FALSE
+2733	Lamb_veal_game_with_starch_and_vegetable	4	usda_fndds	Lamb, veal, game with starch and vegetable	FALSE
+2734	Poultry_with_starch_and_vegetable	4	usda_fndds	Poultry with starch and vegetable (potatoes; noodles; rice; bread; Puerto	TRUE
+2735	Fish_shellfish_with_starch_and_vegetable	4	usda_fndds	Fish, shellfish with starch and vegetable	TRUE
+2736	Miscellaneous_meats_with_starch_and_vegetable	4	usda_fndds	Miscellaneous meats with starch and vegetable	FALSE
+274	Meat_poultry_fish_with_vegetables	3	usda_fndds	Meat, poultry, fish with vegetables (excluding white potatoes)	TRUE
+2741	Beef_with_vegetable_no_potatoes	4	usda_fndds	Beef with vegetable, no potatoes	TRUE
+2742	Pork_with_vegetable_no_potatoes	4	usda_fndds	Pork with vegetable, no potatoes	FALSE
+2743	Lamb_veal_game_with_vegetable_no_potatoes	4	usda_fndds	Lamb, veal, game with vegetable, no potatoes	FALSE
+2744	Poultry_with_vegetables_no_potatoes	4	usda_fndds	Poultry with vegetables, no potatoes	TRUE
+2745	Fish_shellfish_with_vegetables_no_potatoes	4	usda_fndds	Fish, shellfish with vegetables, no potatoes	TRUE
+2746	Miscellaneous_meats_with_vegetable_no_potatoes	4	usda_fndds	Miscellaneous meats with vegetable, no potatoes	FALSE
+275	Sandwiches_with_meat_poultry_fish	3	usda_fndds	Sandwiches with meat, poultry, fish	TRUE
+2751	Beef_sandwiches	4	usda_fndds	Beef sandwiches	TRUE
+2752	Pork_sandwiches	4	usda_fndds	Pork sandwiches	FALSE
+2754	Poultry_sandwiches	4	usda_fndds	Poultry sandwiches	TRUE
+2755	Fish_shellfish_sandwiches	4	usda_fndds	Fish, shellfish sandwiches	FALSE
+2756	Frankfurters_luncheon_meat_potted_meat_sandwiches	4	usda_fndds	Frankfurters, luncheon meat, potted meat sandwiches	FALSE
+2757	Hors_doeuvres_finger_sandwiches	4	usda_fndds	Hors d'oeuvres, finger sandwiches	FALSE
+276	Meat_poultry_fish_with_nonmeat_items_baby_food	3	usda_fndds	Meat, poultry, fish with nonmeat items baby food	FALSE
+2761	Beef_mixtures_baby_food	4	usda_fndds	Beef mixtures baby food	FALSE
+2764	Poultry_mixtures_baby_food	4	usda_fndds	Poultry mixtures baby food	FALSE
+28	Frozen_and_shelfstable_plate_meals_soups_and_gravies	2	usda_fndds	Frozen and shelf-stable plate meals, soups, and gravies with meat, poultry, fish	TRUE
+281	Frozen_or_shelfstable_plate_meals_with_meat_poultry_fish	3	usda_fndds	Frozen or shelf-stable plate meals with meat, poultry, fish as major ingredient	FALSE
+2811	Beef_frozen_or_shelfstable_meals	4	usda_fndds	Beef frozen or shelf-stable meals	FALSE
+2813	Veal_frozen_or_shelfstable_meals	4	usda_fndds	Veal frozen or shelf-stable meals	FALSE
+2814	Poultry_frozen_or_shelfstable_meals	4	usda_fndds	Poultry frozen or shelf-stable meals	FALSE
+2815	Fishshellfish_frozen_meals	4	usda_fndds	Fish, shellfish frozen meals	FALSE
+2816	Miscellaneous_meat_frozen_or_shelfstable_meals	4	usda_fndds	Miscellaneous meat frozen or shelf-stable meals	FALSE
+283	Soups_broths_extracts_from_meat_poultry_fish_base	3	usda_fndds	Soups, broths, extracts from meat, poultry, fish base	TRUE
+2831	Beef_soups	4	usda_fndds	Beef soups	TRUE
+2832	Pork_soups	4	usda_fndds	Pork soups	FALSE
+2833	Lamb_soups	4	usda_fndds	Lamb soups	FALSE
+2834	Poultry_soups	4	usda_fndds	Poultry, soups	TRUE
+28345	Poultry_cream_soups	5	food_tree_extension		FALSE
+2835	Fishshellfish_soups	4	usda_fndds	Fish, shellfish soups	TRUE
+2836	Puerto_Rican_soups	4	usda_fndds	Puerto Rican soups	FALSE
+284	Gelatin_and_gelatinbased_meal_supplements	3	usda_fndds	Gelatin and gelatin-based meal supplements	FALSE
+285	Gravies_from_meat_poultry_fish_base	3	usda_fndds	Gravies from meat, poultry, fish base	TRUE
+3	Eggs	1	usda_fndds	Eggs	TRUE
+31	Eggs	2	usda_fndds	Eggs	TRUE
+311	Chicken_eggs	3	usda_fndds	Chicken eggs	TRUE
+3110	Egg_whole_or_white	4	food_tree_extension		TRUE
+3111	Egg_yolk_only	4	food_tree_extension		FALSE
+312	Other_poultry_eggs	3	usda_fndds	Other poultry eggs	FALSE
+32	Egg_mixtures	2	usda_fndds	Egg mixtures	TRUE
+321	Egg_dishes_made_with_whole_eggs	3	usda_fndds	Egg dishes	TRUE
+3213	Egg_omelet_or_scrambled	4	food_tree_extension		TRUE
+322	Egg_sandwiches	3	usda_fndds	Egg sandwiches	TRUE
+3220	Egg_sandwiches	4	food_tree_extension		TRUE
+32201	Fried_egg_sandwhich	5	food_tree_extension		TRUE
+32202	Egg_with_cheese_or_meat	5	food_tree_extension		FALSE
+32203	Egg_salad_sandwhich	5	food_tree_extension		FALSE
+32204	Scrambled_egg_sandwhich	5	food_tree_extension		FALSE
+323	Egg_soups	3	usda_fndds	Egg soups	FALSE
+324	Mixtures_made_with_egg_whites	3	usda_fndds	Mixtures made with egg whites	TRUE
+33	Egg_substitutes	2	usda_fndds	Egg substitutes	FALSE
+330	Egg_substitute_NS_as_to_form	3	usda_fndds	Egg substitute, NS as to form	FALSE
+334	Mixtures_made_with_egg_substitutes	3	usda_fndds	Mixtures made with egg substitutes	FALSE
+35	Frozen_plate_meals_with_egg_as_major	2	usda_fndds	Frozen plate meals with egg as major ingredient	FALSE
+350	Frozen_plate_meals_with_egg_as_major	3	usda_fndds	Frozen plate meals with egg as major ingredient	FALSE
+4	Dry_Beans_Peas_Other_Legumes_Nuts_and_Seeds	1	usda_fndds	Dry Beans, Peas, Other Legumes, Nuts, and Seeds	TRUE
+41	Legumes	2	usda_fndds	Legumes	TRUE
+411	Dried_beans	3	usda_fndds	Dried beans	TRUE
+4110	Beans_NS_to_type	4	food_tree_extension		TRUE
+41101	White_or_NS	5	food_tree_extension		TRUE
+411010	Beans_dry_NS	6	food_tree_extension		TRUE
+411011	White_beans_dry	6	food_tree_extension		TRUE
+411012	White_beans_canned	6	food_tree_extension		FALSE
+41102	Black_brown_bayo_or_fava	5	food_tree_extension		TRUE
+411020	Black_brown_or_bayo_beans_dry	6	food_tree_extension		TRUE
+411021	Black_brown_or_bayo_beans_canned	6	food_tree_extension		FALSE
+411022	Fava_beans	6	food_tree_extension		FALSE
+41103	Lima_or_pink_beans	5	food_tree_extension		FALSE
+41104	Pinto_calico_or_red_Mexican_beans	5	food_tree_extension		FALSE
+411040	Pinto_calico_or_red_Mexican_beans_dry	6	food_tree_extension		FALSE
+411041	Pinto_calico_or_red_Mexican_beans_canned	6	food_tree_extension		FALSE
+411042	Pinto_calico_or_red_Mexican_beans_canned	6	food_tree_extension		FALSE
+41106	Red_kidney_beans	5	food_tree_extension		FALSE
+411060	Red_kidney_beans_dry	6	food_tree_extension		FALSE
+411061	Red_kidney_beans_canned	6	food_tree_extension		FALSE
+41107	Soybeans	5	food_tree_extension		FALSE
+41108	Mung_beans	5	food_tree_extension		TRUE
+41109	Mungo_beans	5	food_tree_extension		FALSE
+412	Dried_beans_mixtures	3	usda_fndds	Dried beans mixtures	TRUE
+4120	Dried_beans_mixtures	4	food_tree_extension		TRUE
+41201	Baked_beans	5	food_tree_extension		TRUE
+41202	Beans_and_tomatoes	5	food_tree_extension		FALSE
+41203	Black_beans	5	food_tree_extension		FALSE
+41204	Boston_beans	5	food_tree_extension		FALSE
+41205	Bean_dips_and_sauces	5	food_tree_extension		TRUE
+41206	Beans_and_franks	5	food_tree_extension		FALSE
+41207	Beans_with_beef	5	food_tree_extension		FALSE
+41208	Beans_with_pork	5	food_tree_extension		FALSE
+41209	Falafel	5	food_tree_extension		FALSE
+4121	Mixed_bean_dishes	4	food_tree_extension		FALSE
+4122	Low_sodium_or_meatless_beans	4	food_tree_extension		FALSE
+413	Dried_peas_lentils_and_mixtures	3	usda_fndds	Dried peas, lentils, and mixtures	TRUE
+414	Soybean_derived_products_excluding_milks	3	usda_fndds	Soybean derived products (excluding milks)	TRUE
+4141	Soy_snacks	4	food_tree_extension		FALSE
+4142	Soybean_derived_products	4	food_tree_extension		TRUE
+41420	Curds_and_sauces	5	food_tree_extension		TRUE
+41421	Soybean_curd_fried	5	food_tree_extension		TRUE
+41422	Soybean_meal	5	food_tree_extension		FALSE
+41425	Soybean_vermicelli	5	food_tree_extension		FALSE
+4144	Textured_vegetable_protein	4	food_tree_extension		FALSE
+4148	Tofu_frozen_dessert	4	food_tree_extension		FALSE
+416	Soups_with_legumes_as_major_ingredient	3	usda_fndds	Soups with legumes as major ingredient	TRUE
+418	Meat_substitutes_mainly_legume_protein	3	usda_fndds	Meat substitutes, mainly legume protein	TRUE
+419	Meat_substitute_sandwiches	3	usda_fndds	Meat substitute sandwiches	FALSE
+42	Nuts_nut_butters_and_nut_mixtures	2	usda_fndds	Nuts, nut butters, and nut mixtures	TRUE
+421	Nuts	3	usda_fndds	Nuts	TRUE
+4210	Nuts_NFS	4	food_tree_extension		TRUE
+42100	Almonds_NFS	5	food_tree_extension		TRUE
+42101	Almonds	5	food_tree_extension		FALSE
+42102	Brazil_nuts	5	food_tree_extension		FALSE
+42104	Cashew_nuts	5	food_tree_extension		TRUE
+42105	Chestnuts	5	food_tree_extension		FALSE
+42106	Coconuts	5	food_tree_extension		TRUE
+42107	Hazelnuts	5	food_tree_extension		FALSE
+42109	Macadamia_nuts	5	food_tree_extension		FALSE
+4211	Mixed_nuts_NFS	4	food_tree_extension		TRUE
+42110	Mixed_nuts_NFS	5	food_tree_extension		TRUE
+42111	Peanuts	5	food_tree_extension		TRUE
+42112	Pecans	5	food_tree_extension		FALSE
+42113	Pine_nuts	5	food_tree_extension		FALSE
+42114	Pistachio_nuts	5	food_tree_extension		FALSE
+42116	Walnuts	5	food_tree_extension		FALSE
+422	Nut_butters	3	usda_fndds	Nut butters	TRUE
+4220	Nut_butters	4	food_tree_extension		TRUE
+42200	Almond_butter	5	food_tree_extension		FALSE
+42201	Cashew_butter	5	food_tree_extension		FALSE
+42202	Peanut_butter	5	food_tree_extension		TRUE
+42203	Peanut_butter_and_jelly	5	food_tree_extension		FALSE
+42204	Peanut_sauce_or_gravy	5	food_tree_extension		FALSE
+423	Nut_butter_sandwiches	3	usda_fndds	Nut butter sandwiches	TRUE
+424	Coconut_beverages	3	usda_fndds	Coconut beverages	TRUE
+425	Nut_mixtures	3	usda_fndds	Nut mixtures	FALSE
+43	Seeds_and_seed_mixtures	2	usda_fndds	Seeds and seed mixtures	TRUE
+431	Seeds	3	usda_fndds	Seeds	TRUE
+4310	Seeds_NS	4	food_tree_extension		TRUE
+43101	Pumpkin	5	food_tree_extension		FALSE
+43102	Sunflower	5	food_tree_extension		FALSE
+43103	Sesame_seeds	5	food_tree_extension		FALSE
+43104	Flax_seeds	5	food_tree_extension		TRUE
+43107	Mixed_seeds	5	food_tree_extension		FALSE
+44	Carob_products	2	usda_fndds	Carob products	FALSE
+441	Carob_powder_flour	3	usda_fndds	Carob powder, flour	FALSE
+442	Carob_chips_syrup	3	usda_fndds	Carob chips, syrup	FALSE
+5	Grain_Product	1	usda_fndds	Grain Products	TRUE
+50	Flour_and_dry_mixes	2	usda_fndds	Flour and dry mixes	FALSE
+500	Flour_and_dry_mixes	3	usda_fndds	Flour and dry mixes	FALSE
+51	Yeast	2	usda_fndds	Yeast breads, rolls	TRUE
+510	Breadrolls_NFS	3	usda_fndds	Breads, rolls, NFS	FALSE
+511	White_breads_rolls	3	usda_fndds	White breads, rolls	TRUE
+5110	White_breads_rolls	4	food_tree_extension		TRUE
+51101	Bread_white	5	food_tree_extension		TRUE
+51102	Bread_white_with_whole_wheat_swirl	5	food_tree_extension		FALSE
+51105	Bread_cuban	5	food_tree_extension		FALSE
+51106	Bread_Native	5	food_tree_extension		FALSE
+51107	Bread_French	5	food_tree_extension		TRUE
+51108	Flatbread	5	food_tree_extension		TRUE
+51109	Bread_pita_style	5	food_tree_extension		TRUE
+5111	Bread_with_toppings	4	food_tree_extension		TRUE
+51111	Bread_cheese	5	food_tree_extension		FALSE
+51113	Bread_cinnamon	5	food_tree_extension		FALSE
+51115	Bread_molasses	5	food_tree_extension		FALSE
+51119	Bread_egg_Challah	5	food_tree_extension		TRUE
+5112	Bread_with_additions	4	food_tree_extension		FALSE
+51121	Bread_garlic_or_onion	5	food_tree_extension		FALSE
+51122	Bread_reduced_calorie_or_added_fiber	5	food_tree_extension		FALSE
+51123	Bread_high_protein	5	food_tree_extension		FALSE
+51127	Bread_potato	5	food_tree_extension		FALSE
+51129	Bread_raisin	5	food_tree_extension		FALSE
+5113	Bread_with_modifications	4	food_tree_extension		TRUE
+51130	Bread_white_low_sodium	5	food_tree_extension		FALSE
+51133	Sour_dough	5	food_tree_extension		TRUE
+51134	Bread_sweet_potato	5	food_tree_extension		FALSE
+51135	Bread_vegetable	5	food_tree_extension		FALSE
+51136	Bruschetta	5	food_tree_extension		FALSE
+5114	Bread_dough_fried	4	food_tree_extension		FALSE
+5115	Rolls	4	food_tree_extension		TRUE
+51150	Roll_white	5	food_tree_extension		TRUE
+51151	Roll_white_homemade	5	food_tree_extension		FALSE
+51152	Roll_white_reduced_calorie	5	food_tree_extension		FALSE
+51153	Roll_white_hard	5	food_tree_extension		TRUE
+51154	Roll_diet_egg_or_cheese	5	food_tree_extension		TRUE
+51155	Roll_French	5	food_tree_extension		FALSE
+51156	Roll_garlic	5	food_tree_extension		FALSE
+51157	Roll_hoagie	5	food_tree_extension		FALSE
+51158	Roll_Mexican_bolillo	5	food_tree_extension		FALSE
+51159	Roll_sour_dough	5	food_tree_extension		FALSE
+5116	Rolls	4	food_tree_extension		TRUE
+51160	Roll_sweet	5	food_tree_extension		TRUE
+51161	Roll_sweet_with_toppings	5	food_tree_extension		FALSE
+51165	Coffee_cake	5	food_tree_extension		FALSE
+51166	Croissant	5	food_tree_extension		TRUE
+51167	Brioche	5	food_tree_extension		TRUE
+51168	Bread_Spanish_coffee	5	food_tree_extension		FALSE
+5118	Bagels_bread_sticks_English_muffins	4	food_tree_extension		TRUE
+51180	Bagel	5	food_tree_extension		TRUE
+51182	Bread_stuffings	5	food_tree_extension		TRUE
+51184	Bread_sticks	5	food_tree_extension		FALSE
+51185	Croutons	5	food_tree_extension		FALSE
+51186	Muffin_English	5	food_tree_extension		TRUE
+51187	Melba_or_Anisette_toast	5	food_tree_extension		FALSE
+55188	Sweet_bread_or_Zwieback_toast	5	food_tree_extension		FALSE
+512	Whole_wheat_breads_rolls	3	usda_fndds	Whole wheat breads, rolls	FALSE
+5120	Whole_wheat_breads	4	food_tree_extension		FALSE
+51201	Whole_wheat_bread_or_pita	5	food_tree_extension		FALSE
+51202	Muffin_English_whole_wheat	5	food_tree_extension		FALSE
+51207	Bread_sprouted_wheat	5	food_tree_extension		FALSE
+51208	Bagel_whole_wheat	5	food_tree_extension		FALSE
+5122	Roll_whole_wheat	4	food_tree_extension		FALSE
+513	Wheat_cracked_wheat_breads_rolls	3	usda_fndds	Wheat, cracked wheat breads, rolls	TRUE
+5130	Wheat_cracked_wheat_breads_rolls	4	food_tree_extension		TRUE
+51300	Whole_grain_wheat_or_whole_grain_white	5	food_tree_extension		FALSE
+51301	Whole_wheat_bread_pita_or_bagel	5	food_tree_extension		TRUE
+51302	Muffin_English_wheat_bran	5	food_tree_extension		FALSE
+51303	Muffin_English_wheat_or_whole_wheat	5	food_tree_extension		FALSE
+51306	Bread_stick_whole_wheat	5	food_tree_extension		FALSE
+5132	Wheat_cracked_wheat_breads_rolls	4	food_tree_extension		TRUE
+51320	Roll_wheat	5	food_tree_extension		TRUE
+514	Rye_breads_rolls	3	usda_fndds	Rye breads, rolls	TRUE
+5140	Bread_rye	4	food_tree_extension		TRUE
+51401	Bread_rye	5	food_tree_extension		TRUE
+51404	Bread_pumpernickel	5	food_tree_extension		FALSE
+51407	Bread_black	5	food_tree_extension		FALSE
+5142	Roll_rye	4	food_tree_extension		FALSE
+51420	Roll_rye	5	food_tree_extension		FALSE
+51421	Roll_pumpernickel	5	food_tree_extension		FALSE
+515	Oat_breads	3	usda_fndds	Oat breads	FALSE
+5150	Oat_breads	4	food_tree_extension		FALSE
+51501	Bread_oatmeal	5	food_tree_extension		FALSE
+51502	Roll_oatmeal	5	food_tree_extension		FALSE
+51503	Muffin_English_oat_bran	5	food_tree_extension		FALSE
+516	Multigrain_breads_rolls	3	usda_fndds	Multigrain breads, rolls	TRUE
+5160	Bread_multigrain	4	food_tree_extension		TRUE
+5162	Roll_multigrain	4	food_tree_extension		FALSE
+5163	Bagel_or_English_muffin_multigrain	4	food_tree_extension		FALSE
+518	Other_breads	3	usda_fndds	Other breads	TRUE
+5180	Other_breads	4	food_tree_extension		TRUE
+51801	Bread_barley	5	food_tree_extension		FALSE
+51804	Bread_soy	5	food_tree_extension		FALSE
+51805	Bread_sunflower_meal	5	food_tree_extension		FALSE
+51806	Bread_rice	5	food_tree_extension		FALSE
+51807	Injera	5	food_tree_extension		FALSE
+51808	Bread_low_gluten	5	food_tree_extension		TRUE
+52	Quick_breads	2	usda_fndds	Quick breads	TRUE
+521	Biscuits	3	usda_fndds	Biscuits	TRUE
+5210	Biscuits	4	food_tree_extension		TRUE
+52101	Biscuit_or_crumpet	5	food_tree_extension		FALSE
+52102	Biscuit_or_crumpet	5	food_tree_extension		FALSE
+52103	Commercially_baked	5	food_tree_extension		TRUE
+52104	Biscuit_with_additions	5	food_tree_extension		FALSE
+52105	Scone	5	food_tree_extension		TRUE
+522	Cornbread_corn_muffins_tortillas	3	usda_fndds	Cornbread, corn muffins, tortillas	TRUE
+5220	Cornbreads	4	food_tree_extension		TRUE
+52201	Cornbread_from_mix	5	food_tree_extension		FALSE
+52202	Cornbread_home_recipe	5	food_tree_extension		FALSE
+52204	Cornbread_stuffing	5	food_tree_extension		TRUE
+52206	Cornbread_muffin	5	food_tree_extension		TRUE
+52207	Corn_flour	5	food_tree_extension		FALSE
+52208	Corn_pone	5	food_tree_extension		FALSE
+52209	Hush_puppy	5	food_tree_extension		FALSE
+5221	Tortillas	4	food_tree_extension		TRUE
+52211	Johnnycake	5	food_tree_extension		FALSE
+52213	Spoonbread	5	food_tree_extension		FALSE
+52215	Tortillas_and_tacos	5	food_tree_extension		TRUE
+5222	Cornbreads	4	food_tree_extension		FALSE
+523	Other_muffins_popovers	3	usda_fndds	Other muffins, popovers	TRUE
+5230	Muffin	4	food_tree_extension		TRUE
+5231	Popover	4	food_tree_extension		FALSE
+524	Other_quick_breads	3	usda_fndds	Other quick breads	TRUE
+5240	Other_quick_breads	4	food_tree_extension		TRUE
+52401	Bread_Boston_Brown	5	food_tree_extension		FALSE
+52403	Bread_nut	5	food_tree_extension		FALSE
+52404	Bread_pumpkin	5	food_tree_extension		FALSE
+52405	Bread_fruit	5	food_tree_extension		TRUE
+52407	Bread_zucchini	5	food_tree_extension		FALSE
+52408	Bread_Irish_soda	5	food_tree_extension		TRUE
+53	Cakes_cookies_pies_pastries_bars	2	usda_fndds	Cakes, cookies, pies, pastries	TRUE
+531	Cakes	3	usda_fndds	Cakes	TRUE
+5310	Cakes	4	food_tree_extension		TRUE
+53100	Cake_NS	5	food_tree_extension		FALSE
+53101	Cake_angel	5	food_tree_extension		FALSE
+53102	Cake_with_fruit	5	food_tree_extension		FALSE
+53103	Cake_Boston_cream_pie	5	food_tree_extension		FALSE
+53104	Cake_carrot_coconut_or_cheesecake	5	food_tree_extension		TRUE
+53105	Cake_chocolate	5	food_tree_extension		TRUE
+53106	Cake_cream	5	food_tree_extension		FALSE
+53108	Snack_cake	5	food_tree_extension		FALSE
+53109	Snack_cake	5	food_tree_extension		FALSE
+5311	Cakes	4	food_tree_extension		TRUE
+53110	Cake_fruit	5	food_tree_extension		FALSE
+53111	Cake_gingerbread	5	food_tree_extension		FALSE
+53112	Cake_ice_cream	5	food_tree_extension		FALSE
+53113	Cake_jelly_roll	5	food_tree_extension		FALSE
+53114	Cake_lemon	5	food_tree_extension		FALSE
+53115	Cake_marble_oatmeal_peanutbutter	5	food_tree_extension		FALSE
+53116	Cake_pound_pumpkin_raisin_nut	5	food_tree_extension		TRUE
+53117	Cake_spice	5	food_tree_extension		FALSE
+53118	Cake_sponge	5	food_tree_extension		FALSE
+53119	Cake_upside_down	5	food_tree_extension		FALSE
+5312	Cake	4	food_tree_extension		TRUE
+53120	Cake_white	5	food_tree_extension		TRUE
+53121	Cake_yellow	5	food_tree_extension		TRUE
+53122	Cake_shortcake	5	food_tree_extension		FALSE
+53123	Cake_shortcake_with_fruit	5	food_tree_extension		FALSE
+53124	Cake_zucchini	5	food_tree_extension		FALSE
+532	Cookies	3	usda_fndds	Cookies	TRUE
+5320	Cookies	4	food_tree_extension		TRUE
+53200	Cookie_batter	5	food_tree_extension		FALSE
+53201	Cookie_NS	5	food_tree_extension		FALSE
+53202	Cookie_almond	5	food_tree_extension		TRUE
+53203	Cookie_applesauce_or_biscotti	5	food_tree_extension		FALSE
+53204	Cookie_brownie	5	food_tree_extension		TRUE
+53205	Cookie_bar	5	food_tree_extension		FALSE
+53206	Cookie_chocolate_chip	5	food_tree_extension		TRUE
+53207	Cookie_chocolate_or_fudge	5	food_tree_extension		TRUE
+53208	Cookie_marshmallow	5	food_tree_extension		FALSE
+53209	Cookie_sandwich	5	food_tree_extension		TRUE
+5321	Cookies	4	food_tree_extension		TRUE
+53211	Cookie_bar_with_nuts	5	food_tree_extension		FALSE
+53215	Cookie_coconut	5	food_tree_extension		FALSE
+5322	Cookies	4	food_tree_extension		TRUE
+53220	Cookie_with_fruit	5	food_tree_extension		TRUE
+53222	Cookie_fortune_or_shell	5	food_tree_extension		FALSE
+53223	Cookie_granola_or_ginger	5	food_tree_extension		TRUE
+53224	Cookie_ladyfinger_or_lemon_bar	5	food_tree_extension		TRUE
+53225	Cookie_macaroon	5	food_tree_extension		FALSE
+53226	Cookie_marshmallow_with_rice_cereal	5	food_tree_extension		TRUE
+53228	Cookie_meringue	5	food_tree_extension		FALSE
+5323	Cookies	4	food_tree_extension		TRUE
+53230	Cookie_molasses	5	food_tree_extension		TRUE
+53231	Cookie_Lebkuchen_or_high_fiber	5	food_tree_extension		FALSE
+53233	Cookie_oatmeal	5	food_tree_extension		TRUE
+53234	Cookie_peanut_butter	5	food_tree_extension		TRUE
+53235	Cookie_peanut_butter_sandwich	5	food_tree_extension		FALSE
+53236	Cookie_pumplin_or_Italian_sytle	5	food_tree_extension		FALSE
+53237	Cookie_raisin	5	food_tree_extension		FALSE
+53238	Cookie_sandwich_not_chocolate_or_vanilla	5	food_tree_extension		FALSE
+53239	Cookie_shortbread	5	food_tree_extension		TRUE
+5324	Cookies	4	food_tree_extension		TRUE
+53240	Cookie_animal	5	food_tree_extension		TRUE
+53241	Cookie_butter	5	food_tree_extension		TRUE
+53242	Cookie_sugar_or_toffee	5	food_tree_extension		TRUE
+53243	Cookie_vanilla_sandwich	5	food_tree_extension		FALSE
+53244	Cookie_butter_with_chocolate	5	food_tree_extension		FALSE
+53246	Cookie_Japanese	5	food_tree_extension		FALSE
+53247	Cookie_vanilla_wafer	5	food_tree_extension		TRUE
+5325	Cookies	4	food_tree_extension		FALSE
+53251	Cookie_rugelach	5	food_tree_extension		FALSE
+5326	Cookies_sugarfree	4	food_tree_extension		TRUE
+5327	Cookies_Puerto_Rican	4	food_tree_extension		FALSE
+533	Pies_fruit_pies_pie_tarts	3	usda_fndds	Pies (fruit pies; pie tarts; cream, custard, and chiffon pies; miscellaneous pies; pie shells)	TRUE
+5330	Pies_fruit_pies_pie_tarts	4	food_tree_extension		TRUE
+53300	Pie_NS	5	food_tree_extension		FALSE
+53301	Pie_apple	5	food_tree_extension		TRUE
+53302	Pie_apricot	5	food_tree_extension		FALSE
+53303	Pie_berry_not_blueberry	5	food_tree_extension		FALSE
+53304	Pie_blueberry	5	food_tree_extension		FALSE
+53305	Pie_cherry_or_lemon	5	food_tree_extension		FALSE
+53306	Pie_mince	5	food_tree_extension		FALSE
+53307	Pie_peach_or_pear	5	food_tree_extension		FALSE
+53308	Pie_pineapple_plum_or_prune	5	food_tree_extension		FALSE
+53309	Pie_raisin	5	food_tree_extension		FALSE
+5331	Pies_fruit_pies_pie_tarts	4	food_tree_extension		FALSE
+53310	Pie_raspberry	5	food_tree_extension		FALSE
+53311	Pie_rhubarb	5	food_tree_extension		FALSE
+53312	Pie_strawberry	5	food_tree_extension		FALSE
+53313	Pie_strawberry	5	food_tree_extension		FALSE
+53314	Pie_strawberry	5	food_tree_extension		FALSE
+5334	Pies_fruit_pies_pie_tarts_cream	4	food_tree_extension		FALSE
+53340	Pie_fruit_sour_cream	5	food_tree_extension		FALSE
+53341	Pie_banana_cream	5	food_tree_extension		FALSE
+53342	Pie_chocolate_cream	5	food_tree_extension		FALSE
+53343	Pie_coconut_cream	5	food_tree_extension		FALSE
+53344	Pie_custard	5	food_tree_extension		FALSE
+53345	Pie_lemon	5	food_tree_extension		FALSE
+53346	Pie_peanut_butter_or_pineapple_cream	5	food_tree_extension		FALSE
+53347	Pie_squash	5	food_tree_extension		FALSE
+53348	Pie_strawberry_cream	5	food_tree_extension		FALSE
+5336	Pies_fruit_pies_pie_tarts_cream	4	food_tree_extension		FALSE
+5337	Pies_chiffon_or_black_bottom	4	food_tree_extension		FALSE
+5338	Pies_pudding_and_lemon_meringue	4	food_tree_extension		FALSE
+5339	Pie_shells	4	food_tree_extension		FALSE
+534	Cobblers_eclairs_turnovers_other_pastries	3	usda_fndds	Cobblers, eclairs, turnovers, other pastries	TRUE
+5340	Cobblers_eclairs_turnovers_other_pastries	4	food_tree_extension		FALSE
+53400	Blintz_fruit_filled	5	food_tree_extension		FALSE
+5341	Cobblers_eclairs_turnovers_other_pastries	4	food_tree_extension		TRUE
+53410	Cobblers	5	food_tree_extension		TRUE
+53415	Crisps_and_fritters	5	food_tree_extension		FALSE
+5342	Cobblers_eclairs_turnovers_other_pastries	4	food_tree_extension		FALSE
+53420	Cream_puff	5	food_tree_extension		FALSE
+5343	Cobblers_eclairs_turnovers_other_pastries	4	food_tree_extension		TRUE
+53430	Crepe_or_tamale_sweet	5	food_tree_extension		TRUE
+5344	Cobblers_eclairs_turnovers_other_pastries	4	food_tree_extension		TRUE
+53440	Strudel	5	food_tree_extension		TRUE
+53441	Baklava_or_basbousa	5	food_tree_extension		FALSE
+5345	Cobblers_eclairs_turnovers_other_pastries	4	food_tree_extension		FALSE
+53450	Turnover_or_dumpling	5	food_tree_extension		FALSE
+53451	Turnover	5	food_tree_extension		FALSE
+53452	Filled_pastry	5	food_tree_extension		FALSE
+53453	Empanada	5	food_tree_extension		FALSE
+535	Danish_breakfast_pastries_doughnuts	3	usda_fndds	Danish, breakfast pastries, doughnuts, granola bars	TRUE
+5350	Breakfast_pastry_NS	4	food_tree_extension		FALSE
+5351	Danish_pastry	4	food_tree_extension		TRUE
+5352	Doughnut	4	food_tree_extension		TRUE
+5353	Breakfast_tart	4	food_tree_extension		TRUE
+536	Coffee_cake_not_yeast	3	usda_fndds	Coffee cake, not yeast	TRUE
+537	Bars	3	usda_fndds	Bars	TRUE
+5371	Cereal_bars_granola_bars	4	usda_fndds	Cereal bars, granola bars	TRUE
+5372	Nutrition_bars_protein_energy_meal	4	usda_fndds	Nutrition bars (protein, energy, meal replacement, etc.)	TRUE
+538	Cookies_and_bars_baby_food	3	usda_fndds	Cookies and bars, baby food	FALSE
+54	Crackers_and_salty_snacks_from_grain	2	usda_fndds	Crackers and salty snacks from grain products	TRUE
+540	Crackers_NS_as_to_type	3	usda_fndds	Crackers, NS as to type	TRUE
+541	Sweet_crackers	3	usda_fndds	Sweet crackers	TRUE
+542	Low_sodium_crackers	3	usda_fndds	Low sodium crackers	FALSE
+543	Nonsweet_crackers	3	usda_fndds	Nonsweet crackers	TRUE
+5430	Nonsweet_crackers	4	food_tree_extension		TRUE
+54301	Cracker_snack	5	food_tree_extension		TRUE
+54304	Cracker_cheese	5	food_tree_extension		TRUE
+54305	Crispbread_wheat	5	food_tree_extension		TRUE
+54307	Crackers_matzo	5	food_tree_extension		FALSE
+54308	Crackers_milk	5	food_tree_extension		FALSE
+54309	Crackers_oat	5	food_tree_extension		FALSE
+5431	Nonsweet_crackers	4	food_tree_extension		TRUE
+54313	Crackers_oyster	5	food_tree_extension		TRUE
+54318	Cracker_rice	5	food_tree_extension		FALSE
+54319	Cracker_rice	5	food_tree_extension		FALSE
+5432	Nonsweet_crackers	4	food_tree_extension		TRUE
+54322	Crispbread_rye	5	food_tree_extension		FALSE
+54325	Crackers_saltine	5	food_tree_extension		FALSE
+54326	Crackers_multigrain	5	food_tree_extension		FALSE
+54327	Crackers_peanut_butter	5	food_tree_extension		FALSE
+54328	Crackers_sandwich_type	5	food_tree_extension		TRUE
+5433	Nonsweet_crackers	4	food_tree_extension		TRUE
+54334	Crackers_toast	5	food_tree_extension		FALSE
+54336	Crackers_water_biscuits	5	food_tree_extension		FALSE
+54337	Cracker_whole_wheat	5	food_tree_extension		FALSE
+54338	Cracker_wheat	5	food_tree_extension		TRUE
+54339	Cracker_corn	5	food_tree_extension		FALSE
+5435	Crackers_baby_food	4	food_tree_extension		FALSE
+5436	Crackers_baby_food	4	food_tree_extension		FALSE
+544	Salty_snacks_from_grain_products	3	usda_fndds	Salty snacks from grain products	TRUE
+5440	Salty_snacks_from_grain_products	4	food_tree_extension		TRUE
+54401	Salty_snacks_corn	5	food_tree_extension		TRUE
+54402	Salty_snacks_corn_wheat_multigrain_potatoes_or_pita	5	food_tree_extension		FALSE
+54403	Popcorn	5	food_tree_extension		TRUE
+55406	Onion_or_shrimp_flavored_snacks	5	food_tree_extension		FALSE
+54408	Pretzels	5	food_tree_extension		TRUE
+5441	Salty_snacks_from_grain_products	4	food_tree_extension		FALSE
+54412	Wheat_sticks	5	food_tree_extension		FALSE
+5442	Salty_snacks_from_grain_products	4	food_tree_extension		TRUE
+54420	Snack_mix	5	food_tree_extension		TRUE
+5443	Yogurt_chips	4	food_tree_extension		FALSE
+5444	Bagel_chips	4	food_tree_extension		FALSE
+55	Pancakes_waffles_French_toast_other	2	usda_fndds	Pancakes, waffles, French toast, other grain products	TRUE
+551	Pancakes	3	usda_fndds	Pancakes	TRUE
+5510	Pancakes	4	food_tree_extension		TRUE
+55101	Pancakes_plain	5	food_tree_extension		TRUE
+55103	Pancakes_with_fruit_or_chocolate	5	food_tree_extension		TRUE
+55105	Pancakes_other_grains	5	food_tree_extension		TRUE
+552	Waffles	3	usda_fndds	Waffles	TRUE
+5520	Waffles	4	food_tree_extension		TRUE
+55201	Waffle_plain	5	food_tree_extension		FALSE
+55202	Waffle_multigrain	5	food_tree_extension		FALSE
+55203	Waffle_with_fruit_nuts_chocolate	5	food_tree_extension		FALSE
+55204	Waffle_cornmeal	5	food_tree_extension		FALSE
+55205	Waffle_100_whole_wheat	5	food_tree_extension		FALSE
+55206	Waffle_oat_bran	5	food_tree_extension		FALSE
+55207	Waffle_multi_bran	5	food_tree_extension		FALSE
+5521	Waffles	4	food_tree_extension		FALSE
+55211	Waffle_reduced_fat	5	food_tree_extension		FALSE
+55212	Waffle_reduced_fat_whole_wheat	5	food_tree_extension		FALSE
+553	French_toast	3	usda_fndds	French toast	TRUE
+554	Crepes	3	usda_fndds	Crepes	TRUE
+555	Flourwater_patties	3	usda_fndds	Flour-water patties	FALSE
+556	Flourmilk_dumplings_plain	3	usda_fndds	Flour-milk patties	FALSE
+557	Rice_flour_cakes	3	usda_fndds	Rice flour cakes	FALSE
+558	Funnel_cakes	3	usda_fndds	Funnel cakes	FALSE
+56	Pastas_cooked_cereals_rice	2	usda_fndds	Pastas, cooked cereals, rice	TRUE
+561	Pastas	3	usda_fndds	Pastas	TRUE
+5610	Macaroni	4	food_tree_extension		TRUE
+56101	Macaroni_cooked	5	food_tree_extension		FALSE
+56102	Macaroni_whole_wheat	5	food_tree_extension		FALSE
+56103	Macaroni_cooked_spinach	5	food_tree_extension		FALSE
+56104	Macaroni_cooked_vegetable	5	food_tree_extension		TRUE
+5611	Noodles	4	food_tree_extension		TRUE
+56112	Noodles_cooked	5	food_tree_extension		TRUE
+56113	Noodles_cooked_whole_wheat	5	food_tree_extension		FALSE
+56114	Noodles_cooked_spinach	5	food_tree_extension		FALSE
+56116	Chow_mein_or_long_rice_noodles	5	food_tree_extension		FALSE
+56117	Chow_mein_or_long_rice_noodles	5	food_tree_extension		TRUE
+5613	Spaghetti	4	food_tree_extension		TRUE
+56130	Spaghetti_cooked_NS	5	food_tree_extension		TRUE
+56131	Spaghetti_cooked_fat_added	5	food_tree_extension		FALSE
+56132	Spaghetti_whole_wheat_NS	5	food_tree_extension		FALSE
+56133	Spaghetti_whole_wheat	5	food_tree_extension		FALSE
+562	Cooked_cereals_rice	3	usda_fndds	Cooked cereals, rice	TRUE
+5620	Cooked_cereals_rice	4	food_tree_extension		TRUE
+56200	Cereal_cooked_barley_or_buckwheat	5	food_tree_extension		TRUE
+56201	Grits_cooked_cornmeal_or_cornstarch	5	food_tree_extension		TRUE
+56202	Millet_or_oatmeal	5	food_tree_extension		FALSE
+56203	Oatmeal	5	food_tree_extension		TRUE
+56204	Quinoa	5	food_tree_extension		TRUE
+56205	Rice	5	food_tree_extension		TRUE
+56206	Wheat_cream_of_bulgur_couscous	5	food_tree_extension		FALSE
+56207	Wheat_cream_of_bulgur_couscous	5	food_tree_extension		TRUE
+56208	Oat_bran_cereal	5	food_tree_extension		FALSE
+56209	Rye	5	food_tree_extension		FALSE
+5621	Cooked_cereals_rice	4	food_tree_extension		FALSE
+56210	Nestum_cereal	5	food_tree_extension		FALSE
+57	Cereals_not_cooked_or_NS_as_to_cooked	2	usda_fndds	Cereals, not cooked or NS as to cooked	TRUE
+570	Cereal_NS_as_to_cooked	3	usda_fndds	Cereal, NS as to cooked	FALSE
+571	Readytoeat_cereals	3	usda_fndds	Ready-to-eat cereals	TRUE
+572	Readytoeat_cereals	3	usda_fndds	Ready-to-eat cereals	TRUE
+573	Readytoeat_cereals	3	usda_fndds	Ready-to-eat cereals	TRUE
+574	Readytoeat_cereals	3	usda_fndds	Ready-to-eat cereals	TRUE
+576	Cereal_grains_not_cooked	3	usda_fndds	Cereal grains, not cooked	FALSE
+578	Cereals_baby_food	3	usda_fndds	Cereals baby food	FALSE
+58	Grain_mixtures_frozen_plate_meals_soups	2	usda_fndds	Grain mixtures, frozen plate meals, soups	TRUE
+581	Mixtures_mainly_grain_pasta_or_bread	3	usda_fndds	Mixtures, mainly grain, pasta, or bread	TRUE
+5810	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		TRUE
+58100	Burrito_chilaquiles_or_enchilada	5	food_tree_extension		FALSE
+58101	Taco_or_tostada	5	food_tree_extension		FALSE
+58103	Tamale	5	food_tree_extension		FALSE
+58104	Nachos_gordita_chimichanga_quesadilla_taquito	5	food_tree_extension		TRUE
+58105	Fajita_pupusa	5	food_tree_extension		FALSE
+58106	Pizza	5	food_tree_extension		TRUE
+58107	Pizza_no_cheese_or_white_pizza	5	food_tree_extension		TRUE
+58108	Calzone_or_pizza_roll	5	food_tree_extension		FALSE
+5811	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		TRUE
+58110	Egg_roll	5	food_tree_extension		TRUE
+58111	Won_ton	5	food_tree_extension		FALSE
+58112	Dumpling	5	food_tree_extension		TRUE
+58115	Puerto_Rican_tamale_or_taco	5	food_tree_extension		FALSE
+58116	Empanada	5	food_tree_extension		FALSE
+58117	Puerto_Rican_fritter	5	food_tree_extension		FALSE
+58118	Puerto_Rican_dessert	5	food_tree_extension		FALSE
+5812	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		TRUE
+58120	Crepes_with_meat	5	food_tree_extension		FALSE
+58121	Dumpling_meat_vegetable	5	food_tree_extension		TRUE
+58122	Gnocchi_Kishke	5	food_tree_extension		FALSE
+58123	Knish_or_sweet_bread	5	food_tree_extension		FALSE
+58124	Filled_pastry	5	food_tree_extension		FALSE
+58125	Quiche	5	food_tree_extension		TRUE
+58126	Turnover	5	food_tree_extension		FALSE
+58127	Vegetable_sandwich_or_pastry	5	food_tree_extension		FALSE
+58128	Biscuit_or_dressing	5	food_tree_extension		FALSE
+5813	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		TRUE
+58130	Lasagna	5	food_tree_extension		TRUE
+58131	Ravioli	5	food_tree_extension		TRUE
+58132	Spaghetti	5	food_tree_extension		FALSE
+58133	Manicotti	5	food_tree_extension		TRUE
+58134	Stuffed_shells_or_tortellini	5	food_tree_extension		TRUE
+58135	Chow_fun_noodles	5	food_tree_extension		FALSE
+58136	Lo_mein	5	food_tree_extension		TRUE
+58137	Pad_Thai	5	food_tree_extension		TRUE
+5814	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		TRUE
+58140	Pasta_with_tuna_or_corned_beef	5	food_tree_extension		FALSE
+58145	Macaroni_or_noodles_with_cheese	5	food_tree_extension		TRUE
+58146	Pasta_with_sauce	5	food_tree_extension		TRUE
+58147	Pasta_with_other_additions	5	food_tree_extension		FALSE
+58148	Macaroni_or_pasta_salad	5	food_tree_extension		TRUE
+58149	Noodle_pudding_or_somen_salad	5	food_tree_extension		FALSE
+5815	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		FALSE
+58150	Bibimbop_or_fried_rice	5	food_tree_extension		FALSE
+58151	Sushi	5	food_tree_extension		FALSE
+58155	Rice_dishes_or_paella	5	food_tree_extension		FALSE
+58156	Puerto_Rican_rice_dishes	5	food_tree_extension		FALSE
+58157	Rice_pudding	5	food_tree_extension		FALSE
+5816	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		TRUE
+58160	Rice_with_vegetables_or_lentils	5	food_tree_extension		TRUE
+58161	Rice_brown_with_vegetables	5	food_tree_extension		FALSE
+58162	Stuffed_vegetables_with_rice	5	food_tree_extension		TRUE
+58163	Dirty_rice_flavored_rice_or_Spanish_rice	5	food_tree_extension		FALSE
+58164	Mixed_rice_dishes	5	food_tree_extension		FALSE
+58165	Rice_with_vegetables_and_sauce	5	food_tree_extension		FALSE
+5817	Mixtures_mainly_grain_pasta_or_bread	4	food_tree_extension		FALSE
+58174	Upma_Indian_breakfast_dish	5	food_tree_extension		FALSE
+58175	Tabbouleh_bulgar	5	food_tree_extension		FALSE
+582	Mixtures_mainly_grain_pasta_or_bread	3	usda_fndds	Mixtures, mainly grain, pasta, or bread	FALSE
+5820	Wrap_sandwich	4	food_tree_extension		FALSE
+583	Frozen_plate_meals_with_grain_mixture_as_major_ingredient	3	usda_fndds	Frozen plate meals with grain mixture as major ingredient	TRUE
+584	Soups_with_grain_product_as_major_ingredient	3	usda_fndds	Soups with grain product as major ingredient	TRUE
+585	Grain_mixtures_baby_food	3	usda_fndds	Grain mixtures baby food	FALSE
+59	Meat_substitutes_mainly_cereal_protein	2	usda_fndds	Meat substitutes, mainly cereal protein	FALSE
+590	Meat_substitutes_mainly_cereal_protein	3	usda_fndds	Meat substitutes, mainly cereal protein	FALSE
+6	Fruits	1	usda_fndds	Fruits	TRUE
+61	Citrus_fruits_juices	2	usda_fndds	Citrus fruits, juices	TRUE
+611	Citrus_fruits	3	usda_fndds	Citrus fruits	TRUE
+6110	Citrus_fruits	4	food_tree_extension		TRUE
+61100	Calamondin	5	food_tree_extension		FALSE
+61101	Grapefruit	5	food_tree_extension		TRUE
+61104	Grapefruit_and_orange	5	food_tree_extension		FALSE
+6111	Citrus_fruits	4	food_tree_extension		TRUE
+61110	Kumquat	5	food_tree_extension		FALSE
+61113	Lemon	5	food_tree_extension		FALSE
+61116	Lime	5	food_tree_extension		FALSE
+61119	Orange	5	food_tree_extension		TRUE
+6112	Citrus_fruits	4	food_tree_extension		TRUE
+61122	Orange_mandarin	5	food_tree_extension		TRUE
+61125	Tangelo_or_tangerine	5	food_tree_extension		FALSE
+612	Citrus_fruit_juices	3	usda_fndds	Citrus fruit juices	TRUE
+6120	Grapefruit_lemon_lime_juice	4	food_tree_extension		TRUE
+6121	Orange_tangerine_or_juice_blend	4	food_tree_extension		TRUE
+62	Dried_fruits	2	usda_fndds	Dried fruits	TRUE
+621	Dried_fruits	3	usda_fndds	Dried fruits	TRUE
+6210	Dried_fruits	4	food_tree_extension		TRUE
+62101	Fruit_NS_or_apple	5	food_tree_extension		FALSE
+62104	Apricot	5	food_tree_extension		FALSE
+62105	Blueberries	5	food_tree_extension		FALSE
+62106	Cherries	5	food_tree_extension		FALSE
+62107	Banana	5	food_tree_extension		FALSE
+62108	Currants	5	food_tree_extension		FALSE
+62109	Cranberries	5	food_tree_extension		TRUE
+6211	Dried_fruits	4	food_tree_extension		TRUE
+62110	Date	5	food_tree_extension		TRUE
+62113	Fig	5	food_tree_extension		TRUE
+62114	Lychee_or_mango	5	food_tree_extension		FALSE
+62116	Peach	5	food_tree_extension		FALSE
+62119	Pear	5	food_tree_extension		FALSE
+6212	Dried_fruits	4	food_tree_extension		TRUE
+62120	Pineapple	5	food_tree_extension		FALSE
+62121	Plum	5	food_tree_extension		FALSE
+62122	Prune	5	food_tree_extension		TRUE
+62125	Raisins	5	food_tree_extension		TRUE
+62126	Tamarind	5	food_tree_extension		FALSE
+63	Other_fruits	2	usda_fndds	Other fruits	TRUE
+631	Fruits_excluding_berries	3	usda_fndds	Fruits, excluding berries	TRUE
+6310	Fruits_excluding_berries	4	food_tree_extension		TRUE
+63100	Fruit_NS	5	food_tree_extension		TRUE
+63101	Apple_or_applesauce	5	food_tree_extension		TRUE
+63103	Apricot	5	food_tree_extension		TRUE
+63105	Avocado	5	food_tree_extension		TRUE
+63107	Banana	5	food_tree_extension		TRUE
+63109	Cantaloupe_or_starfruit	5	food_tree_extension		TRUE
+6311	Fruits_excluding_berries	4	food_tree_extension		TRUE
+63110	Cassaba_melon	5	food_tree_extension		FALSE
+63111	Cherries_maraschino	5	food_tree_extension		FALSE
+63113	Cherries_sour	5	food_tree_extension		TRUE
+63115	Cherries_sweet	5	food_tree_extension		FALSE
+63117	Currants	5	food_tree_extension		FALSE
+63119	Figs	5	food_tree_extension		TRUE
+6312	Fruits_excluding_berries	4	food_tree_extension		TRUE
+63123	Grapes	5	food_tree_extension		TRUE
+63125	Guava	5	food_tree_extension		FALSE
+63126	Juneberry_Kiwi_Lychee	5	food_tree_extension		FALSE
+63127	Honeydew	5	food_tree_extension		TRUE
+63129	Mango	5	food_tree_extension		FALSE
+6313	Fruits_excluding_berries	4	food_tree_extension		TRUE
+63131	Nectarine	5	food_tree_extension		TRUE
+63133	Papaya	5	food_tree_extension		TRUE
+63134	Passion_fruit	5	food_tree_extension		FALSE
+63135	Peach	5	food_tree_extension		TRUE
+63137	Pear	5	food_tree_extension		TRUE
+63139	Persimmon	5	food_tree_extension		FALSE
+6314	Fruits_excluding_berries	4	food_tree_extension		TRUE
+63141	Pineapple	5	food_tree_extension		TRUE
+63143	Plum	5	food_tree_extension		TRUE
+63145	Pomegranate	5	food_tree_extension		TRUE
+63147	Rhubarb	5	food_tree_extension		FALSE
+63148	Tamarind	5	food_tree_extension		FALSE
+63149	Watermelon	5	food_tree_extension		TRUE
+632	Berries	3	usda_fndds	Berries	TRUE
+6320	Berries	4	food_tree_extension		TRUE
+63200	Berries_NS	5	food_tree_extension		FALSE
+63201	Blackberries	5	food_tree_extension		FALSE
+63203	Blueberries	5	food_tree_extension		TRUE
+63205	Boysenberries	5	food_tree_extension		FALSE
+63207	Cranberries	5	food_tree_extension		FALSE
+63208	Dewberries	5	food_tree_extension		FALSE
+6321	Berries	4	food_tree_extension		FALSE
+63214	Huckleberries	5	food_tree_extension		FALSE
+63215	Loganberries	5	food_tree_extension		FALSE
+63217	Mulberries	5	food_tree_extension		FALSE
+63219	Raspberries	5	food_tree_extension		FALSE
+6322	Berries	4	food_tree_extension		TRUE
+63223	Strawberries	5	food_tree_extension		TRUE
+63224	Youngberries	5	food_tree_extension		FALSE
+633	Mixtures_of_two_or_more_fruits	3	usda_fndds	Mixtures of two or more fruits	TRUE
+6330	Ambrosia_or_cranberry	4	food_tree_extension		FALSE
+6331	Fruit_salad_or_cocktail	4	food_tree_extension		TRUE
+6332	Fruit_salad_mixture	4	food_tree_extension		FALSE
+634	Mixtures_of_fruits_and_nonfruit_items	3	usda_fndds	Mixtures of fruits and nonfruit items	TRUE
+6340	Mixtures_of_fruits_and_nonfruit_items	4	food_tree_extension		TRUE
+63401	Candied_or_chocolate_covered_or_salad_with_dressing	5	food_tree_extension		FALSE
+63402	Whip_fried_or_fruit_salad	5	food_tree_extension		FALSE
+63403	Whip_fried_or_fruit_salad	5	food_tree_extension		FALSE
+63409	Guacamole_or_chutney	5	food_tree_extension		TRUE
+6341	Cranberry_or_pineapple_salad_or_fruit_soup	4	food_tree_extension		FALSE
+6342	Fruit_juice_bar_frozen	4	food_tree_extension		FALSE
+6343	Sorbet_or_cream_juice_bar	4	food_tree_extension		TRUE
+64	Fruit_juices_and_nectars_excluding_citrus	2	usda_fndds	Fruit juices and nectars excluding citrus	TRUE
+641	Fruit_juices_excluding_citrus	3	usda_fndds	Fruit juices, excluding citrus	TRUE
+642	Nectars	3	usda_fndds	Nectars	FALSE
+644	Vinegar	3	usda_fndds	Vinegar	FALSE
+67	Fruits_and_juices_baby_food	2	usda_fndds	Fruits and juices baby food	FALSE
+671	Fruits_and_fruit_mixtures_baby_food	3	usda_fndds	Fruits and fruit mixtures baby food	FALSE
+6710	Fruits_and_fruit_mixtures_baby_food	4	food_tree_extension		FALSE
+67100	Fruit_baby_NFS	5	food_tree_extension		FALSE
+67101	Apple_baby_food	5	food_tree_extension		FALSE
+67102	Applesauce_baby_food	5	food_tree_extension		FALSE
+67104	Applesauce_and_other_fruit_baby_food	5	food_tree_extension		FALSE
+67105	Bananas_baby_food	5	food_tree_extension		FALSE
+67106	Bananas_with_other_fruit_baby_food	5	food_tree_extension		FALSE
+67108	Peaches_baby_food	5	food_tree_extension		FALSE
+67109	Pears_baby_food	5	food_tree_extension		FALSE
+6711	Furits_and_fruit_mixtures_baby_food	4	food_tree_extension		FALSE
+67110	Prunes_baby_food	5	food_tree_extension		FALSE
+67113	Apples_and_pears_baby_food	5	food_tree_extension		FALSE
+67114	Pears_and_pineapple_baby_food	5	food_tree_extension		FALSE
+672	Fruit_juice_and_fruit_juice_mixtures_baby	3	usda_fndds	Fruit juice and fruit juice mixtures baby food	FALSE
+673	Fruits_with_cereal_baby_food	3	usda_fndds	Fruits with cereal baby food	FALSE
+674	Fruit_desserts_and_fruitflavored_pudding	3	usda_fndds	Fruit desserts and fruit-flavored puddings and yogurt desserts baby food	FALSE
+675	Fruits_with_meat_or_poultry_baby_food	3	usda_fndds	Fruits with meat or poultry baby food	FALSE
+676	Fruits_and_vegetables_mixtures_baby_food	3	usda_fndds	Fruits and vegetables mixtures baby food	FALSE
+7	Vegetables	1	usda_fndds	Vegetables	TRUE
+71	White_potatoes_and_Puerto_Rican_starchy_vegetables	2	usda_fndds	White potatoes and Puerto Rican starchy vegetables	TRUE
+710	White_potatoes_NFS	3	usda_fndds	White potatoes, NFS	FALSE
+711	White_potatoes_baked_and_boiled	3	usda_fndds	White potatoes, baked and boiled	TRUE
+7110	White_potatoes_baked_and_boiled	4	food_tree_extension		TRUE
+71101	White_potatoes_baked	5	food_tree_extension		TRUE
+71103	White_potatoes_boiled	5	food_tree_extension		TRUE
+71104	White_potatoes_roasted	5	food_tree_extension		TRUE
+71106	Puerto_Rican_style_potatoes	5	food_tree_extension		FALSE
+712	White_potatoes_chips_and_sticks	3	usda_fndds	White potatoes, chips and sticks	TRUE
+7120	White_potatoes_chips_and_sticks	4	food_tree_extension		TRUE
+71201	White_potato_chips	5	food_tree_extension		FALSE
+71202	White_potato_chips_unsalted	5	food_tree_extension		FALSE
+71204	White_potato_puffs	5	food_tree_extension		FALSE
+71205	White_potato_sticks	5	food_tree_extension		FALSE
+7121	White_potato_skins_or_vegetable_chips	4	food_tree_extension		FALSE
+713	White_potatoes_creamed_scalloped_au_gratin	3	usda_fndds	White potatoes, creamed, scalloped, au gratin	TRUE
+7130	White_potatoes_creamed_scalloped_au_gratin	4	food_tree_extension		TRUE
+71301	White_potato_cooked_with_sauce_or_cheese	5	food_tree_extension		FALSE
+71305	White_potato_scalloped	5	food_tree_extension		TRUE
+714	White_potatoes_fried	3	usda_fndds	White potatoes, fried	TRUE
+7140	White_potatoes_fried	4	food_tree_extension		TRUE
+71401	White_potato_french_fries	5	food_tree_extension		TRUE
+71402	White_potato_french_fries_with_cheese_or_meat	5	food_tree_extension		FALSE
+71403	White_potato_home_fries	5	food_tree_extension		FALSE
+71405	White_potato_hash_brown	5	food_tree_extension		FALSE
+7141	White_potato_skins_with_adhering_flesh_fried	4	food_tree_extension		FALSE
+71410	White_potato_skins_fried_with_or_without_cheese	5	food_tree_extension		FALSE
+71411	White_Potato_skins_fried_with_bacon	5	food_tree_extension		FALSE
+715	White_potatoes_mashed_stuffed_puffs	3	usda_fndds	White potatoes, mashed, stuffed, puffs	TRUE
+7150	White_potatoes_mashed_stuffed_puffs	4	food_tree_extension		TRUE
+71501	White_potato_mashed	5	food_tree_extension		TRUE
+71503	White_potato_patty	5	food_tree_extension		FALSE
+71505	White_potato_puffs	5	food_tree_extension		FALSE
+71507	White_potato_stuffed_peel_not_eaten	5	food_tree_extension		FALSE
+71508	White_potato_stuffed_peel_eaten	5	food_tree_extension		TRUE
+716	Potato_salad	3	usda_fndds	Potato salad	TRUE
+7160	Potato_salad	4	food_tree_extension		TRUE
+71601	Potato_salad_with_egg	5	food_tree_extension		FALSE
+71602	Potato_salad_German_style	5	food_tree_extension		TRUE
+71603	Potato_salad_with_dressing	5	food_tree_extension		FALSE
+717	Potato_recipes	3	usda_fndds	Potato recipes	FALSE
+7170	Potato_recipes	4	food_tree_extension		FALSE
+71701	Potato_pancake	5	food_tree_extension		FALSE
+71702	Potato_pudding	5	food_tree_extension		FALSE
+71703	Stewed_potatoes_Mexican_style	5	food_tree_extension		FALSE
+71704	Stewed_potatoes_with_tomatoes	5	food_tree_extension		FALSE
+718	Potato_soups	3	usda_fndds	Potato soups	TRUE
+7180	Potato_soup	4	food_tree_extension		TRUE
+7185	Plantain_soup	4	food_tree_extension		FALSE
+719	Puerto_Rican_starchy_vegetables	3	usda_fndds	Puerto Rican starchy vegetables	TRUE
+7190	Plantain_fried_or_boiled	4	food_tree_extension		TRUE
+7191	Green_banana	4	food_tree_extension		FALSE
+7193	Cassava_yuca_blanca	4	food_tree_extension		FALSE
+7194	Sweet_potatoes_or_yam_Puerto_Rican	4	food_tree_extension		FALSE
+7195	Tannier	4	food_tree_extension		FALSE
+7196	Celeriac_dasheen_or_Taro	4	food_tree_extension		FALSE
+7197	Other_starchy_vegetables	4	food_tree_extension		FALSE
+7198	Poi_or_taro	4	food_tree_extension		FALSE
+72	Darkgreen_vegetables	2	usda_fndds	Dark-green vegetables	TRUE
+721	Darkgreen_leafy_vegetables	3	usda_fndds	Dark-green leafy vegetables	TRUE
+7210	Darkgreen_leafy_vegetables	4	food_tree_extension		FALSE
+72101	Beet_greens	5	food_tree_extension		FALSE
+72103	Broccoli_raab	5	food_tree_extension		FALSE
+72104	Chard	5	food_tree_extension		FALSE
+72107	Collards	5	food_tree_extension		FALSE
+7211	Darkgreen_leafy_vegetables	4	food_tree_extension		TRUE
+72110	Cress	5	food_tree_extension		FALSE
+72113	Dandelion_greens	5	food_tree_extension		FALSE
+72116	Endive_chicory_escarole_or_romain_lettuce	5	food_tree_extension		TRUE
+72118	Greens_cooked_NS	5	food_tree_extension		FALSE
+72119	Kale	5	food_tree_extension		TRUE
+7212	Darkgreen_leafy_vegetables	4	food_tree_extension		TRUE
+72120	Lambsquarter	5	food_tree_extension		FALSE
+72121	Mustard_cabbage	5	food_tree_extension		FALSE
+72122	Mustard_greens	5	food_tree_extension		FALSE
+72123	Poke_greens	5	food_tree_extension		FALSE
+72124	Radicchio	5	food_tree_extension		TRUE
+72125	Spinach	5	food_tree_extension		TRUE
+72126	Taro_leaves	5	food_tree_extension		FALSE
+72127	Thistle_leaves	5	food_tree_extension		FALSE
+72128	Turnip_greens	5	food_tree_extension		FALSE
+7213	Darkgreen_leafy_vegetables	4	food_tree_extension		FALSE
+72130	Watercress	5	food_tree_extension		FALSE
+72132	Bitter_melon_leaves	5	food_tree_extension		FALSE
+72133	Other_vegetable_leaves	5	food_tree_extension		FALSE
+722	Darkgreen_nonleafy_vegetables	3	usda_fndds	Dark-green nonleafy vegetables	TRUE
+7220	Broccoli	4	food_tree_extension		TRUE
+723	Darkgreen_vegetable_soups	3	usda_fndds	Dark-green vegetable soups	TRUE
+73	Deepyellow_vegetables	2	usda_fndds	Deep-yellow vegetables	TRUE
+731	Carrots	3	usda_fndds	Carrots	TRUE
+7310	Carrots	4	food_tree_extension		TRUE
+73101	Carrots_raw	5	food_tree_extension		TRUE
+73102	Carrots_cooked	5	food_tree_extension		TRUE
+73103	Carrots_canned	5	food_tree_extension		FALSE
+73105	Carrot_juice	5	food_tree_extension		FALSE
+7311	Carrots	4	food_tree_extension		FALSE
+73111	Peas_and_carrots	5	food_tree_extension		FALSE
+73112	Carrot_chips	5	food_tree_extension		FALSE
+732	Pumpkin	3	usda_fndds	Pumpkin	TRUE
+7320	Pumpkin	4	food_tree_extension		TRUE
+73201	Pumpkin_cooked	5	food_tree_extension		TRUE
+7321	Calabaza_or_other_pumpkin_dishes	4	food_tree_extension		FALSE
+733	Squash_winter	3	usda_fndds	Squash, winter	TRUE
+7330	Squash_winter	4	food_tree_extension		TRUE
+73301	Squash_winter_mashed	5	food_tree_extension		FALSE
+73302	Squash_winter_raw	5	food_tree_extension		FALSE
+73303	Squash_winter_baked	5	food_tree_extension		TRUE
+73304	Squash_winter_fritter_or_cake	5	food_tree_extension		FALSE
+73305	Squash_winter_with_cheese	5	food_tree_extension		FALSE
+734	Sweet_potatoes	3	usda_fndds	Sweetpotatoes	TRUE
+7340	Sweet_potatoes	4	food_tree_extension		TRUE
+73401	Sweet_potato_NFS	5	food_tree_extension		FALSE
+73402	Sweet_potato_baked_peel_eaten	5	food_tree_extension		FALSE
+73403	Sweet_potato_baked_peel_not_eaten	5	food_tree_extension		TRUE
+73405	Sweet_potato_boiled	5	food_tree_extension		FALSE
+73406	Sweet_potato_candied	5	food_tree_extension		FALSE
+73407	Sweet_potato_canned	5	food_tree_extension		FALSE
+73409	Sweet_potato_casserole_or_mashed	5	food_tree_extension		TRUE
+7341	Sweet_potato_fried	4	food_tree_extension		FALSE
+7342	Sweet_potato_yellow_Puerto_Rican	4	food_tree_extension		FALSE
+735	Deepyellow_vegetable_soups	3	usda_fndds	Deep-yellow vegetable soups	TRUE
+74	Tomatoes_and_tomato_mixtures	2	usda_fndds	Tomatoes and tomato mixtures	TRUE
+741	Tomatoes_raw	3	usda_fndds	Tomatoes, raw	TRUE
+7410	Tomatoes_raw	4	food_tree_extension		TRUE
+74101	Tomatoes_raw	5	food_tree_extension		TRUE
+74102	Tomatoes_green	5	food_tree_extension		FALSE
+742	Tomatoes_cooked	3	usda_fndds	Tomatoes, cooked	TRUE
+7420	Tomatoes_cooked	4	food_tree_extension		TRUE
+74201	Tomatoes_cooked_NS	5	food_tree_extension		FALSE
+74202	Tomatoes_broiled_or_fried	5	food_tree_extension		TRUE
+74203	Tomatoes_scalloped	5	food_tree_extension		FALSE
+74204	Tomatoes_stewed_or_canned	5	food_tree_extension		FALSE
+74205	Tomatoes_green_cooked_or_pickled	5	food_tree_extension		FALSE
+74206	Tomatoes_dried	5	food_tree_extension		TRUE
+743	Tomato_juices	3	usda_fndds	Tomato juices	TRUE
+744	Tomato_sauces	3	usda_fndds	Tomato sauces	TRUE
+7440	Tomato_sauces	4	food_tree_extension		TRUE
+74401	Tomato_catsup	5	food_tree_extension		TRUE
+74402	Chili_sauce_or_salsa	5	food_tree_extension		TRUE
+74404	Spaghetti_sauce	5	food_tree_extension		TRUE
+74405	Tomato_relish	5	food_tree_extension		FALSE
+74406	Barbecue_steak_or_cocktail_sauce	5	food_tree_extension		TRUE
+7441	Puerto_Rican_seasoning_with_ham	4	food_tree_extension		FALSE
+7442	Puerto_Rican_seasoning_without_ham	4	food_tree_extension		FALSE
+745	Tomato_mixtures	3	usda_fndds	Tomato mixtures	FALSE
+7450	Tomato_mixtures	4	food_tree_extension		FALSE
+74501	Tomato_aspic	5	food_tree_extension		FALSE
+74503	Tomato_and_corn	5	food_tree_extension		FALSE
+74504	Tomato_and_okra_or_onion_or_celery	5	food_tree_extension		FALSE
+74505	Tomato_and_corn	5	food_tree_extension		FALSE
+74506	Tomato_and_cucumber	5	food_tree_extension		FALSE
+746	Tomato_soups	3	usda_fndds	Tomato soups	TRUE
+7460	Tomato_soups	4	food_tree_extension		TRUE
+74601	Tomato_soup_NS	5	food_tree_extension		TRUE
+74602	Tomato_soup_instant_or_canned	5	food_tree_extension		TRUE
+74603	Tomato_beef_soup	5	food_tree_extension		FALSE
+74604	Tomato_with_beef_or_noodles	5	food_tree_extension		FALSE
+74605	Tomato_and_rice	5	food_tree_extension		FALSE
+74606	Tomato_and_vegetable	5	food_tree_extension		FALSE
+747	Tomato_sandwiches	3	usda_fndds	Tomato sandwiches	FALSE
+75	Other_vegetables	2	usda_fndds	Other vegetables	TRUE
+751	Other_vegetables_raw	3	usda_fndds	Other vegetables, raw	TRUE
+7510	Other_vegetables_raw	4	food_tree_extension		TRUE
+7511	Other_vegetables_raw	4	food_tree_extension		TRUE
+7512	Other_vegetables_raw	4	food_tree_extension		TRUE
+7513	Mixed_vegetable_juice	4	food_tree_extension		FALSE
+7514	Raw_vegetable_mixtures	4	usda_fndds	Raw vegetable mixtures	TRUE
+75140	Broccoli_or_cabbage	5	food_tree_extension		FALSE
+75141	Cabbage_salad_or_coleslaw_or_celery	5	food_tree_extension		TRUE
+75142	Cucumber_salad	5	food_tree_extension		FALSE
+75143	Lettuce_salad	5	food_tree_extension		TRUE
+75144	Lettuce_wilted	5	food_tree_extension		FALSE
+75145	Seven_layer_salad	5	food_tree_extension		FALSE
+75146	Greek_salad	5	food_tree_extension		FALSE
+75147	Spinach_salad	5	food_tree_extension		FALSE
+75148	Cobb_salad	5	food_tree_extension		FALSE
+752	Other_vegetables_cooked	3	usda_fndds	Other vegetables, cooked	TRUE
+7520	Other_vegetables_cooked	4	food_tree_extension		TRUE
+75200	Vegetables_NS_or_algae_or_aloe	5	food_tree_extension		TRUE
+75201	Artichoke	5	food_tree_extension		TRUE
+75202	Asparagus	5	food_tree_extension		TRUE
+75203	Bamboo	5	food_tree_extension		FALSE
+75204	Beans_lima_or_string	5	food_tree_extension		FALSE
+75205	Beans_lima_or_string	5	food_tree_extension		TRUE
+75206	Beans_string_yellow	5	food_tree_extension		FALSE
+75207	Bean_sprouts	5	food_tree_extension		FALSE
+75208	Beets_bitter_melon_bread_fruit_broccoflower	5	food_tree_extension		TRUE
+75209	Brussels_sprouts	5	food_tree_extension		TRUE
+7521	Other_vegetables_cooked	4	food_tree_extension		TRUE
+75210	Cabbage_Chinese	5	food_tree_extension		TRUE
+75211	Cabbage_green	5	food_tree_extension		TRUE
+75212	Cabbage_red	5	food_tree_extension		FALSE
+75213	Cabbage_savoy_or_cactus	5	food_tree_extension		FALSE
+75214	Cauliflower	5	food_tree_extension		TRUE
+75215	Celery_fennel_or_christophine	5	food_tree_extension		FALSE
+75216	Corn_or_cucumber	5	food_tree_extension		TRUE
+75217	Eggplant_squash_flowers_or_hominy	5	food_tree_extension		TRUE
+75218	Kohlrabi_leek_or_lotus	5	food_tree_extension		FALSE
+75219	Mushrooms	5	food_tree_extension		TRUE
+7522	Other_vegetables_cooked	4	food_tree_extension		TRUE
+75220	Okra_lettuce_or_luffa	5	food_tree_extension		TRUE
+75221	Onions_palm_hearts_or_parsley	5	food_tree_extension		TRUE
+75222	Parsnips	5	food_tree_extension		FALSE
+75223	Peas_cowpeas	5	food_tree_extension		FALSE
+75224	Peas_green	5	food_tree_extension		TRUE
+75225	Pigeon_peas	5	food_tree_extension		FALSE
+75226	Peppers	5	food_tree_extension		TRUE
+75227	Radish	5	food_tree_extension		FALSE
+75228	Rutabaga	5	food_tree_extension		FALSE
+75229	Salsify	5	food_tree_extension		FALSE
+7523	Other_vegetables_cooked	4	food_tree_extension		TRUE
+75230	Sauerkraut	5	food_tree_extension		TRUE
+75231	Snowpea	5	food_tree_extension		TRUE
+75232	Seaweed	5	food_tree_extension		FALSE
+75233	Squash	5	food_tree_extension		TRUE
+75234	Turnip	5	food_tree_extension		FALSE
+75235	Water_chestnut_winter_mellon	5	food_tree_extension		FALSE
+75236	Yeast_or_yeast_extract_spread	5	food_tree_extension		FALSE
+753	Other_vegetable_mixtures_cooked	3	usda_fndds	Other vegetable mixtures, cooked	TRUE
+7530	Other_vegetable_mixtures_cooked	4	food_tree_extension		TRUE
+75301	Beans_lima_corn	5	food_tree_extension		FALSE
+75302	Beans_string_with_vegetables	5	food_tree_extension		FALSE
+75303	Corn_with_peppers	5	food_tree_extension		TRUE
+75306	Eggplant_in_tomato_sauce	5	food_tree_extension		FALSE
+75307	Green_peppers_and_onions	5	food_tree_extension		TRUE
+7531	Other_vegetable_mixtures_cooked	4	food_tree_extension		TRUE
+75311	Mixed_vegetables	5	food_tree_extension		TRUE
+75315	Peas_and_vegetables	5	food_tree_extension		FALSE
+75316	Squash_and_vegetables	5	food_tree_extension		FALSE
+75317	Vegetables_stew_type	5	food_tree_extension		FALSE
+7533	Vegetable_combination	4	food_tree_extension		FALSE
+7534	Vegetable_combinations_Asian_style	4	food_tree_extension		FALSE
+7536	Vegetable_mixture_dried	4	food_tree_extension		FALSE
+754	Other_cooked_vegetables_cooked_with_sauces_batters_casseroles	3	usda_fndds	Other cooked vegetables, cooked with sauces, batters, casseroles	TRUE
+7540	Other_cooked_vegetables_cooked_with_sauces_batters_casseroles	4	food_tree_extension		FALSE
+75401	Asparagus	5	food_tree_extension		FALSE
+75402	Beans_lima	5	food_tree_extension		FALSE
+75403	Beans_string_green	5	food_tree_extension		FALSE
+75404	Beans_string_yellow	5	food_tree_extension		FALSE
+75405	Beets	5	food_tree_extension		FALSE
+75406	Brussels_sprouts	5	food_tree_extension		FALSE
+75407	Cabbage	5	food_tree_extension		FALSE
+75409	Cauliflower	5	food_tree_extension		FALSE
+7541	Other_cooked_vegetables_cooked_with_sauces_batters_casseroles	4	food_tree_extension		TRUE
+75410	Celery_chiles_or_jalapeno	5	food_tree_extension		FALSE
+75411	Corn	5	food_tree_extension		FALSE
+75412	Eggplant	5	food_tree_extension		TRUE
+75413	Kohlrabi	5	food_tree_extension		FALSE
+75414	Mushrooms_or_okra	5	food_tree_extension		FALSE
+75415	Onions	5	food_tree_extension		FALSE
+75416	Parsnips_or_peas	5	food_tree_extension		FALSE
+75417	Peas	5	food_tree_extension		FALSE
+75418	Squash_or_turnips	5	food_tree_extension		FALSE
+7543	Vegetable_stew	4	food_tree_extension		FALSE
+7544	Vegetable_combinations_with_tomato_or_curry	4	food_tree_extension		TRUE
+7545	Vegetable_combinations_with_cream_sauce	4	food_tree_extension		FALSE
+7546	Vegetable_combinations_with_pasta_or_noodles	4	food_tree_extension		FALSE
+755	Olives_pickles_relishes_excluding_tomatoes	3	usda_fndds	Olives, pickles, relishes (excluding tomatoes)	TRUE
+756	Vegetable_soups	3	usda_fndds	Vegetable soups	TRUE
+7560	Vegetable_soups	4	food_tree_extension		TRUE
+75600	Soup_cream_of_NS	5	food_tree_extension		FALSE
+75601	Asparagus_beet_cabbage	5	food_tree_extension		FALSE
+75603	Celery	5	food_tree_extension		FALSE
+75604	Corn_or_gazpacho	5	food_tree_extension		TRUE
+75605	Leek	5	food_tree_extension		FALSE
+75607	Mushroom	5	food_tree_extension		TRUE
+75608	Onion	5	food_tree_extension		FALSE
+75609	Pea	5	food_tree_extension		FALSE
+7561	Vegetable_soups	4	food_tree_extension		FALSE
+75611	Vegetable_soup_prepared_with_milk	5	food_tree_extension		FALSE
+75612	Zucchini_with_milk	5	food_tree_extension		FALSE
+7564	Vegetable_soup	4	food_tree_extension		TRUE
+7565	Vegetable_soup_with_meat_pasta_or_noodles	4	food_tree_extension		TRUE
+76	Vegetables_and_mixtures_mostly_vegetables_baby_food	2	usda_fndds	Vegetables and mixtures mostly vegetables baby food	FALSE
+761	Darkgreen_vegetables_baby_food	3	usda_fndds	Dark-green vegetables baby food	FALSE
+762	Deepyellow_vegetables	3	usda_fndds	Deep-yellow vegetables baby food	FALSE
+764	Vegetables_other_than_darkgreen_deepyellow_and_tomato	3	usda_fndds	Vegetables other than dark-green, deep-yellow, and tomato baby food	FALSE
+765	Vegetables_with_grain_baby_food	3	usda_fndds	Vegetables with grain baby food	FALSE
+766	Vegetables_with_meat_baby_food	3	usda_fndds	Vegetables with meat baby food	FALSE
+77	Vegetables_with_meat_poultry_fish	2	usda_fndds	Vegetables with meat, poultry, fish	TRUE
+771	White_potato_with_meat_poultry_fish_mixtures	3	usda_fndds	White potato with meat, poultry, fish (mixtures)	FALSE
+772	Puerto_Rican_starchy_vegetable_viandas_mixtures	3	usda_fndds	Puerto Rican starchy vegetable (viandas) mixtures	TRUE
+773	Other_vegetable_mixtures	3	usda_fndds	Other vegetable mixtures	FALSE
+775	Puerto_Rican_stews_or_soups_with_starchy_vegetables	3	usda_fndds	Puerto Rican stews or soups with starchy vegetables (viandas)	FALSE
+78	Mixtures_mostly_vegetables_without_meat_poultry_fish	2	usda_fndds	Mixtures mostly vegetables without meat, poultry, fish	FALSE
+781	Vegetable_and_fruit_juice_blends_100_juice	3	usda_fndds	Vegetable and fruit juice blends, 100% juice	FALSE
+8	Fats_Oils_and_Salad_Dressings	1	usda_fndds	Fats, Oils, and Salad Dressings	TRUE
+81	Fats	2	usda_fndds	Fats	TRUE
+811	Table_fats	3	usda_fndds	Table fats	TRUE
+8110	Table_fats	4	food_tree_extension		TRUE
+81100	Table_fats_NFS	5	food_tree_extension		TRUE
+81101	Butter	5	food_tree_extension		TRUE
+81102	Margarine_stick_or_tub	5	food_tree_extension		TRUE
+81103	Margarine_like_spread	5	food_tree_extension		FALSE
+81104	Margarine_like_spread_or_vegetable_oil_spread	5	food_tree_extension		FALSE
+81105	Butter_margarine_blend	5	food_tree_extension		FALSE
+81106	Butter_replacement	5	food_tree_extension		FALSE
+812	Cooking_fats	3	usda_fndds	Cooking fats	FALSE
+8120	Cooking_fats	4	food_tree_extension		FALSE
+81201	Animal_fat_or_drippings	5	food_tree_extension		FALSE
+81202	Lard	5	food_tree_extension		FALSE
+81203	Shortening	5	food_tree_extension		FALSE
+81204	Ghee	5	food_tree_extension		FALSE
+813	Other_fats	3	usda_fndds	Other fats	TRUE
+82	Oils	2	usda_fndds	Oils	TRUE
+821	Vegetable_oils	3	usda_fndds	Vegetable oils	TRUE
+8210	Vegetable_oils	4	food_tree_extension		TRUE
+82101	Vegetable_almond_or_coconut	5	food_tree_extension		TRUE
+82102	Corn_and_canola	5	food_tree_extension		FALSE
+82103	Cottonseed_or_flaxseed	5	food_tree_extension		FALSE
+82104	Olive_oil	5	food_tree_extension		TRUE
+82105	Peanut_rapeseed_canola_soybean	5	food_tree_extension		TRUE
+82106	Safflower_oil	5	food_tree_extension		FALSE
+83107	Sesame_oil	5	food_tree_extension		TRUE
+83108	Walnut_oil	5	food_tree_extension		FALSE
+83109	Wheat_germ_oil	5	food_tree_extension		TRUE
+83	Salad_dressings	2	usda_fndds	Salad dressings	TRUE
+831	Regular_salad_dressings	3	usda_fndds	Regular salad dressings	TRUE
+832	Light_salad_dressings	3	usda_fndds	Low calorie and reduced calorie salad dressings	FALSE
+833	Fat_free_salad_dressings	3	usda_fndds	Fat free salad dressings	FALSE
+9	Sugars_Sweets_and_Beverages	1	usda_fndds	Sugars, Sweets, and Beverages	TRUE
+91	Sugars_and_sweets	2	usda_fndds	Sugars and sweets	TRUE
+911	Sugars_and_sugarsugar_substitute_blends	3	usda_fndds	Sugars and sugar-sugar substitute blends	TRUE
+9110	Sugars_and_sugarsugar_substitute_blends	4	food_tree_extension		TRUE
+91101	Sugar_white	5	food_tree_extension		TRUE
+91102	Sugar_brown	5	food_tree_extension		TRUE
+91103	Sugar_maple	5	food_tree_extension		FALSE
+91104	Sugar_cinnamon_or_raw	5	food_tree_extension		FALSE
+91105	Fructose_sugar_substitute	5	food_tree_extension		FALSE
+91106	Aspartame_sugar_substitute	5	food_tree_extension		FALSE
+91107	Sucralose_sugar_substitute	5	food_tree_extension		TRUE
+91108	Herbal_extract_sweetener	5	food_tree_extension		FALSE
+91109	Agave_liquid	5	food_tree_extension		FALSE
+912	Sugar_replacements_or_substitute	3	usda_fndds	Sugar replacements or substitute	TRUE
+9120	Saccharin_or_aspartame	4	food_tree_extension		TRUE
+91200	Saccharin	5	food_tree_extension		TRUE
+91201	Aspartame	5	food_tree_extension		TRUE
+913	Syrups_honey_molasses_sweet_toppings	3	usda_fndds	Syrups, honey, molasses, sweet toppings	TRUE
+9130	Syrups_honey_molasses	4	food_tree_extension		TRUE
+91300	Pancake_syrup	5	food_tree_extension		FALSE
+91301	Thin_syrups	5	food_tree_extension		TRUE
+91302	Honey	5	food_tree_extension		TRUE
+91303	Thick_syrups	5	food_tree_extension		FALSE
+91304	Toppings	5	food_tree_extension		TRUE
+91305	Icing	5	food_tree_extension		FALSE
+9135	Dietetic_syrup	4	food_tree_extension		FALSE
+9136	Sweet_toppings	4	food_tree_extension		TRUE
+914	Jellies_jams_preserves	3	usda_fndds	Jellies, jams, preserves	TRUE
+9140	Jellies_jams_preserves	4	food_tree_extension		TRUE
+91401	Jelly	5	food_tree_extension		TRUE
+91402	Preserves	5	food_tree_extension		TRUE
+91403	Fruit_butter	5	food_tree_extension		FALSE
+91404	Marmalade	5	food_tree_extension		FALSE
+91405	Jelly_reduced_sugar	5	food_tree_extension		TRUE
+91406	Jams_low_sugar	5	food_tree_extension		FALSE
+91407	Pastes	5	food_tree_extension		FALSE
+91408	Sweet_vegetable	5	food_tree_extension		FALSE
+915	Gelatin_desserts_or_salads	3	usda_fndds	Gelatin desserts or salads	TRUE
+9150	Gelatin_desserts_or_salads	4	food_tree_extension		TRUE
+9151	Gelatin_desserts_or_salads	4	food_tree_extension		TRUE
+9152	Bean_paste_dessert	4	food_tree_extension		FALSE
+9155	Cream_cake_or_custard	4	food_tree_extension		FALSE
+9156	Coconut_pudding	4	food_tree_extension		FALSE
+9158	Frozen_gelatin	4	food_tree_extension		FALSE
+916	Ices_or_popsicles	3	usda_fndds	Ices or popsicles	TRUE
+9160	Ice_fruit	4	food_tree_extension		TRUE
+9161	Ice_pop	4	food_tree_extension		TRUE
+9162	Snow_cone	4	food_tree_extension		FALSE
+917	Candies	3	usda_fndds	Candies	TRUE
+9170	Candies	4	food_tree_extension		TRUE
+91700	Candy_NFS	5	food_tree_extension		FALSE
+91701	Almonds	5	food_tree_extension		FALSE
+91702	Butterscotch	5	food_tree_extension		FALSE
+91703	Caramel_or_coffee_containing_candy	5	food_tree_extension		TRUE
+91705	Milk_or_white_chocolate	5	food_tree_extension		TRUE
+91706	Coconut_candy	5	food_tree_extension		FALSE
+91707	Fondant	5	food_tree_extension		FALSE
+91708	Fruit_candy	5	food_tree_extension		TRUE
+91709	Gumdrops	5	food_tree_extension		FALSE
+9171	Candies	4	food_tree_extension		FALSE
+91713	Fudge_chocolate_peanut_butter_vanilla	5	food_tree_extension		FALSE
+91715	Chocolate_and_caramel_candy	5	food_tree_extension		FALSE
+91716	Halvah	5	food_tree_extension		FALSE
+91718	Honey_or_peanut_butter_candy	5	food_tree_extension		FALSE
+9172	Candies	4	food_tree_extension		TRUE
+91721	Licorice	5	food_tree_extension		TRUE
+91723	Marshmallow	5	food_tree_extension		FALSE
+91726	Nougat_candy	5	food_tree_extension		TRUE
+91727	Nuts_candy	5	food_tree_extension		FALSE
+91728	Nuts_and_nougat	5	food_tree_extension		FALSE
+9173	Candies	4	food_tree_extension		TRUE
+91731	Coated_peanut_candy	5	food_tree_extension		FALSE
+91732	Peanut_candy	5	food_tree_extension		FALSE
+91733	Peanut_brittle	5	food_tree_extension		FALSE
+91734	Peanut_butter_candy	5	food_tree_extension		TRUE
+91735	Pralines	5	food_tree_extension		FALSE
+91736	Pineapple_candy	5	food_tree_extension		FALSE
+91739	Coated_raisins	5	food_tree_extension		FALSE
+9174	Candies	4	food_tree_extension		TRUE
+91742	Sesame	5	food_tree_extension		FALSE
+91745	Hard_candy	5	food_tree_extension		TRUE
+91746	Chocolate_candy	5	food_tree_extension		TRUE
+9175	Taffy	4	food_tree_extension		TRUE
+9176	Toffee_and_truffles	4	food_tree_extension		FALSE
+9177	Low_sugar_candy	4	food_tree_extension		FALSE
+918	Chewing_gums	3	usda_fndds	Chewing gums	FALSE
+92	Nonalcoholic_beverages	2	usda_fndds	Nonalcoholic beverages	TRUE
+921	Coffee	3	usda_fndds	Coffee	TRUE
+9210	Coffee	4	food_tree_extension		TRUE
+92100	Coffee_NS	5	food_tree_extension		FALSE
+92101	Coffee_from_ground	5	food_tree_extension		TRUE
+92103	Coffee_from_powdered	5	food_tree_extension		FALSE
+92104	Coffee_instant	5	food_tree_extension		FALSE
+92105	Coffee_liquid_concentrate	5	food_tree_extension		FALSE
+92106	Acid_neutralized	5	food_tree_extension		FALSE
+9211	Coffee_decaffeinated	4	food_tree_extension		TRUE
+9212	Coffee_from_powder_with_sweetener	4	food_tree_extension		FALSE
+9213	Coffee_presweetened	4	food_tree_extension		FALSE
+9215	Coffee_and_chicory	4	food_tree_extension		FALSE
+9216	Cappuccino	4	food_tree_extension		FALSE
+9219	Coffee_from_powder	4	food_tree_extension		FALSE
+922	Coffee_substitutes	3	usda_fndds	Coffee substitutes	FALSE
+923	Tea	3	usda_fndds	Tea	TRUE
+9230	Tea	4	food_tree_extension		TRUE
+92301	Tea_NS	5	food_tree_extension		FALSE
+92302	Tea_leaf	5	food_tree_extension		TRUE
+92304	Tea_from_frozen_concentrate	5	food_tree_extension		FALSE
+92305	Tea_from_powdered_instant	5	food_tree_extension		FALSE
+92306	Tea_herbal	5	food_tree_extension		TRUE
+92307	Tea_powdered_or_tea_and_lemonade	5	food_tree_extension		FALSE
+924	Soft_drinks_carbonated	3	usda_fndds	Soft drinks, carbonated	TRUE
+9240	Soft_drink_NS	4	food_tree_extension		FALSE
+9241	Carbonated_soft_drinks	4	food_tree_extension		TRUE
+9243	Carbonated_juice_drinks	4	food_tree_extension		FALSE
+925	Fruit_drinks	3	usda_fndds	Fruit drinks	TRUE
+9251	Fruit_juice_drinks_and_fruitflavored_drinks	4	usda_fndds	Fruit juice drinks and fruit-flavored drinks	TRUE
+9253	Fruit_juice_drinks_and_fruit_flavored_drinks_with_high_vitamin_C	4	usda_fndds	Fruit juice drinks and fruit flavored drinks with high vitamin C	TRUE
+9254	Fruit_flavored_drinks_made_from_powdered_mix	4	usda_fndds	Fruit flavored drinks, made from powdered mix	FALSE
+9255	Fruit_juice_drinks_and_fruit_flavored_drinks_low_calorie	4	usda_fndds	Fruit juice drinks and fruit flavored drinks, low calorie	FALSE
+9258	Fruit_juice_drinks_and_fruit_flavored_drinks_fortified_with_calcium	4	usda_fndds	Fruit juice drinks and fruit flavored drinks, fortified with calcium	FALSE
+926	Beverages_nonfruit	3	usda_fndds	Beverages, nonfruit	FALSE
+928	Nonalcoholic_beers_wines_cocktails	3	usda_fndds	Nonalcoholic beers, wines, cocktails	FALSE
+929	Beverage_concentrates_dry_not_reconstituted	3	usda_fndds	Beverage concentrates, dry, not reconstituted	FALSE
+93	Alcoholic_beverages	2	usda_fndds	Alcoholic beverages	FALSE
+931	Beers_and_ales	3	usda_fndds	Beers and ales	FALSE
+932	Cordials_and_liqueurs	3	usda_fndds	Cordials and liqueurs	FALSE
+933	Cocktails	3	usda_fndds	Cocktails	FALSE
+934	Wines	3	usda_fndds	Wines	FALSE
+935	Distilled_liquors	3	usda_fndds	Distilled liquors	FALSE
+94	Water_noncarbonated	2	usda_fndds	Water, noncarbonated	TRUE
+940	Water_not_bottled	3	usda_fndds	Water, not bottled	FALSE
+941	Water_bottled	3	usda_fndds	Water, bottled	TRUE
+942	Water_bottled_fortified	3	usda_fndds	Water, bottled, fortified	TRUE
+943	Water_baby_food	3	usda_fndds	Water, baby food	FALSE
+95	Formulated_nutrition_beverages_energy_drinks_sports_drinks_function	2	usda_fndds	Formulated nutrition beverages, energy drinks, sports drinks, functional beverages	TRUE
+951	Nutrition_drinks	3	usda_fndds	Nutrition drinks	TRUE
+952	Nutrition_powders	3	usda_fndds	Nutrition powders	TRUE
+9531	Energy_drinks	4	usda_fndds	Energy drinks	FALSE
+9532	Sports_drinks	4	usda_fndds	Sports drinks	TRUE
+9533	Fluid_replacements	4	usda_fndds	Fluid replacements	TRUE
+9534	Other_functional_beverages	4	usda_fndds	Other functional beverages	FALSE

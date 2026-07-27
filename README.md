@@ -339,7 +339,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 | `output_food_tree_datatree.newick` | rooted food taxonomy tree, **Food_code** leaves | UniFrac on diet (F2a, F1n, diet Faith PD) |
 | `output_food_tree_datatree_name.newick` | same tree, description leaves | F1d food-tree rendering |
 | `final_table_for_writing_out_to_newick.csv` | `FoodID, description, L1…L7, newickstring…, taxonomy` | the 7-level food taxonomy behind the tree (and the TaxUMAP taxonomy) |
-| `NodeLabelsMCT.txt` | MCT level-code → label | food-tree node labelling |
+| `NodeLabelsMCT.txt` | `Level.code, Main.food.description` (the label), plus `n_digits, source, usda_fndds_description, used_in_F1d_tree` (provenance) | food-tree node labelling. Levels 1–3 are official USDA FNDDS subgroups; levels 4–6 are mostly the finer split from the Knights lab food-tree code, which USDA does not publish. See the provenance section of `22_fig1_food_tree.Rmd` for the citations |
 | `food_group_color_key_final.csv` | `fgrp1, fdesc, fg1_name, color, shortname` | food-group → colour / short-name key for the forests and F1d |
 | `annotation.base.txt` | GraPhlAn sector header | F1d circular-tree annotation |
 
