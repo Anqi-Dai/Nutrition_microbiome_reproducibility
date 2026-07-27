@@ -150,6 +150,9 @@ p_8l <- cfu_8l |>
   theme_mouse() +
   legend_treatment()
 
+print(paste("There are ", nrow(cfu_8l %>% select(c(experiment_no, abx_treatment, diet_treatment, group, mouse_no)) %>% unique()), "individual mice."))
+print(paste("There are ", nrow(cfu_8l), "individual samples."))
+
 save_panel(p_8l, "E8l_fiberfree_log10_cfu.pdf", width = 6.0, height = 3.2)
 
 # E8m: median weight percent-change by treatment (4 groups) -------------------

@@ -135,6 +135,9 @@ p_9b <- smoothie |>
   theme_mouse() +
   legend_treatment()
 
+print(paste("There are ", nrow(smoothie %>% select(c(grp, mouse)) %>% unique()), "individual mice."))
+print(paste("There are ", nrow(smoothie), "individual samples."))
+
 save_panel(p_9b, "E9b_smoothie.pdf", width = 5.2, height = 3.2)
 
 # E9d: germ-free monocolonization time course ---------------------------------
@@ -172,6 +175,9 @@ p_9d_tc <- ggplot(mono, aes(x = hours, y = cfu, colour = microbe)) +
         legend.text = element_text(size = 10),
         legend.key = element_blank(), legend.background = element_blank()) +
   guides(colour = guide_legend(override.aes = list(alpha = 1, linewidth = 3)))
+
+print(paste("There are ", nrow(mono %>% select(c(treatment, mouse)) %>% unique()), "individual mice."))
+print(paste("There are ", nrow(mono), "individual samples."))
 
 save_panel(p_9d_tc, "E9d_monocolonization_timecourse.pdf", width = 6.6, height = 3.2)
 
