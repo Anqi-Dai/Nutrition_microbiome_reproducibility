@@ -35,7 +35,7 @@ Code to generate every panel of the manuscript is made available here, along wit
 
 ### Reproducible by anyone
 
-Clone the repo and run — these need only the de-identified tables shipped in [`released_data/`](released_data/): **Figure 1, Figure 2, Figure 4**, Extended Data **E1 (c–h), E2 (b,c), E3, E4, E5, E7, E8, E9**, and all the mouse experiments.
+Clone the repo and run — these need only the de-identified tables shipped in [`released_data/`](released_data/): **Figure 1, Figure 2, Figure 4**, Extended Data **E1 (c–h), E2 (b–e), E3, E4, E5, E7, E8, E9**, and all the mouse experiments.
 
 ### Reproducible by internal users (restricted data required)
 
@@ -200,6 +200,7 @@ Rscript reproduce/23_fig1_beta_diversity.R       # F1 n,o (QIIME)
 Rscript reproduce/24_e1cde_random_intercepts.R   # E1 c,d,e   (needs the F2d fit from 10)
 Rscript reproduce/25_e1f_alpha_breakdown.R       # E1f
 Rscript reproduce/26_e2bc_abx_exposure.R         # E2 b,c
+Rscript reproduce/26b_e2de_fluoroquinolone.R     # E2 d,e   (fits the simplified fluoroquinolone model)
 Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/restricted/61_dataS6_pt_timecourse.R  # Data S6 (needs restricted_data/; skips cleanly if absent)
 Rscript reproduce/restricted/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j + Supp. Tables 1-6 (reads the cleaned df_main)
@@ -245,6 +246,7 @@ Common environment toggles:
 | `25_e1f_alpha_breakdown.R` | **E1** f |
 | `12_diagnostics_diversity.R` | **E1** g, h |
 | `26_e2bc_abx_exposure.R` | **E2** b, c |
+| `26b_e2de_fluoroquinolone.R` | **E2** d, e (simplified diversity model with an explicit prophylactic-fluoroquinolone term) |
 | `30_extdata_pcoa.R` | **E3** a, b, c |
 | `17_fig_e4.R` | **E4** a, b, c, d, e, i, j |
 | `17b_e4fg_wweia.R` | **E4** f, g (What We Eat in America, WWEIA, nomenclature) |
@@ -274,7 +276,7 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 |------|----------------------------------------------------|--------|
 | `152_combined_DTB.csv` | the diet tracker — every food item each patient ate; the source of all diet exposures, the food tree, and diet diversity | **same file on Zenodo** |
 | `153_combined_META.csv` | the per-stool-sample analysis table (1009 samples / 158 patients): diversity outcome, antibiotic/TPN/EN exposure, prior-2-day food-group & macronutrient intake | **same file on Zenodo** |
-| `Data_S4_Medication_Exposures…csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
+| `Data_S4_Medication_Exposures…csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c), the fluoroquinolone diversity model (E2d/e) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
 | `R59_meta_expanded.csv` | `153` plus the *E. faecium* CLR outcome and extra covariates — used by the taxon CLR models (F4b, E7e, E7f) | derived |
 | `FPED_1516.xls`, `FPED_1720.xls` | USDA Food Patterns Equivalents Database (2015-16 and 2017-20) — the **added-sugars** content (teaspoon equivalents per 100 g) per food code, used to split total sugars into added vs other for E5a–d (`28`); 1516 is preferred, the two salad-dressing codes that exist only in 2017-20 are filled from 1720; related to Zenodo "Data S5", the nutrient values from the USDA Food and Nutrient Database for Dietary Studies (FNDDS) | reference (USDA) |
 | `2015-2016 FNDDS At A Glance…xlsx`, `2019-2020 FNDDS At A Glance…xlsx` | USDA FNDDS — each food code's **WWEIA food category** (and per-100 g nutrients), used to re-derive the diversity model under WWEIA nomenclature for E4f–g (`17b`); 2015-16 preferred, 2019-20 fills the rest | Zenodo "Data S5" (FNDDS nutrient values) |
