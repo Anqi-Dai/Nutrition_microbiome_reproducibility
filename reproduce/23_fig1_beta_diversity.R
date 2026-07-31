@@ -152,8 +152,13 @@ joined <- joined |>
 f1o <- ggplot(joined, aes(diet_dist, partial)) +
   geom_point(colour = "#7B68A6", alpha = 0.35, size = 1.4) +
   geom_abline(intercept = b0, slope = b1, linewidth = 1) +
+  # One decimal on the fitted line, so the slope reads 0.6. The published panel
+  # prints three (y = 0.233 + 0.601x); this reproduction fits 0.251 + 0.591x, the
+  # small offset being the genus-table substitution flagged at the top, so three
+  # decimals would advertise a precision the substituted input does not support.
+  # The console message above keeps the full precision for verification.
   annotate("text", x = -Inf, y = Inf, hjust = -0.08, vjust = 1.4, size = 3.4,
-           label = sprintf("y = %.3f + %.3fx\np %s", b0, b1,
+           label = sprintf("y = %.1f + %.1fx\np %s", b0, b1,
                            ifelse(pval < 0.001, "< 0.001", sprintf("= %.3f", pval)))) +
   labs(x = "Diet Distance", y = expression("microbiome " * beta * "-diversity")) +
   theme_classic() + theme(aspect.ratio = 1)
