@@ -83,10 +83,12 @@ asv1_results |>
   print()
 
 # Per-genus models (E7a) --------------------------------------------------------
-# Keep the prevalent, reasonably abundant genera likely to exist in the human
-# gut: present (relab > 0.002) in more than 10% of samples, dropping two
-# environmental genera, then join each genus CLR onto the meta as a candidate
-# outcome.
+# Keep the prevalent, reasonably abundant genera: present (relab > 0.002) in more
+# than 10% of samples, which selects 33. Drancourtella and Ruthenibacterium are
+# then dropped by name, leaving the 31 modelled here; the grounds for that
+# exclusion are unsettled (both are mid-prevalence in this cohort and both were
+# described from human faecal isolates), so it is recorded in BUILD_LEDGER.md
+# rather than asserted here. Each genus CLR then joins the meta as an outcome.
 asv_relab_genus <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"), show_col_types = FALSE)
 
 # Per-genus CLR, derived here rather than read from a standalone table. The genus
