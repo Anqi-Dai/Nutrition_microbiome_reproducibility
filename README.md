@@ -421,8 +421,7 @@ Two related DOIs, which are *not* interchangeable:
 | DOI | What it is |
 |-----------------------------|------------------------------------------|
 | [10.5281/zenodo.21290618](https://doi.org/10.5281/zenodo.21290618) | **Software (all versions)** — the *concept* DOI. It always resolves to the latest release. **Cite this one.** |
-| [10.5281/zenodo.21290619](https://doi.org/10.5281/zenodo.21290619) | **Software (v1.0.0)** — the *version* DOI, pinning this exact snapshot |
-| [10.5281/zenodo.14538105](https://doi.org/10.5281/zenodo.14538105) | **Data (all versions)** — the companion Supplementary Data deposit's *concept* DOI. **Cite this one.** (The current version is [10.5281/zenodo.20278682](https://doi.org/10.5281/zenodo.20278682).) |
+| [10.5281/zenodo.14538105](https://doi.org/10.5281/zenodo.14538105) | **Data (all versions)** — the companion Supplementary Data deposit's *concept* DOI. **Cite this one.** |
 
 ------------------------------------------------------------------------
 

@@ -42,9 +42,6 @@ identifiers:
       Concept DOI for all versions of this software; always resolves to the latest
       release. Cite this one.
   - type: doi
-    value: "10.5281/zenodo.21290619"
-    description: Version DOI for release v1.0.0
-  - type: doi
     value: "10.5281/zenodo.14538105"
     description: >-
       Companion data deposit (concept DOI, all versions): Supplementary Data for
