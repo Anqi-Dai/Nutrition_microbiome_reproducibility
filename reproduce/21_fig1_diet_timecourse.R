@@ -217,8 +217,18 @@ ggsave(file.path(results_dir, "F1l_food_groups.pdf"), fg_panel, width = 6, heigh
 # Trend p-values (GEE, AR1 working corr, one-sided Wald) -----------------------
 # id = pid must resolve as a symbol inside the data frame (passing it as an
 # external vector makes geepack's AR1 estimation pathologically slow).
+#
+# The arrange() is load-bearing, not cosmetic. geeglm's corstr = "ar1" has no
+# `waves` argument here, so it defines "lag 1" as ADJACENT ROWS within a cluster,
+# not as adjacent days. Feed it a table whose rows are not in ascending time order
+# within each patient and it estimates the autocorrelation off essentially
+# scrambled ordering. The per-day tables built by group_by/summarise arrive sorted,
+# but diet-alpha-diversity.tsv is read straight off disk and does NOT (only 1 of
+# 173 patients was ascending), which silently turned the Fig. 1j diet-diversity
+# trend into p = 0.34 instead of p = 1.4e-09. Sorting here rather than at each call
+# site so this cannot regress.
 gee_pval <- function(df, timevar) {
-  d <- df %>% mutate(pid = as.factor(pid))
+  d <- df %>% arrange(pid, .data[[timevar]]) %>% mutate(pid = as.factor(pid))
   mod <- geeglm(reformulate(timevar, "y"), family = gaussian, corstr = "ar1",
                 id = pid, data = d)
   z <- coef(mod)[2] / sqrt(vcov(mod)[2, 2])
