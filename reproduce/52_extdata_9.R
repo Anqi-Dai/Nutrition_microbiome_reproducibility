@@ -23,7 +23,7 @@ pal_sugar4 <- c(vehicle = "gray55", glucose = "#8da0cb", fructose = "#fc8d62", s
 # Both encode antibiotic, sugar and day in one combined key column.
 read_course <- function(sheet) {
   read_mouse_sheet(sheet) |>
-    rename(key = `abx_treatment__diet_treatment__day`, cfu = cf_us_per_gram_stool) |>
+    rename(key = `abx_treatment__diet_treatment__day`, cfu = cfus_per_mg_stool) |>
     mutate(cfu = as.numeric(cfu)) |>   # the 9c sheet ships as text with literal "NA"
     filter(!is.na(cfu)) |>
     separate(key, into = c("antibiotic", "sugar", "day"), sep = "__", remove = FALSE) |>
@@ -62,7 +62,7 @@ p_9a <- course_9a |>
   stat_compare_means(comparisons = cmp_9a, label = "p.signif", method = "wilcox.test",
                      method.args = list(exact = TRUE, correct = TRUE),
                      tip.length = 0.01, step.increase = 0.06, vjust = 0.6) +
-  labs(x = "Day", y = "Enterococcal\nCFU/gram") +
+  labs(x = "Day", y = "Enterococcal\nCFU/mg") +
   theme_mouse() +
   legend_treatment()
 
@@ -103,7 +103,7 @@ p_9c <- course_9c |>
                        c("biapenem__vehicle__3", "biapenem__fructose__3"),
                        c("biapenem__vehicle__6", "biapenem__fructose__6")),
     label = "p.signif", method = "wilcox.test", tip.length = 0.01, step.increase = 0.06) +
-  labs(x = "Day", y = "Enterococcal\nCFU/gram") +
+  labs(x = "Day", y = "Enterococcal\nCFU/mg") +
   theme_mouse() +
   legend_treatment()
 
@@ -114,7 +114,7 @@ groups_smoothie <- c("PBS_vehicle", "PBS_smoothie", "biapenem_vehicle", "biapene
 days_smoothie <- c(1, 3, 6)
 
 smoothie <- read_mouse_sheet("Sup_Figure_9b_smoothie") |>
-  rename(cfu = `CFUs per gram stool`, grp = Treatment, mouse = `Treatment + Mouse Number`) |>
+  rename(cfu = `CFUs per mg stool`, grp = Treatment, mouse = `Treatment + Mouse Number`) |>
   add_day("Treatement + Day") |>   # original sheet header is misspelled
   mutate(grp = factor(grp, levels = groups_smoothie),
          xvar = factor(str_glue("{grp}__{day}"), levels = xvar_levels(groups_smoothie, days_smoothie)))
@@ -131,7 +131,7 @@ p_9b <- smoothie |>
     comparisons = list(c("biapenem_vehicle__3", "biapenem_smoothie__3"),
                        c("biapenem_vehicle__6", "biapenem_smoothie__6")),
     label = "p.signif", method = "wilcox.test", tip.length = 0.04, step.increase = 0.15) +
-  labs(x = "Day", y = "Enterococcal\nCFU/gram") +
+  labs(x = "Day", y = "Enterococcal\nCFU/mg") +
   theme_mouse() +
   legend_treatment()
 
@@ -149,7 +149,7 @@ mono_water_levels <- c("Sucrose Water", "Regular Water")
 pal_microbe <- c("E. faecalis" = "red", "PBS" = "black")
 
 mono <- read_mouse_sheet("Sup_Figure_9d_time_course_monoc") |>
-  rename(hours = `Time post innoculation (hours)`, cfu = `CFUs per gram stool`,
+  rename(hours = `Time post innoculation (hours)`, cfu = `CFUs per mg stool`,
          mouse = `Mouse Identifier`, treatment = Treatment) |>
   filter(!is.na(cfu)) |>
   separate(treatment, into = c("microbe", "water"), sep = " \\+ ", remove = FALSE) |>
@@ -169,7 +169,7 @@ p_9d_tc <- ggplot(mono, aes(x = hours, y = cfu, colour = microbe)) +
   scale_y_log10(breaks = c(1, 1e4, 1e8, 1e12),
                 labels = c(expression(0), expression(10^4), expression(10^8), expression(10^12))) +
   scale_x_continuous(breaks = c(0, 4, 8, 24, 48, 144)) +
-  labs(x = "hours since inoculation", y = "Enterococcus\nCFU / g feces") +
+  labs(x = "hours since inoculation", y = "Enterococcus\nCFU / mg feces") +
   theme_mouse() +
   theme(legend.position = c(0.78, 0.28),
         legend.text = element_text(size = 10),
@@ -221,7 +221,7 @@ bmt_levels <- c("BMonly__PBS__vehicle", "BMonly__PBS__sucrose",
 days_bmt <- c(0, 4, 6, 9)
 
 bmt <- read_mouse_sheet("Sup_Figure_9h_bmt_cfu") |>
-  rename(cfu = `CFUs per gram stool`, grp = `Treatment Group`) |>
+  rename(cfu = `CFUs per mg stool`, grp = `Treatment Group`) |>
   add_day("Treatment + Day") |>
   filter(str_starts(grp, "BMonly")) |>
   mutate(grp = factor(grp, levels = bmt_levels),
@@ -240,7 +240,7 @@ p_9h <- bmt |>
                        c("BMonly__biapenem__vehicle__6", "BMonly__biapenem__sucrose__6"),
                        c("BMonly__biapenem__vehicle__9", "BMonly__biapenem__sucrose__9")),
     label = "p.signif", method = "wilcox.test", tip.length = 0.02, step.increase = 0.12) +
-  labs(x = "Day", y = "Enterococcal\nCFU/gram") +
+  labs(x = "Day", y = "Enterococcal\nCFU/mg") +
   theme_mouse() +
   legend_treatment()
 

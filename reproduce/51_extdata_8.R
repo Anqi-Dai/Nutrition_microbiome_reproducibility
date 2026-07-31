@@ -5,8 +5,8 @@
 #   E8g  daily chow consumption per day (biapenem + sucrose vs + vehicle)
 #   E8h  trapezoidal AUC of chow consumption
 #   E8j  AUC of Enterococcus under delayed sugar, both experiments pooled
-#   E8k  delayed-sucrose CFU/g time course, one facet per treatment
-#   E8l  Enterococcus CFU/g on fibre-free chow, already in log10 units
+#   E8k  delayed-sucrose CFU/mg time course, one facet per treatment
+#   E8l  Enterococcus CFU/mg on fibre-free chow, already in log10 units
 #   E8m  body-weight % change from baseline, per-mouse overlay with median + IQR
 #
 # Style and statistical comparisons follow the originals R08 (E8g/h) and R31
@@ -77,7 +77,7 @@ delay_comp <- list(c("Abx + Water", "Abx + Sucrose (Standard)"),
                    c("Abx + Water", "Abx + Sucrose (Delay +2)"))
 
 delay_auc <- read_mouse_sheet("Sup_Figure_8j_delayed_sucrose_a") |>
-  rename(auc = `AUC of CFU/gram *days`, grp = `Treatment Group`,
+  rename(auc = `AUC of log10 (CFU per mg stool) x days`, grp = `Treatment Group`,
          experiment = `Experiment Number`) |>
   mutate(grp = factor(grp, levels = delay_order),
          experiment = str_replace(experiment, "_", " "))
@@ -91,7 +91,7 @@ p_8j <- delay_auc |>
   stat_compare_means(comparisons = delay_comp, label = "p.format",
                      method = "wilcox.test", tip.length = 0.01) +
   coord_flip(ylim = c(0, max(delay_auc$auc, na.rm = TRUE) * 1.25)) +
-  labs(x = NULL, y = "Area Under the Curve\n(log10 CFU/gram * days)") +
+  labs(x = NULL, y = "Area Under the Curve\n(log10 CFU/mg * days)") +
   theme_mouse() +
   theme(axis.title.y = element_blank())
 
@@ -104,7 +104,7 @@ save_panel(p_8j, "E8j_delayed_sugar_auc.pdf", width = 5.2, height = 3.6)
 # strips name each treatment group, so no colour legend is needed.
 cfu_8k <- read_mouse_sheet("Sup_Figure_8k_delayed_sucrose_C") |>
   rename(grp = treatment, mouse = mouse_identifier, experiment = experiment_no) |>
-  mutate(cfu = as.numeric(cf_us_per_gram_stool),  # column ships as text with literal "NA"
+  mutate(cfu = as.numeric(cfus_per_mg_stool),  # column ships as text with literal "NA"
          grp = factor(grp, levels = rev(delay_order)),
          day = factor(day),
          experiment = str_replace(experiment, "_", " ")) |>
@@ -120,7 +120,7 @@ p_8k <- cfu_8k |>
   stat_summary(aes(group = 1), fun = median, geom = "line", linewidth = 0.9) +
   scale_colour_manual(values = pal_delay6) +
   scale_log10_sci() +
-  labs(x = "Day of experiment", y = "Enterococcal\nCFU/gram") +
+  labs(x = "Day of experiment", y = "Enterococcal\nCFU/mg") +
   theme_mouse() +
   theme(strip.text = element_text(size = 7))
 
@@ -131,7 +131,7 @@ groups_dpbs <- c("DPBS__vehicle", "DPBS__sucrose", "biapenem__vehicle", "biapene
 days_8l <- c(1, 3, 6, 9)
 
 cfu_8l <- read_mouse_sheet("Sup_Figure_8l_no_fiber_chow_CFU") |>
-  rename(log_cfu = `log 10 (Enterococcal CFU/gram stool)`, grp = `Treatment Group`) |>
+  rename(log_cfu = `log10 (Enterococcal CFU per mg stool)`, grp = `Treatment Group`) |>
   add_day("Treatment + Day") |>
   mutate(grp = factor(grp, levels = groups_dpbs),
          xvar = factor(str_glue("{grp}__{day}"), levels = xvar_levels(groups_dpbs, days_8l)))
@@ -146,11 +146,23 @@ p_8l <- cfu_8l |>
   stat_compare_means(
     comparisons = list(c("biapenem__vehicle__9", "biapenem__sucrose__9")),
     label = "p.signif", method = "t.test", tip.length = 0.015, step.increase = 0.1) +
-  labs(x = "Day", y = expression(log[10] ~ "Enterococcal CFU/gram")) +
+  labs(x = "Day", y = expression(log[10] ~ "Enterococcal CFU/mg")) +
   theme_mouse() +
   legend_treatment()
 
-print(paste("There are ", nrow(cfu_8l %>% select(c(experiment_no, abx_treatment, diet_treatment, group, mouse_no)) %>% unique()), "individual mice."))
+# The sheet carries no mouse identifier, so the animal count comes from the design
+# rather than a distinct count. Sampling is balanced (every mouse plated on all four
+# days, no dropouts; checked against the R07 raw plating table by
+# accepted_in_principle/verify_cfu_raw_tables.R), so each arm's mouse count is its
+# row count on any one day.
+n_mice_8l <- cfu_8l |>
+  count(grp, day) |>
+  group_by(grp) |>
+  summarise(mice = max(n), .groups = "drop") |>
+  pull(mice) |>
+  sum()
+
+print(paste("There are ", n_mice_8l, "individual mice."))
 print(paste("There are ", nrow(cfu_8l), "individual samples."))
 
 save_panel(p_8l, "E8l_fiberfree_log10_cfu.pdf", width = 6.0, height = 3.2)
