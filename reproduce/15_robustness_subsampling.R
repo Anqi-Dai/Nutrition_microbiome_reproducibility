@@ -87,7 +87,10 @@ robustness_plot <- significance_report %>%
   ggplot(aes(x = reorder(clean_variable, proportion_significant), y = proportion_significant)) +
   geom_col(fill = "#0072B2", alpha = 0.8) +
   coord_flip() +
-  scale_y_continuous(labels = scales::percent_format(), expand = c(0, 0.01)) +
+  # Fix the axis to the full 0-100% range so the top bar is read against the
+  # whole scale rather than against a limit set by the largest bar.
+  scale_y_continuous(labels = scales::percent_format(), expand = c(0, 0.01),
+                     limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
   labs(title = "Robustness of predictor effects on microbiome diversity",
        subtitle = str_glue("Based on {N_ITERATIONS} random subsamples ",
                            "(capped at {median_samples} samples per patient)"),
