@@ -303,9 +303,15 @@ grey  <- corr_tbl |> mutate(y = K * corr)
 lt <- c("Food group based" = "solid", "Macronutrient based" = "dashed")
 sh <- c("Food group based" = 16, "Macronutrient based" = 15)
 
-# format the p value as m x 10^e for the plotmath bracket label
-mant <- p_food_12 / 10^floor(log10(p_food_12)); expo <- floor(log10(p_food_12))
-plab <- sprintf("italic(p) == %.1f %%*%% 10^%d", mant, expo)
+# Conventional threshold annotation (manuscript style, capital italic P) rather than
+# the exact jackknife value: the tightest 10^-n / 0.05 threshold the p value clears.
+# the thresholds are quoted inside the expression so plotmath prints them literally
+# (0.0001) rather than reformatting the number to scientific notation (1e-04).
+plab <- if (p_food_12 < 1e-4) 'italic(P) < "0.0001"' else
+        if (p_food_12 < 1e-3) 'italic(P) < "0.001"'  else
+        if (p_food_12 < 1e-2) 'italic(P) < "0.01"'   else
+        if (p_food_12 < 0.05) 'italic(P) < "0.05"'   else
+        sprintf('italic(P) == "%.2f"', p_food_12)
 
 f2a <- ggplot() +
   # grey: the correlation itself, on the right axis
