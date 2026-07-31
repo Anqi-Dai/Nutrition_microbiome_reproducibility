@@ -1,38 +1,42 @@
-# Figure 2a: how well diet composition predicts stool composition as the diet
-# exposure window grows from 1 to 5 prior days, measured by Procrustes fit.
+# Figure 2a: how many prior days of diet to correlate with each stool sample.
 #
-# Refactor of 006_procrustes.Rmd into the human family layout. For each window W
-# (1..5 prior days), over the stool samples with a food record on all 5 prior days:
+# For each window W (1..5 prior days), diet and stool are ordinated and matched by a
+# symmetric Procrustes fit:
 #   food   food-code dehydrated weight, daily-averaged over the W prior days
 #   macro  the five macronutrients, daily-averaged over the W prior days
 #   stool  stool composition collapsed to genus (window-independent)
 # QIIME2 turns each into a PCoA ordination (food -> unweighted UniFrac on the food
-# tree; macro/stool -> Bray-Curtis), and a Procrustes test scores how closely the
-# diet ordination matches the stool ordination.
+# tree; macro/stool -> Bray-Curtis).
 #
-# Two Procrustes scorings are reported as SEPARATE panels (different file names):
-#   asymmetric  vegan::procrustes(X = diet, Y = stool), default symmetric = FALSE;
-#               SS on the raw ordination scale.
-#   symmetric   vegan::procrustes(..., symmetric = TRUE); normalized M^2 in [0,1],
-#               comparable across windows. The plotted metric is best-window-highest
-#               (symmetric -> Procrustes correlation sqrt(1 - M^2); asymmetric ->
-#               max(SS) - SS), so the tightest-fitting window is the top point.
+# The panel plots, on a shared x (diet exposure days):
+#   left axis (black)   Delta Procrustes correlation, the MARGINAL GAIN in the
+#                       symmetric Procrustes correlation sqrt(1 - M^2) between
+#                       successive windows, x 10^-2
+#   right axis (grey)   the Procrustes correlation itself
+# for FNDDS food groups (solid, circle) and macronutrients (dashed, square). A
+# delete-one-patient jackknife tests whether the gain from one one-day extension
+# differs from the next; the 1->2 food-group step is the largest and significant.
 #
-# The QIIME work runs once inside a single container (one cold start, not ~75) and
-# its exported ordinations cache under intermediate_data/006_paired_for_procrustes/.
-# The container step is idempotent (skips any ordination already exported).
-# Set RUN_QIIME=false to reuse cached ordinations; QIIME2_IMAGE picks the tag.
+# Cohort: the 801 stool samples with all five prior days recorded (a food entry, or
+# a documented 072 zero-eating day), minus those whose most recent prior day is a
+# zero-eating day (empty food composition, so no UniFrac distance), leaving a fixed
+# set of 785 samples / 143 patients scored identically across all five windows.
+#
+# The QIIME work runs once inside a single container and caches its exported
+# ordinations under intermediate_data/006_paired_for_procrustes<suffix>/ (idempotent;
+# RUN_QIIME=false reuses them). The jackknife caches to
+# intermediate_data/006_jackknife_pvalues<suffix>.csv (RUN_JACKKNIFE=false reuses it).
+# Panel: results/F2a_procrustes_delta<suffix>.pdf.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 suppressPackageStartupMessages(library(vegan))
 
-# INCLUDE_ZERO_DAYS: treat documented zero-eating days (072) as valid zero-intake
-# data rather than missing. A prior day then counts as "covered" if it has either a
-# dietary entry OR a 072 zero-eating record, matching the E1a cohort logic (where
-# zero-eating days are not missing data). This enlarges the all-5-prior-days fixed
-# cohort from 751 (entry-only) to 801, with zero-eating days contributing 0 intake
-# to the windowed diet average. Outputs go to a separate cache / file names.
-INCLUDE_ZERO_DAYS <- tolower(Sys.getenv("INCLUDE_ZERO_DAYS", "false")) %in% c("true","1","yes")
+# INCLUDE_ZERO_DAYS (default true): treat documented zero-eating days (072) as valid
+# zero-intake data rather than missing, matching the E1a cohort logic and the
+# manuscript Methods. A prior day counts as "covered" if it has a dietary entry OR a
+# 072 zero-eating record; this is the 801-then-785 cohort above. Set false to build
+# the entry-only cohort instead (751), which writes to unsuffixed cache / file names.
+INCLUDE_ZERO_DAYS <- tolower(Sys.getenv("INCLUDE_ZERO_DAYS", "true")) %in% c("true","1","yes")
 suffix <- if (INCLUDE_ZERO_DAYS) "_zerodays" else ""
 
 PAIR_ROOT <- cache_path(paste0("006_paired_for_procrustes", suffix))
@@ -202,7 +206,7 @@ have_all <- all(file.exists(file.path(
 
 if (RUN_QIIME || !have_all) run_qiime() else message("reusing cached ordinations")
 
-# ---- 5. read ordinations and run the Procrustes tests ----------------------
+# ---- 5. read ordinations; fixed cohort; symmetric Procrustes correlation ---
 # Parse the skbio ordination.txt 'Site' block into a sample x PC matrix.
 read_pcoa_matrix <- function(dir) {
   lines <- readLines(file.path(dir, "ordination.txt"))
@@ -214,111 +218,132 @@ read_pcoa_matrix <- function(dir) {
   mat
 }
 
-# Both Procrustes SS in one pass:
-#   asymmetric = procrustes(X = diet, Y = stool)  (default symmetric = FALSE);
-#                SS on the raw ordination scale.
-#   symmetric  = procrustes(..., symmetric = TRUE); normalized M^2 in [0,1].
-procrustes_test <- function(diet_dir, stool_dir) {
-  d <- read_pcoa_matrix(diet_dir)
-  s <- read_pcoa_matrix(stool_dir)
-  common <- intersect(rownames(d), rownames(s))
-  tibble(
-    n = length(common),
-    asymmetric = vegan::procrustes(X = d[common, ], Y = s[common, ])$ss,
-    symmetric  = vegan::procrustes(X = d[common, ], Y = s[common, ], symmetric = TRUE)$ss
-  )
-}
+# Load all 15 ordinations (5 windows x food/macro/stool) once.
+ord <- list()
+for (kind in KINDS) for (W in Ws) ord[[paste(kind, W)]] <- read_pcoa_matrix(ordo_dir(W, kind))
+
+# Fixed analysis cohort: samples present in EVERY ordination, so all five windows
+# are scored on the same set. The day-1 food ordination already drops the samples
+# whose most recent prior day has no food composition, so the intersection is 785.
+ids <- Reduce(intersect, lapply(ord, rownames))
+samp_pid <- meta |> filter(sampleid %in% ids) |> distinct(sampleid, pid)
+message(sprintf("Analysis cohort: %d samples, %d patients",
+                length(ids), dplyr::n_distinct(samp_pid$pid)))
 
 diet_kinds <- c("Food group based" = "food", "Macronutrient based" = "macro")
 
-procrustes_all <- tidyr::expand_grid(W = Ws, pair = names(diet_kinds)) |>
-  mutate(pNd       = paste0("p", W, "d"),
-         diet_dir  = ordo_dir(W, diet_kinds[pair]),
-         stool_dir = ordo_dir(W, "stool_genus"),
-         res       = map2(diet_dir, stool_dir, procrustes_test)) |>
-  unnest(res) |>
-  select(pNd, W, pair, n, asymmetric, symmetric) |>
-  pivot_longer(c(asymmetric, symmetric), names_to = "method", values_to = "ss") |>
-  group_by(pair, method) |>
-  # best-window-highest metric: symmetric -> Procrustes correlation sqrt(1 - M^2)
-  # (a proper fit in [0,1]); asymmetric SS is unbounded so use max(SS) - SS.
-  mutate(score = if (first(method) == "symmetric") sqrt(1 - ss) else max(ss) - ss) |>
-  ungroup()
-
-write_csv(procrustes_all, cache_path(paste0("006_procrustes_scores", suffix, ".csv")))
-message("\nProcrustes SS / score by method (genus stool):")
-print(procrustes_all |> arrange(method, pair, W), n = Inf)
-
-# Per-window available cohort: number of stool samples whose prior W days are all
-# covered (a dietary entry, or -- with INCLUDE_ZERO_DAYS -- a 072 zero-eating day).
-# This is the sample-size cost of widening the window; plotted as the blue axis to
-# show the balance between cohort size and diet-microbiome fit.
-window_counts <- map_dfr(Ws, function(W) {
-  meta |> select(pid, sdrt, sampleid) |> tidyr::crossing(k = 1:W) |>
-    mutate(fdrt = sdrt - k) |>
-    left_join(diet_days, by = c("pid", "fdrt")) |>
-    group_by(sampleid) |> summarise(nok = sum(!is.na(has)), .groups = "drop") |>
-    summarise(W = W, n_avail = sum(nok == W))
-})
-message("\nPer-window available samples (blue axis):")
-print(window_counts)
-
-# ---- 6. F2a: one figure per scoring method, separate file names ------------
-# Left axis: fit metric (food = solid, macro = dashed), oriented so the tightest-
-# fitting window is the HIGHEST point. Right (blue) axis: number of stool samples
-# available at that window (blue triangles + line).
-draw_f2a <- function(df, subtitle, ylab, counts, ylim = NULL) {
-  # The blue sample-count line is mapped onto an INSET of the y range so its end
-  # points (esp. the day-1 maximum) are not clipped at the panel edge; the left
-  # axis range is chosen tight enough that the window-to-window correlation
-  # differences are visible.
-  if (is.null(ylim)) {
-    inset <- range(df$score)
-  } else {
-    sp <- diff(ylim); inset <- c(ylim[1] + 0.05 * sp, ylim[2] - 0.05 * sp)
-  }
-  cr <- range(counts$n_avail)
-  b <- diff(inset) / diff(cr); a <- inset[1] - b * cr[1]   # map count -> y coord
-  counts <- counts |> mutate(y = a + b * n_avail)
-  y_scale <- if (is.null(ylim)) {
-    scale_y_continuous(sec.axis = sec_axis(~ (. - a) / b, name = "n stool samples available"))
-  } else {
-    scale_y_continuous(limits = ylim, expand = expansion(mult = 0.02),
-                       sec.axis = sec_axis(~ (. - a) / b, name = "n stool samples available"))
-  }
-  ggplot(df, aes(x = factor(W), y = score)) +
-    geom_line(aes(group = pair, linetype = pair), linewidth = 0.3) +
-    geom_point(aes(group = pair), size = 1.3) +
-    geom_line(data = counts, aes(x = factor(W), y = y, group = 1),
-              colour = "blue", linewidth = 0.3) +
-    geom_point(data = counts, aes(x = factor(W), y = y),
-               colour = "blue", shape = 17, size = 1.9) +
-    y_scale +
-    scale_linetype_manual(values = c("Food group based" = "solid",
-                                     "Macronutrient based" = "dashed")) +
-    labs(x = "diet exposure days", y = ylab, subtitle = subtitle) +
-    theme_classic() +
-    theme(aspect.ratio = 1.2, legend.position = "right",
-          legend.title = element_blank(),
-          plot.subtitle = element_text(size = 8),
-          axis.text = element_text(size = axis_text_size),
-          axis.title = element_text(size = axis_title_size),
-          axis.title.y.right = element_text(colour = "blue"),
-          axis.text.y.right  = element_text(colour = "blue"),
-          axis.line.y.right  = element_line(colour = "blue"),
-          axis.ticks.y.right = element_line(colour = "blue"))
+# Symmetric Procrustes correlation sqrt(1 - M^2) per window over a set of samples.
+# symmetric = TRUE scales each ordination to unit sum of squares, so M^2 in [0,1].
+corr_windows <- function(kind, keep) {
+  vapply(Ws, function(W) {
+    d <- ord[[paste(kind, W)]]; s <- ord[[paste("stool_genus", W)]]
+    cc <- intersect(keep, intersect(rownames(d), rownames(s)))
+    sqrt(1 - vegan::procrustes(d[cc, ], s[cc, ], symmetric = TRUE)$ss)
+  }, numeric(1))
 }
 
-cohort_note <- if (INCLUDE_ZERO_DAYS) "  [zero-eating days incl.]" else ""
-# Symmetric: Procrustes correlation on a focused axis so the window-to-window
-# differences are visible (the food curve's gain is front-loaded at 1->2 days,
-# then flattens, while samples decline -- making the 2-day window the balance).
-save_panel(draw_f2a(filter(procrustes_all, method == "symmetric"),
-                    paste0("symmetric Procrustes; blue = n samples", cohort_note),
-                    "Procrustes correlation", window_counts, ylim = c(0.15, 0.45)),
-           paste0("F2a_procrustes_symmetric", suffix, ".pdf"), width = 120, height = 90)
+# Correlation per window and the marginal gain (Delta) between successive windows.
+corr_tbl <- purrr::imap_dfr(diet_kinds, function(kind, pr)
+  tibble(pair = pr, W = Ws, corr = corr_windows(kind, ids))) |>
+  group_by(pair) |> arrange(W, .by_group = TRUE) |>
+  mutate(gain = corr - lag(corr)) |> ungroup()
 
-save_panel(draw_f2a(filter(procrustes_all, method == "asymmetric"),
-                    paste0("asymmetric Procrustes; blue = n samples", cohort_note),
-                    "fit:  max(SS) - SS", window_counts),
-           paste0("F2a_procrustes_asymmetric", suffix, ".pdf"), width = 120, height = 90)
+write_csv(corr_tbl, cache_path(paste0("006_procrustes_delta", suffix, ".csv")))
+message("\nProcrustes correlation and marginal gain (x10^-2) by window:")
+print(corr_tbl |> mutate(gain_x100 = round(gain * 100, 3)), n = Inf)
+
+# ---- 6. delete-one-patient jackknife for the marginal-gain comparisons -----
+# Statistic per diet: gain(W -> W+1) - gain(W+1 -> W+2), i.e. whether one one-day
+# extension adds more than the next. Two-sided z-test with a delete-one-patient
+# jackknife standard error. Cached; RUN_JACKKNIFE=false reuses the cache.
+gains_of    <- function(cv) cv[-1] - cv[-length(cv)]        # 1->2, 2->3, 3->4, 4->5
+consec_diff <- function(g)  g[-length(g)] - g[-1]           # (1->2)-(2->3), ...
+JACK_CACHE  <- cache_path(paste0("006_jackknife_pvalues", suffix, ".csv"))
+RUN_JACK    <- tolower(Sys.getenv("RUN_JACKKNIFE", "true")) %in% c("true", "1", "yes")
+
+jackknife_p <- function() {
+  pats  <- unique(samp_pid$pid); n <- length(pats)
+  steps <- c("(1->2)-(2->3)", "(2->3)-(3->4)", "(3->4)-(4->5)")
+  purrr::imap_dfr(diet_kinds, function(kind, pr) {
+    full <- consec_diff(gains_of(corr_windows(kind, ids)))
+    J <- vapply(pats, function(p)
+      consec_diff(gains_of(corr_windows(kind, samp_pid$sampleid[samp_pid$pid != p]))),
+      numeric(length(steps)))
+    Jt <- t(J)                                              # n patients x 3 steps
+    se <- sqrt((n - 1) / n * colSums(sweep(Jt, 2, colMeans(Jt))^2))
+    z  <- full / se
+    tibble(pair = pr, step = steps, d = full, se = se, z = z, p = 2 * pnorm(-abs(z)))
+  })
+}
+
+jack <- if (!RUN_JACK && file.exists(JACK_CACHE)) {
+  message("reusing cached jackknife p-values")
+  read_csv(JACK_CACHE, show_col_types = FALSE)
+} else {
+  message(sprintf("running delete-one-patient jackknife (%d patients x 5 windows x 2 diets) ...",
+                  dplyr::n_distinct(samp_pid$pid)))
+  j <- jackknife_p(); write_csv(j, JACK_CACHE); j
+}
+message("\nMarginal-gain comparisons (jackknife):")
+print(jack, n = Inf)
+
+# p value annotated on the panel: food-group 1->2 vs 2->3 gain comparison.
+p_food_12 <- jack |> filter(pair == "Food group based", step == "(1->2)-(2->3)") |> pull(p)
+
+# ---- 7. F2a: marginal gain (left, black) + correlation (right, grey) -------
+# Left axis is the marginal gain x10^-2; the right axis (correlation, 0.2..1.0) is
+# mapped onto the left coordinate by L = K * corr, so K = 2.5 puts corr = 1.0 at the
+# top of the 0..2.5 gain range. Delta points sit at the window midpoint (1.5..4.5),
+# dodged slightly by diet; correlation points at the integer days.
+K <- 2.5
+delta <- corr_tbl |> filter(!is.na(gain)) |>
+  mutate(x = W - 0.5 + ifelse(pair == "Food group based", -0.06, 0.06), y = gain * 100)
+grey  <- corr_tbl |> mutate(y = K * corr)
+
+lt <- c("Food group based" = "solid", "Macronutrient based" = "dashed")
+sh <- c("Food group based" = 16, "Macronutrient based" = 15)
+
+# format the p value as m x 10^e for the plotmath bracket label
+mant <- p_food_12 / 10^floor(log10(p_food_12)); expo <- floor(log10(p_food_12))
+plab <- sprintf("italic(p) == %.1f %%*%% 10^%d", mant, expo)
+
+f2a <- ggplot() +
+  # grey: the correlation itself, on the right axis
+  geom_line(data = grey, aes(W, y, group = pair, linetype = pair),
+            colour = "grey65", linewidth = 0.5) +
+  geom_point(data = grey, aes(W, y, shape = pair), colour = "grey65", size = 1.6) +
+  # black: the marginal gain, on the left axis
+  geom_line(data = delta, aes(x, y, group = pair, linetype = pair), linewidth = 0.9) +
+  geom_point(data = delta, aes(x, y, shape = pair), size = 2.6) +
+  # bracket + p value over the food-group 1->2 vs 2->3 comparison
+  annotate("segment", x = 1.44, xend = 2.44, y = 2.85, yend = 2.85, linewidth = 0.4) +
+  annotate("segment", x = 1.44, xend = 1.44, y = 2.78, yend = 2.85, linewidth = 0.4) +
+  annotate("segment", x = 2.44, xend = 2.44, y = 2.78, yend = 2.85, linewidth = 0.4) +
+  annotate("text", x = 1.94, y = 2.98, label = plab, size = 4, parse = TRUE) +
+  scale_shape_manual(values = sh) +
+  scale_linetype_manual(values = lt) +
+  scale_x_continuous(breaks = Ws, limits = c(0.8, 5.2)) +
+  scale_y_continuous(
+    name = expression(Delta ~ "Procrustes correlation (" * "×" * 10^-2 * ")"),
+    breaks = 0:3, limits = c(0, 3.1),
+    sec.axis = sec_axis(~ . / K, name = "Procrustes correlation",
+                        breaks = c(0.2, 0.4, 0.6, 0.8, 1.0))) +
+  labs(x = "diet exposure days", shape = NULL, linetype = NULL) +
+  theme_classic() +
+  theme(aspect.ratio = 1,
+        plot.margin = margin(6, 6, 6, 12),
+        legend.position = "inside", legend.position.inside = c(0.62, 0.82),
+        legend.key.width = unit(1.1, "cm"),
+        legend.background = element_blank(),
+        axis.text  = element_text(size = axis_text_size),
+        axis.title = element_text(size = axis_title_size),
+        axis.title.y.right = element_text(colour = "grey55"),
+        axis.text.y.right  = element_text(colour = "grey55"),
+        axis.line.y.right  = element_line(colour = "grey55"),
+        axis.ticks.y.right = element_line(colour = "grey55"))
+
+# save_panel() uses the base pdf() device, which drops the plotmath Greek Delta in
+# the y-axis title; cairo_pdf renders it (and the x10^-2 superscript) correctly.
+f2a_path <- here::here("results", paste0("F2a_procrustes_delta", suffix, ".pdf"))
+ggsave(f2a_path, f2a, width = 120, height = 120, units = "mm", device = cairo_pdf)
+message("wrote ", f2a_path)
