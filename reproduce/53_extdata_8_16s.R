@@ -114,7 +114,35 @@ pcoa <- beta_all %>%
 
 save_panel(pcoa, "E8b_pcoa.pdf", width = 6.5, height = 3.0)
 
-# PERMANOVA (biapenem arm, per day), written to a log for the record.
+# PERMANOVA behind the E8b claim, written to a log for the record.
+#
+# The question: among mice that already received biapenem, does sucrose shift the overall
+# fecal community? That is why the PBS arms are filtered out here even though the PCoA panel
+# plots all four groups. Keeping only the antibiotic-treated animals makes the contrast
+# sucrose-on-top-of-antibiotic rather than the much larger antibiotic-vs-PBS separation,
+# which would otherwise dominate any test run on the full set.
+#
+# Each day is tested separately rather than pooled. Day is not a covariate because the
+# communities are not comparable across days (the whole point of the figure is that they move
+# over time), and because the legend makes a per-day claim.
+#
+# experiment_no is in the model as the replicate/batch term. The two experiments separate
+# visibly in the ordination (circles vs triangles), so a diet effect estimated without it
+# would partly be reading batch.
+#
+# by = "margin" reports each term adjusted for the other, so the diet row is the sucrose
+# effect net of batch. That is the number the legend needs. The alternatives answer different
+# questions: the adonis2 default (by = NULL) gives one combined row for diet and batch
+# together, which cannot be attributed to sucrose, and by = "terms" is sequential, testing
+# diet before batch is accounted for.
+#
+# Permutation count and seed are set so the logged P values are stable enough to quote: at
+# 999 permutations the resolution is 0.001 and values move between runs.
+#
+# Conclusion this supports: a diet term with a small P and a non-trivial R2 means sucrose
+# explains community variation that batch does not. Read the diet row per day, not the model
+# row, and note that R2 matters as much as P here since n is 21 samples per day.
+set.seed(42)
 permanova <- healthyall %>%
   select(Taxon, sampleid, relab, abx_treatment, diet_treatment, experiment_no, day) %>%
   spread(key = "Taxon", value = "relab", fill = 0) %>%
@@ -125,7 +153,8 @@ permanova <- healthyall %>%
     d <- vegdist(df %>% select(-c(abx_treatment, diet_treatment, experiment_no, day)),
                  method = "bray")
     meta_d <- df %>% select(diet_treatment, experiment_no)
-    adonis2(d ~ diet_treatment + experiment_no, data = meta_d, permutations = 999)
+    adonis2(d ~ diet_treatment + experiment_no, data = meta_d,
+            permutations = 99999, by = "margin")
   })
 capture.output(print(permanova), file = cache_path("E8b_permanova.txt"))
 
