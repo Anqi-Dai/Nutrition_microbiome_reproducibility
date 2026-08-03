@@ -77,6 +77,21 @@ abx_palette <- wes_palette("Royal1", 2)
 axis_text_size <- 10
 axis_title_size <- 10
 
+# The genus set for the whole taxon family. A genus is kept when it exceeds 0.2%
+# relative abundance in more than 10% of the cohort's stool samples, which selects
+# 33. The E7a heatmap models (40), the E7b correlation bar and the F4a summary all
+# start from this one set, so a genus cannot appear in one panel and be missing
+# from another.
+prevalent_genera <- function(genus_long, n_samples) {
+  genus_long |>
+    filter(!is.na(genus), relab > 0.002) |>
+    count(genus, name = "n") |>
+    mutate(perc = round(n / n_samples * 100, 0)) |>
+    filter(perc > 10) |>
+    pull(genus) |>
+    sort()
+}
+
 # Genus-abundance vs alpha-diversity Spearman correlations (F4a / E7b source,
 # ported from 178_new_F4__code_for_Figure_4.Rmd). The original read a pre-built
 # genus-count table (022_ALL173_stool_samples_genus_counts.csv); that table does
@@ -84,9 +99,11 @@ axis_title_size <- 10
 # per-ASV genus relab (45_quality_asv_relab_pident97_genus.csv): drop the
 # unassigned (NA) genus, sum count_relative to genus level, then zero-fill the
 # sample x genus grid (spread/gather) exactly as the original did. Each genus
-# relab is correlated against inverse-Simpson diversity, keeping genera present
-# (relab > 1e-4) in > 10% of the 1009 samples, BH-adjusted. A tiny seeded jitter
-# breaks relab ties so cor.test can attempt exact p-values, matching 178.
+# relab is correlated against inverse-Simpson diversity, then Benjamini-Hochberg
+# adjusted across the prevalent genera. A tiny seeded jitter breaks relab ties so
+# cor.test can attempt exact p-values, matching 178; it is drawn over the full
+# sample x genus grid before the prevalence filter, because the size of the draw
+# shifts the tie-breaking and so would shift every rho.
 genus_diversity_spearman <- function() {
   set.seed(1)
   meta <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE)
@@ -103,7 +120,10 @@ genus_diversity_spearman <- function() {
     mutate(pseudotiny = runif(n(), min = 0, max = 10^-10),
            changed_relab = relab + pseudotiny)
 
+  keep <- prevalent_genera(g_relab, n_distinct(meta$sampleid))
+
   spearman_res <- g_relab %>%
+    filter(genus %in% keep) %>%
     split(.$genus) %>%
     imap_dfr(function(.x, .y) {
       ct <- suppressWarnings(cor.test(.x$simpson_reciprocal, .x$changed_relab,
@@ -111,16 +131,7 @@ genus_diversity_spearman <- function() {
       list(genus = .y, rho = ct$estimate, pval = ct$p.value)
     })
 
-  perc_thre <- g_relab %>%
-    count(genus, relab > 10^-4) %>%
-    filter(`relab > 10^-4` == "TRUE") %>%
-    mutate(passthre_perc = round(n / 1009 * 100, 0))
-
   spearman_res %>%
-    left_join(perc_thre, by = "genus") %>%
-    mutate(n = ifelse(is.na(n), 0, n),
-           passthre_perc = ifelse(is.na(passthre_perc), 0, passthre_perc)) %>%
-    filter(passthre_perc > 10) %>%
     mutate(padj = p.adjust(pval, method = "BH"),
            sig05 = if_else(padj < 0.05, "FDR < 0.05", "FDR >= 0.05"),
            Correlation = factor(if_else(rho >= 0, "higher_div", "lower_div"),

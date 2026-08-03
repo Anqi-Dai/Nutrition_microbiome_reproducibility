@@ -83,12 +83,10 @@ asv1_results |>
   print()
 
 # Per-genus models (E7a) --------------------------------------------------------
-# Keep the prevalent, reasonably abundant genera: present (relab > 0.002) in more
-# than 10% of samples, which selects 33. Drancourtella and Ruthenibacterium are
-# then dropped by name, leaving the 31 modelled here; the grounds for that
-# exclusion are unsettled (both are mid-prevalence in this cohort and both were
-# described from human faecal isolates), so it is recorded in BUILD_LEDGER.md
-# rather than asserted here. Each genus CLR then joins the meta as an outcome.
+# Genus set from the shared prevalence filter in the helper (relab > 0.002 in more
+# than 10% of samples), so the genera modelled here for E7a are exactly the genera
+# E7b correlates and F4a summarises. Each genus CLR then joins the meta as an
+# outcome.
 asv_relab_genus <- read_csv(released("45_quality_asv_relab_pident97_genus.csv"), show_col_types = FALSE)
 
 # Per-genus CLR, derived here rather than read from a standalone table. The genus
@@ -117,17 +115,7 @@ df_relab <- asv_relab_genus |>
   summarize(relab = sum(count_relative, na.rm = TRUE), .groups = "drop") |>
   filter(sampleid %in% meta$sampleid)
 
-target_genera <- df_relab |>
-  group_by(genus) |>
-  count(relab > 0.002) |>
-  rename(criteria = 2) |>
-  filter(criteria == "TRUE") |>
-  arrange(-n) |>
-  filter(!is.na(genus)) |>
-  filter(!genus %in% c("Ruthenibacterium", "Drancourtella")) |>
-  mutate(perc = round(n / nrow(meta) * 100, 0)) |>
-  filter(perc > 10) |>
-  pull(genus)
+target_genera <- prevalent_genera(df_relab, nrow(meta))
 
 clr_wide <- clr_res |>
   filter(genus %in% target_genera) |>
@@ -189,5 +177,6 @@ if (n_workers > 1) {
     map_dfr(\(o) fit_genus_model(o, meta_genus_clr, base_rhs, brms_backend))
 }
 
-write_csv(genus_results, cache_path("R63_genus_clr_all_models_results.csv"))
+write_csv(genus_results,
+          cache_path("R63_genus_clr_all_models_results.csv"))
 message("Taxon model fits cached to ", intermediate_dir())

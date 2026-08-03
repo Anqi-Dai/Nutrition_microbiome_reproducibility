@@ -16,8 +16,11 @@ key <- food_key()
 # F4a: top-5 genera in each diversity direction ---------------------------------
 res <- genus_diversity_spearman()
 
-# Keep the FDR-significant genera, take the five strongest correlations in each
-# direction, and order them by signed rho (most positive at top after coord_flip).
+# Keep the FDR-significant genera, take up to the five strongest correlations in
+# each direction, and order them by signed rho (most positive at top after
+# coord_flip). "Up to": the split is by the sign of rho, and only four genera
+# correlate negatively at FDR < 0.05, so the panel draws four blue bars and five
+# yellow rather than five and five.
 main <- res %>%
   filter(sig05 == "FDR < 0.05") %>%
   split(.$Correlation) %>%

@@ -4,8 +4,8 @@
 # 178_new_F4__code_for_Figure_4.Rmd (E7b).
 #   E7a  food-group effect-size heatmap across the prevalent genera, rows
 #        clustered (dendrogram) by their posterior fraction-positive profile
-#   E7b  genus-abundance vs alpha-diversity Spearman correlations across all the
-#        genera that made the heatmap (the full-set companion to F4a)
+#   E7b  genus-abundance vs alpha-diversity Spearman correlations across the same
+#        genera (the full-set companion to F4a)
 #   E7e  marginal E. faecium (asv_1) CLR over each food group, split by
 #        antibiotic exposure, from the cached asv_1 fit's conditional effects
 #
@@ -37,7 +37,8 @@ level_order <- rev(c(
 # Keep only the food-group terms; assign tiered significance marks from the
 # nested credible intervals (*** 99% / ** 97% / * 94%), checking the strictest
 # threshold first and cascading down.
-post_summary <- read_csv(cache_path("R63_genus_clr_all_models_results.csv"), show_col_types = FALSE) |>
+post_summary <- read_csv(cache_path("R63_genus_clr_all_models_results.csv"),
+                         show_col_types = FALSE) |>
   filter(str_detect(term, "fg_")) |>
   mutate(
     clean_term = term |>
@@ -100,18 +101,14 @@ final_figure <- plot_grid(heatmap_plot, dendro_plot, ncol = 2,
 save_panel(final_figure, "E7a_genus_heatmap.pdf", width = 180, height = 200)
 message("E7a done")
 
-# E7b: Spearman correlations for every genus that made the heatmap --------------
-# The original 178 panel filtered to a separately-built 33-genus abundance set
-# (087_more_abundant_0.002_genus_33.csv, not shipped). Per the rewrite, the set
-# is instead the genera that made the E7a heatmap (the outcomes cached by 40),
-# keeping the FDR-significant ones ordered by signed rho.
+# E7b: Spearman correlations across the prevalent genera ------------------------
+# Same genus set as the heatmap above and as F4a, from the shared prevalence filter
+# in the helper. Keep the FDR-significant ones, ordered by signed rho. The set comes
+# from the filter rather than from the cached 40 results, so E7b does not depend on
+# the per-genus models having been fitted.
 res <- genus_diversity_spearman()
-heatmap_genera <- read_csv(cache_path("R63_genus_clr_all_models_results.csv"),
-                           show_col_types = FALSE) %>%
-  distinct(genus = outcome)
 
 selected_bars <- res %>%
-  filter(genus %in% heatmap_genera$genus) %>%
   filter(sig05 == "FDR < 0.05") %>%
   arrange(desc(rho))
 
