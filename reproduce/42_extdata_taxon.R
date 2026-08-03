@@ -22,6 +22,17 @@ suppressPackageStartupMessages({
 key <- food_key()
 replacement_dictionary <- setNames(key$shortname, key$fg1_name)
 
+# Panel styling matched to the assembled Extended Fig. 7 artwork. ggplot linewidths
+# are millimetres, so dividing by .pt puts them in points: hairline = 0.5 pt for the
+# axis lines, tick marks and heatmap tile borders. Genus names are 7 pt, and the rest
+# of the axis text matches them so the two panels read at one size. The published
+# panels give both a 6.6 pt genus row, a 142 x 217 pt heatmap and a 40 x 211 pt bar
+# panel, which is where the two aspect ratios come from.
+hairline <- 0.5 / .pt
+genus_text_pt <- 7
+heatmap_ratio <- 217 / 142
+spearman_ratio <- 211 / 40
+
 # E7a: genus heatmap + dendrogram -----------------------------------------------
 level_order <- rev(c(
   "abx * Sweets", "Sweets",
@@ -82,23 +93,27 @@ heatmap_plot <- heatmap_data |>
   # Blank the non-significant tiles so the credible effects read clearly.
   mutate(Estimate = if_else(!str_detect(mark, "\\*"), 0, Estimate)) |>
   ggplot(aes(x = clean_term, y = outcome, fill = Estimate)) +
-  geom_tile(color = "black", width = 0.95, height = 0.95) +
+  geom_tile(color = "black", linewidth = hairline, width = 0.95, height = 0.95) +
   geom_text(aes(label = mark), nudge_y = -0.15, size = 1.5, color = "black") +
   scale_fill_gradient2(low = "royalblue", mid = "white", high = "firebrick", midpoint = 0) +
-  labs(fill = "Effect size\n(posterior median)") +
+  labs(fill = "Effect size\n(posterior mean)") +
   theme_minimal(base_size = 11) +
   theme(
+    aspect.ratio = heatmap_ratio,
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
-    axis.text.y = element_markdown(face = "italic"),
-    axis.text.x = element_markdown(angle = 45, hjust = 1),
+    axis.text.y = element_markdown(face = "italic", size = genus_text_pt),
+    axis.text.x = element_markdown(angle = 45, hjust = 1, size = genus_text_pt),
+    axis.ticks = element_line(linewidth = hairline),
     legend.position = "left",
+    legend.title = element_text(size = genus_text_pt),
+    legend.text = element_text(size = genus_text_pt),
     panel.background = element_rect(colour = "white", fill = "white"),
     panel.grid = element_blank())
 
 final_figure <- plot_grid(heatmap_plot, dendro_plot, ncol = 2,
                           rel_widths = c(1, 0.1), align = "h", axis = "tb")
-save_panel(final_figure, "E7a_genus_heatmap.pdf", width = 180, height = 200)
+save_panel(final_figure, "E7a_genus_heatmap.pdf", width = 118, height = 99)
 message("E7a done")
 
 # E7b: Spearman correlations across the prevalent genera ------------------------
@@ -115,16 +130,29 @@ selected_bars <- res %>%
 correbar_all <- selected_bars %>%
   mutate(genus = factor(genus, levels = selected_bars$genus)) %>%
   ggplot(aes(x = genus, y = 0, xend = genus, yend = rho, color = Correlation)) +
-  geom_segment(size = 5) +
-  labs(x = "", y = expression(paste("Spearman correlation (", rho, ")"))) +
+  # bar thickness in points, so it stays proportionate to the 6.6 pt genus row
+  geom_segment(linewidth = 4.5 / .pt) +
+  # Axis titled with the symbol alone and only three breaks: at 40 pt wide the panel
+  # has no room for five tick labels or a spelled-out title, and this is what the
+  # assembled figure shows (the "Spearman correlation with alpha-diversity" wording
+  # sits beside the panel as artwork, not as an axis title).
+  labs(x = "", y = expression(rho)) +
+  scale_y_continuous(breaks = c(-0.2, 0, 0.4), labels = c("-0.2", "0", "0.4")) +
   scale_color_jco() +
   coord_flip() +
   theme_classic(base_size = 10) +
-  theme(axis.text = element_text(size = 10), axis.title = element_text(size = 10),
+  theme(aspect.ratio = spearman_ratio,
+        axis.text = element_text(size = genus_text_pt),
+        # the panel is only 40 pt wide, so the three tick labels are set a step
+        # below the genus names to keep them from touching, as in the artwork
+        axis.text.x = element_text(size = genus_text_pt - 1),
+        axis.title = element_text(size = genus_text_pt),
         legend.position = "none",
-        axis.text.y = element_markdown(face = "italic"))
+        axis.line = element_line(linewidth = hairline),
+        axis.ticks = element_line(linewidth = hairline),
+        axis.text.y = element_markdown(face = "italic", size = genus_text_pt))
 
-save_panel(correbar_all, "E7b_genus_diversity_spearman.pdf", width = 100, height = 200)
+save_panel(correbar_all, "E7b_genus_diversity_spearman.pdf", width = 52, height = 83)
 message("E7b done")
 
 # E7e: marginal E. faecium CLR per food group, by antibiotic exposure -----------
