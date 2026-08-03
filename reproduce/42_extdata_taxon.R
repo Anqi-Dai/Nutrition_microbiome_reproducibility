@@ -22,14 +22,10 @@ suppressPackageStartupMessages({
 key <- food_key()
 replacement_dictionary <- setNames(key$shortname, key$fg1_name)
 
-# Panel styling matched to the assembled Extended Fig. 7 artwork. ggplot linewidths
-# are millimetres, so dividing by .pt puts them in points: hairline = 0.5 pt for the
-# axis lines, tick marks and heatmap tile borders. Genus names are 7 pt, and the rest
-# of the axis text matches them so the two panels read at one size. The published
-# panels give both a 6.6 pt genus row, a 142 x 217 pt heatmap and a 40 x 211 pt bar
-# panel, which is where the two aspect ratios come from.
-hairline <- 0.5 / .pt
-genus_text_pt <- 7
+# Panel proportions measured off the assembled Extended Fig. 7 artwork: a 142 x 217 pt
+# heatmap and a 40 x 211 pt bar panel, both on a 6.6 pt genus row. `hairline` (0.5 pt)
+# and `genus_text_pt` (7 pt) come from the helper, shared with F4a in 41. The rest of
+# the axis text is set to the genus size so each panel reads at one size.
 heatmap_ratio <- 217 / 142
 spearman_ratio <- 211 / 40
 

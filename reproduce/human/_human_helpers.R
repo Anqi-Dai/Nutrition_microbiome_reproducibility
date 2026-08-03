@@ -77,6 +77,13 @@ abx_palette <- wes_palette("Royal1", 2)
 axis_text_size <- 10
 axis_title_size <- 10
 
+# Panel styling shared by the taxon panels (F4a in 41, E7a/E7b in 42), matched to the
+# assembled figure artwork. ggplot linewidths are millimetres, so dividing by .pt puts
+# them in points: every axis line, tick mark and heatmap tile border is a 0.5 pt
+# hairline, and genus names are 7 pt.
+hairline <- 0.5 / .pt
+genus_text_pt <- 7
+
 # The genus set for the whole taxon family. A genus is kept when it exceeds 0.2%
 # relative abundance in more than 10% of the cohort's stool samples, which selects
 # 33. The E7a heatmap models (40), the E7b correlation bar and the F4a summary all

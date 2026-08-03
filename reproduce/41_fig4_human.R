@@ -28,20 +28,36 @@ main <- res %>%
   bind_rows() %>%
   arrange(desc(rho))
 
+# Styling matched to the assembled Fig. 4 artwork, which gives panel (a) a 40 x 100 pt
+# bar panel on a ~10 pt genus row with the bars nearly filling each row. `hairline`
+# (0.5 pt) and `genus_text_pt` (7 pt) are the shared taxon-panel constants from the
+# helper, so this panel and E7a/E7b carry the same line weights and label size.
+spearman_ratio <- 100 / 40
+
 correbar <- main %>%
   mutate(genus = factor(genus, levels = main$genus)) %>%
   ggplot(aes(x = genus, y = 0, xend = genus, yend = rho, color = Correlation)) +
-  geom_segment(size = 4) +
+  # bar thickness just under the row pitch, as in the artwork
+  geom_segment(linewidth = 9.5 / .pt) +
   labs(x = "", y = "Spearman correlation") +
+  # three breaks, and "0" rather than "0.0": the panel is 40 pt wide
+  scale_y_continuous(breaks = c(-0.2, 0, 0.4), labels = c("-0.2", "0", "0.4")) +
   scale_color_jco() +
   coord_flip() +
   theme_classic(base_size = 10) +
-  theme(axis.text = element_text(size = 10), axis.title = element_text(size = 10),
+  theme(aspect.ratio = spearman_ratio,
+        axis.text = element_text(size = genus_text_pt),
+        # 4.5 pt tick labels, matching the artwork. Three of them have to fit a
+        # 41 pt panel where 0.2 rho units is only 7 pt, so anything larger runs
+        # the -0.2 and 0 labels together.
+        axis.text.x = element_text(size = 4.5),
+        axis.title = element_text(size = genus_text_pt),
         legend.position = "none",
-        axis.text.y = element_markdown(face = "italic"),
-        aspect.ratio = 1 / 1.3)
+        axis.line = element_line(linewidth = hairline),
+        axis.ticks = element_line(linewidth = hairline),
+        axis.text.y = element_markdown(face = "italic", size = genus_text_pt))
 
-save_panel(correbar, "F4a_genus_diversity_spearman.pdf", width = 90, height = 90)
+save_panel(correbar, "F4a_genus_diversity_spearman.pdf", width = 58, height = 44)
 message("F4a done")
 results_df <- read_csv(cache_path("R63_results_df_asv1.csv"), show_col_types = FALSE)
 
