@@ -11,7 +11,11 @@
 #   B  F4b-style E. faecium (asv_1) CLR effects
 #   C  F2e-style macronutrient diversity effects (log Simpson)
 #
-# Output: results/F2_F4b_forest_5day_A4.pdf
+# This is a sensitivity analysis, not a published panel, so the figure does NOT go
+# to results/ (which holds one PDF per manuscript panel). It lands in the derived
+# cache instead.
+#
+# Output: intermediate_data/F2_F4b_forest_5day_A4.pdf
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 if (!dir.exists(intermediate_dir())) dir.create(intermediate_dir(), recursive = TRUE)
@@ -196,7 +200,9 @@ withtitle <- cowplot::plot_grid(title, body, ncol = 1, rel_heights = c(0.05, 1))
 fig <- cowplot::ggdraw() +
   cowplot::draw_plot(withtitle, x = 0.045, y = 0.035, width = 0.91, height = 0.93)
 
-out_dir <- here::here("results"); if (!dir.exists(out_dir)) dir.create(out_dir)
+# Sensitivity output, so it goes to the derived cache rather than results/.
+out_dir <- intermediate_dir(); if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 ggsave(file.path(out_dir, "F2_F4b_forest_5day_A4.pdf"), fig,
        width = 210, height = 297, units = "mm")
-message("wrote results/F2_F4b_forest_5day_A4.pdf  (n=", n_s, " samples, ", n_p, " patients)")
+message("wrote intermediate_data/F2_F4b_forest_5day_A4.pdf  (n=", n_s, " samples, ",
+        n_p, " patients)")
