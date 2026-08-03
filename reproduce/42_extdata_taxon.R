@@ -71,56 +71,42 @@ post_matrix <- post_summary |>
   spread("term", "fraction_positive") |>
   column_to_rownames("outcome")
 
-genus_distance <- dist(post_matrix)
-hc <- hclust(genus_distance, method = "complete")
 
-# Row order follows the printed panel as closely as the clustering allows. This is a
-# branch rotation, not a reclustering: which child of a split is drawn first is
-# arbitrary in a dendrogram, so flipping branches leaves every cluster and every merge
-# height untouched and changes only the reading order.
-#
-# The printed row order, top to bottom. Each genus gets its position here as a target
-# rank, and reorder() sorts each split by the mean rank of its leaves, which pulls the
-# drawn order towards this list wherever the tree permits.
-printed_row_order <- c(
-  "Streptococcus", "Lactococcus", "Faecalimonas", "Romboutsia", "Blautia",
-  "Lachnoclostridium", "Flavonifractor", "Erysipelatoclostridium", "Anaerostipes",
-  "Eggerthella", "Ruminococcus", "Escherichia", "Fusicatenibacter", "Bifidobacterium",
-  "Akkermansia", "Parabacteroides", "Bacteroides", "Dorea", "Clostridium",
-  "Anaerobutyricum", "Schaalia", "Actinomyces", "Scardovia", "Intestinibacter",
-  "Staphylococcus", "Rothia", "Granulicatella", "Veillonella", "Atopobium",
-  "Lactobacillus", "Enterococcus")
-
-# Ranks run bottom to top, because the first level of the y factor is the bottom row.
-target_rank <- setNames(as.numeric(seq_along(printed_row_order)), rev(printed_row_order))
-
-# The two genera the printed panel does not carry take their nearest neighbour's rank,
-# so they land beside the genus they cluster with instead of distorting the sort.
-distance_matrix <- as.matrix(genus_distance)
-for (genus in setdiff(hc$labels, names(target_rank))) {
-  nearest <- names(sort(distance_matrix[genus, names(target_rank)]))[1]
-  target_rank[genus] <- target_rank[[nearest]] + 0.5
+plot_hc_w_node_labels <- function(hc, ...){
+  plot(hc, ...)
+  dend <- as.dendrogram(hc)
+  xy <- get_nodes_xy(dend)
+  heights <- get_nodes_attr(dend, "height")
+  internal <- heights > 0
+  text(
+    x = xy[internal, 1],
+    y = xy[internal, 2],
+    labels = seq_len(sum(internal)),
+    pos = 3,
+    cex = 0.7,
+    col = "red"
+  )
+}
+adjust_aesthetics = FALSE
+hc <- hc_raw <- hclust(dist(post_matrix), method = "complete")
+if (adjust_aesthetics) {
+  labels(hc) <- paste0(1:length(hc$labels), " " , labels(hc))
+  plot_hc_w_node_labels(hc_raw)
+}
+node_to_rotate<- list(
+  30, 5, 20, 24, 19
+  )
+for (node_id in node_to_rotate){
+  hc <- rotate(hc, node_id)
+  if (adjust_aesthetics){
+    plot_hc_w_node_labels(hc, main=node_id)
+    labels(hc) <- paste0(1:length(hc$labels), " " , gsub("\\d+ ", "", labels(hc)))
+  }
 }
 
-# Streptococcus and Lactococcus are asked for the top two rows. They sit with
-# Faecalimonas in a branch whose sibling holds Dorea, Clostridium and Anaerobutyricum,
-# and the printed panel puts that trio in the middle, which leaves the branch's mean
-# rank too low to reach the top on its own. Lifting the three genera clear of every
-# other rank sends the branch to the top without touching the clustering.
-target_rank[c("Faecalimonas", "Lactococcus", "Streptococcus")] <- c(98, 99, 100)
 
-# reorder() indexes its weights by the ORIGINAL leaf order, hc$labels, NOT by the
-# current display order. Keyed the other way it silently returns a different order.
-rotated <- reorder(as.dendrogram(hc), wts = target_rank[hc$labels], agglo.FUN = mean)
-
-dendro_data <- dendro_data(rotated, type = "rectangle")
-ordered_genera <- labels(rotated)
-
-# ordered_genera[1] is the bottom row of the panel. Stop rather than print a panel
-# that quietly ignores the requested order: if a future refit moves these genera into
-# the same top-level cluster the rotation can no longer place them at both ends.
-stopifnot(ordered_genera[1] == "Enterococcus",
-          tail(ordered_genera, 2) == c("Lactococcus", "Streptococcus"))
+dendro_data <- dendro_data(hc, type = "rectangle")
+ordered_genera <- hc$labels[hc$order]
 
 dendro_plot <- ggplot(segment(dendro_data)) +
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
