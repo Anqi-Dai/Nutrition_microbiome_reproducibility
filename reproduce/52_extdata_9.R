@@ -54,7 +54,7 @@ cmp_9a <- c(
 p_9a <- course_9a |>
   ggplot(aes(x = xvar, y = cfu, colour = grp)) +
   geom_boxplot(outlier.shape = NA, fill = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.5, shape = 16, size = 0.8) +
+  jitter_points(width = 0.15, alpha = 0.5, shape = 16, size = 0.8) +
   scale_colour_manual(values = setNames(pal_sucrose4, grp_9a),
                       name = "Antibiotic + diet", labels = pretty_grp) +
   scale_log10_sci() +
@@ -91,7 +91,7 @@ course_9c <- read_course("Sup_Figure_9c_alternate_sugars") |>
 p_9c <- course_9c |>
   ggplot(aes(x = xvar, y = cfu, colour = grp)) +
   geom_boxplot(outlier.shape = NA, fill = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.4, shape = 16, size = 0.8) +
+  jitter_points(width = 0.15, alpha = 0.4, shape = 16, size = 0.8) +
   scale_colour_manual(values = pal_9c, name = "Antibiotic + diet", labels = pretty_grp) +
   scale_log10_sci() +
   scale_x_discrete(labels = rep(days_9c, length(grp_9c))) +
@@ -203,7 +203,7 @@ auc_p <- summary(aov(auc ~ water + experiment_no, data = mono_auc))[[1]][["Pr(>F
 p_9d_auc <- mono_auc |>
   ggplot(aes(x = water, y = load)) +
   geom_boxplot(outlier.shape = NA, width = 0.6, fill = "#f6a6a0", colour = "gray25") +
-  geom_jitter(width = 0.15, alpha = 0.7, shape = 16, size = 1.6, colour = "gray25") +
+  jitter_points(width = 0.15, alpha = 0.7, shape = 16, size = 1.6, colour = "gray25") +
   annotate("segment", x = 1, xend = 2, y = 1.55, yend = 1.55, linewidth = 0.5) +
   annotate("text", x = 1.5, y = 1.58, label = paste0("p = ", signif(auc_p, 1)),
            size = 4, vjust = 0) +
@@ -230,7 +230,7 @@ bmt <- read_mouse_sheet("Sup_Figure_9h_bmt_cfu") |>
 p_9h <- bmt |>
   ggplot(aes(x = xvar, y = cfu, colour = grp)) +
   geom_boxplot(outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.5, shape = 16, size = 0.9) +
+  jitter_points(width = 0.15, alpha = 0.5, shape = 16, size = 0.9) +
   scale_colour_manual(values = pal_sucrose4, name = "Treatment group", labels = pretty_grp) +
   scale_log10_sci() +
   scale_x_discrete(labels = rep(days_bmt, length(bmt_levels))) +

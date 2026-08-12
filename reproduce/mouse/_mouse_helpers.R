@@ -106,6 +106,26 @@ legend_treatment <- function() {
         legend.key.size = unit(0.9, "lines"))
 }
 
+# Jittered points, with the offsets pinned to a seed.
+#
+# geom_jitter draws its offsets when the plot is RENDERED, inside ggsave, not
+# when the plot object is built. A set.seed() before the ggplot call therefore
+# does NOT control it, and every rerun scatters the points differently: E8g, E8h,
+# E8j and E8l all came out byte- and pixel-different after a rerun with no code
+# change, which leaves saved panels churning in git and buries real changes in
+# noise. position_jitter(seed=) fixes the offsets to the data, so the same input
+# always gives the same panel.
+#
+# Only the offsets become deterministic; nothing about the look changes. `height`
+# is deliberately left NULL, exactly as geom_jitter had it, so the vertical
+# spread still defaults to 40% of the data's resolution.
+JITTER_SEED <- 1
+
+jitter_points <- function(mapping = NULL, width = 0.15, ..., seed = JITTER_SEED) {
+  geom_point(mapping = mapping,
+             position = position_jitter(width = width, seed = seed), ...)
+}
+
 theme_mouse <- function(base_size = 11) {
   theme_light(base_size = base_size) +
     theme(

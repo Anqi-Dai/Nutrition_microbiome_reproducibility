@@ -40,7 +40,7 @@ chow_day <- chow_day |> mutate(grp = factor(grp, levels = chow_g_levels))
 p_8g <- chow_day |>
   ggplot(aes(x = grp, y = chow, colour = grp)) +
   geom_boxplot(outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.6, shape = 16, size = 1) +
+  jitter_points(width = 0.15, alpha = 0.6, shape = 16, size = 1) +
   facet_wrap(~day) +
   scale_colour_manual(values = pal_chow2) +
   scale_x_discrete(labels = c("vehicle", "sucrose")) +
@@ -59,7 +59,7 @@ chow_auc <- read_mouse_sheet("Sup_Figure_8h_chow_consumed_auc") |>
 p_8h <- chow_auc |>
   ggplot(aes(x = grp, y = auc, colour = grp)) +
   geom_boxplot(outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.6, shape = 16, size = 1) +
+  jitter_points(width = 0.15, alpha = 0.6, shape = 16, size = 1) +
   scale_colour_manual(values = pal_chow2) +
   stat_compare_means(comparisons = chow_comp, label = "p.signif",
                      method = "wilcox.test", tip.length = 0.04) +
@@ -85,7 +85,7 @@ delay_auc <- read_mouse_sheet("Sup_Figure_8j_delayed_sucrose_a") |>
 p_8j <- delay_auc |>
   ggplot(aes(x = grp, y = auc, colour = grp)) +
   geom_boxplot(outlier.shape = NA, fill = NA, linewidth = 0.8) +
-  geom_jitter(aes(shape = experiment), width = 0.18, size = 1.5, alpha = 0.9) +
+  jitter_points(aes(shape = experiment), width = 0.18, size = 1.5, alpha = 0.9) +
   scale_shape_manual(values = c("Experiment 1" = 16, "Experiment 2" = 15)) +
   scale_colour_manual(values = pal_delay6) +
   stat_compare_means(comparisons = delay_comp, label = "p.format",
@@ -140,7 +140,7 @@ cfu_8l <- read_mouse_sheet("Sup_Figure_8l_no_fiber_chow_CFU") |>
 p_8l <- cfu_8l |>
   ggplot(aes(x = xvar, y = log_cfu, colour = grp)) +
   geom_boxplot(outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.5, shape = 16, size = 0.9) +
+  jitter_points(width = 0.15, alpha = 0.5, shape = 16, size = 0.9) +
   scale_colour_manual(values = pal_sucrose4, name = "Treatment group", labels = pretty_grp) +
   scale_x_discrete(labels = rep(days_8l, length(groups_dpbs))) +
   stat_compare_means(

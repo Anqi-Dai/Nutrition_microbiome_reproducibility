@@ -25,7 +25,7 @@ indiv <- read_mouse_sheet("Figure_4c_indiv_days_data") |>
 p_indiv <- indiv |>
   ggplot(aes(x = xvar, y = cfu, colour = grp)) +
   geom_boxplot(outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.5, shape = 16, size = 1) +
+  jitter_points(width = 0.15, alpha = 0.5, shape = 16, size = 1) +
   scale_colour_manual(values = pal_sucrose4, name = "Treatment group", labels = pretty_grp) +
   scale_log10_sci() +
   scale_x_discrete(labels = rep(sort(unique(indiv$day)), length(groups_4c))) +
@@ -48,7 +48,7 @@ auc <- read_mouse_sheet("Figure_4c_trapezoidal_auc") |>
 p_auc <- auc |>
   ggplot(aes(x = grp, y = auc, colour = grp)) +
   geom_boxplot(outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.5, shape = 16, size = 1) +
+  jitter_points(width = 0.15, alpha = 0.5, shape = 16, size = 1) +
   scale_colour_manual(values = pal_sucrose4) +
   scale_log10_sci() +
   stat_compare_means(
