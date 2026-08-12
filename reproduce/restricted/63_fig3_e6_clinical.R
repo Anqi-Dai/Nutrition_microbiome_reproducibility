@@ -12,8 +12,10 @@
 #   E6c  scatter: avg sugar intake (g) vs avg daily calories
 #   E6d  scatter: avg sugar density (g/1000 kcal) vs avg daily calories
 #   E6j  contour: log-HR over sugar density x abx exposure (spline Cox model)
-#   Supplementary Tables 1-6 in one workbook (S1 full cohort, S2 microbiome
-#        sub-cohort, S3/S5 characteristics by sugar / cluster, S4/S6 Cox models)
+#   Supplementary Tables 1-6 as one PDF (S1 full cohort, S2 microbiome
+#        sub-cohort, S3/S5 characteristics by sugar / cluster, S4/S6 Cox models),
+#        laid out like the accepted supplementary file: a guide page, a page of
+#        legends, then one page per table with its title above and legend below
 #
 # Clinical outcomes are protected: reads the restricted df_main and skips cleanly
 # when it is absent. (The E6i hospital-discharge cumulative-incidence panel is not
@@ -25,7 +27,7 @@ suppressPackageStartupMessages({
   library(gtsummary)
   library(patchwork)
   library(splines)
-  library(openxlsx)
+  library(grid)   # the supplementary tables are drawn as PDF pages, not a workbook
 })
 
 df_file <- "df_main_clinical_outcome.rds"
@@ -280,49 +282,344 @@ s6 <- tbl_regression(
                day_exposed ~ "Abx exposure (days)")) |>
   bold_p(t = 0.05) |> bold_labels()
 
-# Assemble one workbook, one sheet per table: short title, table, caption.
-tables <- list(
-  list(tbl = s1, sheet = "Supplementary Table 1",
-       title = "Supplementary Table 1. Patient characteristics of the full nutrition cohort.",
-       caption = "Data are presented as mean (standard deviation) for continuous variables and as count (percentage) for categorical variables. PBSC, peripheral blood stem cells. MDS/MPN, myelodysplastic syndromes/myeloproliferative neoplasms. GVHD, graft-versus-host disease. CNI, calcineurin inhibitor. PTCy, post-transplant cyclophosphamide."),
-  list(tbl = s2, sheet = "Supplementary Table 2",
-       title = "Supplementary Table 2. Patient characteristics of the microbiome-nutrition sub-cohort.",
-       caption = "Data are presented as mean (standard deviation) for continuous variables and as count (percentage) for categorical variables. PBSC, peripheral blood stem cells. MDS/MPN, myelodysplastic syndromes/myeloproliferative neoplasms. GVHD, graft-versus-host disease. CNI, calcineurin inhibitor. PTCy, post-transplant cyclophosphamide."),
-  list(tbl = s3, sheet = "Supplementary Table 3",
-       title = "Supplementary Table 3. Patient characteristics by dichotomized averaged sugar intake, normalized by total caloric intake.",
-       caption = "Patients dichotomized at the median sugar intake (above- vs below-median), normalized by total caloric intake and averaged across HCT days -7 to 12. Median (IQR) for continuous, count (percentage) for categorical variables."),
-  list(tbl = s4, sheet = "Supplementary Table 4",
-       title = "Supplementary Table 4. Multivariable Cox proportional hazards model for overall survival (OS) in dichotomized sugar-intake groups.",
-       caption = "Adjusted HR and 95% CI, landmarked at day 12 after HCT, with an interaction between sugar-intake group and days of broad-spectrum antibiotic exposure (day -7 to 12), adjusting for conditioning intensity, graft type, and GVHD prophylaxis. The Abx-exposure row is the HR in the above-median group."),
-  list(tbl = s5, sheet = "Supplementary Table 5",
-       title = "Supplementary Table 5. Patient characteristics by diet-pattern cluster.",
-       caption = "Clusters were defined by latent-trajectory class analysis without clinical variables. Median (IQR) for continuous, count (percentage) for categorical variables."),
-  list(tbl = s6, sheet = "Supplementary Table 6",
-       title = "Supplementary Table 6. Multivariable Cox proportional hazards model for overall survival (OS) in dietary-pattern clusters.",
-       caption = "Adjusted HR and 95% CI, landmarked at day 12 after HCT, with an interaction between diet-pattern cluster and days of broad-spectrum antibiotic exposure, adjusting for conditioning intensity, graft type, and GVHD prophylaxis. The Abx-exposure row is the HR in Cluster 1.")
-)
+# ---------------------------------------------------------------------------
+# PDF renderer for the supplementary tables
+# ---------------------------------------------------------------------------
+# The accepted supplementary file is a PDF rather than a workbook, so the tables
+# are drawn straight onto PDF pages here instead of being written to sheets and
+# pasted into a document by hand. The layout follows that file: US Letter
+# landscape, a shaded header band closed by a single black rule and no other
+# rules, bold variable labels, the title above each table and the full legend
+# below it. All geometry is in points measured from the TOP-LEFT of the page, the
+# way it was measured off the accepted file, and grid does the flip to its own
+# bottom-left origin in one place (`put_text`).
 
-wb <- createWorkbook()
-title_style  <- createStyle(textDecoration = "bold", fontSize = 12)
-header_style <- createStyle(textDecoration = "bold", fgFill = "#D9D9D9", border = "bottom")
-cap_style    <- createStyle(fontSize = 9, textDecoration = "italic")
+PAGE_W <- 792   # 11 in
+PAGE_H <- 612   # 8.5 in
 
-for (t in tables) {
-  addWorksheet(wb, t$sheet)
-  writeData(wb, t$sheet, t$title, startRow = 1)
-  addStyle(wb, t$sheet, title_style, rows = 1, cols = 1)
-
-  df <- t$tbl |> as_tibble()
-  names(df) <- names(df) |> str_remove_all("\\*\\*|__")
-  df <- df |> mutate(across(everything(), ~ str_remove_all(as.character(.x), "\\*\\*|__")))
-  writeData(wb, t$sheet, df, startRow = 3)
-  addStyle(wb, t$sheet, header_style, rows = 3, cols = seq_len(ncol(df)), gridExpand = TRUE)
-
-  cap_row <- nrow(df) + 5
-  writeData(wb, t$sheet, t$caption, startRow = cap_row)
-  addStyle(wb, t$sheet, cap_style, rows = cap_row, cols = 1)
-  setColWidths(wb, t$sheet, cols = seq_len(ncol(df)), widths = "auto")
+# Calibri sets the accepted file but is a Microsoft font that is not installed
+# everywhere; fall through its metric-compatible clone to a generic sans so the
+# script runs on any machine. Only the shapes change, never the layout.
+supp_font <- {
+  installed <- if (requireNamespace("systemfonts", quietly = TRUE)) {
+    unique(systemfonts::system_fonts()$family)
+  } else character()
+  found <- intersect(c("Calibri", "Carlito"), installed)
+  if (length(found) > 0) found[1] else "Helvetica"
 }
-saveWorkbook(wb, file.path(results_dir, "Supplementary_Tables_1_6.xlsx"), overwrite = TRUE)
 
-message("Wrote Fig 3 / E6 panels and Supplementary_Tables_1_6.xlsx to results/.")
+# Width of a string on the open device, in points. Everything that wraps or gets
+# a column width is measured rather than guessed, so a longer label or an extra
+# group column widens the table instead of overprinting the next one.
+text_w <- function(s, size, face = "plain") {
+  convertWidth(
+    grobWidth(textGrob(s, gp = gpar(fontfamily = supp_font, fontface = face,
+                                    fontsize = size))),
+    "pt", valueOnly = TRUE)
+}
+
+# One string with its top-left corner at (x, y) from the top-left of the page.
+put_text <- function(s, x, y, size, face = "plain") {
+  grid.text(s, x = unit(x, "pt"), y = unit(PAGE_H - y, "pt"),
+            just = c("left", "top"),
+            gp = gpar(fontfamily = supp_font, fontface = face, fontsize = size))
+}
+
+# A paragraph whose leading run (the table number) is bold and whose remainder is
+# regular, wrapped greedily at `width`. Words are placed one at a time because
+# the bold run ends mid-line and the two faces have different widths. Returns the
+# top of the line after the paragraph, so blocks stack without hardcoded heights.
+put_paragraph <- function(bold_run, plain_run, x, y, width, size, leading) {
+  split_words <- function(s) if (nchar(trimws(s)) == 0) character() else strsplit(trimws(s), " +")[[1]]
+  words <- c(split_words(bold_run), split_words(plain_run))
+  faces <- c(rep("bold", length(split_words(bold_run))),
+             rep("plain", length(split_words(plain_run))))
+
+  space_w <- text_w(" ", size)
+  widths  <- vapply(seq_along(words), \(i) text_w(words[i], size, faces[i]), numeric(1))
+
+  cur_x <- x
+  line_y <- y
+  for (i in seq_along(words)) {
+    # break before a word that would run past the right edge, unless it is the
+    # first word on the line (nothing to gain by breaking again)
+    if (cur_x > x && cur_x + widths[i] > x + width) {
+      cur_x <- x
+      line_y <- line_y + leading
+    }
+    put_text(words[i], cur_x, line_y, size, faces[i])
+    cur_x <- cur_x + widths[i] + space_w
+  }
+  line_y + leading
+}
+
+# gtsummary marks bold cells with markdown underscores (__cell__) and bold column
+# headers with asterisks (**header**). Split a table into its plain text and a
+# parallel logical matrix of which cells were bold, then drop the markers.
+gt_cells <- function(t) {
+  raw <- as_tibble(t)
+  txt <- lapply(raw, \(col) ifelse(is.na(col), "", as.character(col)))
+
+  bold <- vapply(txt, \(col) str_detect(col, "^__.*__$"), logical(length(txt[[1]])))
+  bold <- matrix(bold, nrow = length(txt[[1]]), ncol = length(txt))
+
+  txt <- lapply(txt, \(col) str_remove_all(col, "\\*\\*|__"))
+  # group headers arrive as "**Above-median**  \nN = 86"; dropping the newline
+  # (not the spaces around it) gives the single-line header the accepted file uses
+  headers <- names(raw) |> str_remove_all("\\*\\*|__") |> str_replace_all("\n", "")
+  colnames(bold) <- headers
+
+  # In the accepted file a Cox row whose p-value cleared bold_p() is bold right
+  # across, not only in the p-value cell. Carry that emphasis over.
+  if ("p-value" %in% headers) bold[bold[, "p-value"], ] <- TRUE
+
+  txt <- as.data.frame(txt, check.names = FALSE, stringsAsFactors = FALSE)
+  names(txt) <- headers
+  list(text = txt, bold = bold)
+}
+
+# The same structure for a table that never came from gtsummary: header bold,
+# no bold body cells. Supplementary Table 7 is the only one of these.
+plain_cells <- function(df) {
+  txt <- as.data.frame(lapply(df, as.character), check.names = FALSE,
+                       stringsAsFactors = FALSE)
+  names(txt) <- names(df)
+  list(text = txt,
+       bold = matrix(FALSE, nrow = nrow(txt), ncol = ncol(txt),
+                     dimnames = list(NULL, names(txt))))
+}
+
+# The abbreviation footnote under the Cox tables, read off the gtsummary object
+# rather than retyped, restricted to the columns the table actually shows (the
+# standard-error abbreviation is carried but never printed).
+gt_abbrev <- function(t) {
+  ab <- t$table_styling$abbreviation
+  shown <- t$table_styling$header |> filter(!hide) |> pull(column)
+  ab <- ab |> filter(column %in% shown) |> pull(abbreviation) |> unique() |> sort()
+  if (length(ab) == 0) NULL else paste0("Abbreviations: ", paste(ab, collapse = ", "))
+}
+
+# Draw a table with its top-left cell corner at (x, y). Returns the y below the
+# last row. Column widths come from the widest cell in each column, always
+# measured in bold so a bolded cell never overflows its column.
+put_table <- function(cells, x, y, size = 11, row_h = 14, head_h = 15,
+                      body_gap = 3, pad = 28, min_width = 560) {
+  txt <- cells$text
+  bold <- cells$bold
+  n_col <- ncol(txt)
+
+  head_w <- vapply(names(txt), text_w, numeric(1), size = size, face = "bold")
+  body_w <- vapply(txt, \(col) max(c(0, vapply(col, text_w, numeric(1),
+                                               size = size, face = "bold"))),
+                   numeric(1))
+  natural <- pmax(head_w, body_w) + pad
+
+  # value columns share one width so the numbers sit in even columns; the label
+  # column absorbs any slack needed to reach `min_width`, which is what gives the
+  # accepted file its wide gap between the labels and the first value column
+  value_w <- if (n_col > 1) max(natural[-1]) else 0
+  label_w <- natural[1]
+  total_w <- label_w + value_w * (n_col - 1)
+  if (total_w < min_width) {
+    label_w <- label_w + (min_width - total_w)
+    total_w <- min_width
+  }
+  col_x <- x + cumsum(c(0, label_w, rep(value_w, max(n_col - 2, 0))))
+
+  # shaded header band, inset 3 pt to the left of the text as in the accepted
+  # file, closed by the single black rule that is the table's only rule
+  grid.rect(x = unit(x - 3, "pt"), y = unit(PAGE_H - y, "pt"),
+            width = unit(total_w, "pt"), height = unit(head_h, "pt"),
+            just = c("left", "top"), gp = gpar(fill = "#D9D9D9", col = NA))
+  grid.rect(x = unit(x - 3, "pt"), y = unit(PAGE_H - (y + head_h - 1), "pt"),
+            width = unit(total_w, "pt"), height = unit(1, "pt"),
+            just = c("left", "top"), gp = gpar(fill = "black", col = NA))
+
+  for (j in seq_len(n_col)) put_text(names(txt)[j], col_x[j], y + 1, size, "bold")
+
+  # body_gap keeps the first row clear of the rule that closes the header band:
+  # text is placed by the top of its ascent, so without it the first row would
+  # sit right on the rule instead of below it
+  for (i in seq_len(nrow(txt))) {
+    row_y <- y + head_h + body_gap + (i - 1) * row_h
+    for (j in seq_len(n_col)) {
+      if (nchar(txt[[j]][i]) == 0) next
+      put_text(txt[[j]][i], col_x[j], row_y, size,
+               if (bold[i, j]) "bold" else "plain")
+    }
+  }
+  list(y = y + head_h + body_gap + nrow(txt) * row_h, width = total_w)
+}
+
+# ---------------------------------------------------------------------------
+# Supplementary Table 7, folded in from the mouse side
+# ---------------------------------------------------------------------------
+# S7 (the composition of the two mouse diets behind E8l) is NOT built here.
+# `51_extdata_8.R` builds it next to the panel it belongs to, reading the control
+# column off the LabDiet 5053 vendor data sheet rather than typing it in, and
+# caches the table together with its title and legend to
+# intermediate_data/Supplementary_Table_7_diet_composition.rds. This script only
+# reads that cache, so the diet numbers and their wording keep exactly one owner:
+# edit them in 51, not here.
+#
+# Run 51 before this script to get the full seven-table document. Without the
+# cache the PDF is still written, with tables 1-6 and a guide page listing six,
+# and the message at the end says which one came out.
+supp7_cache <- cache_path("Supplementary_Table_7_diet_composition.rds")
+
+supp7_entry <- if (file.exists(supp7_cache)) {
+  s7 <- readRDS(supp7_cache)
+  s7_number <- "Supplementary Table 7."
+  # The cached object carries the number inside its title, and inside its legend
+  # in markdown bold, because 51 renders both as a single string. Split it back
+  # off so S7 is laid out with the same bold-number prefix as the other six.
+  list(cells = plain_cells(s7$table |>
+                             rename(Characteristic = characteristic,
+                                    `Control diet` = control_diet,
+                                    `No fiber diet` = no_fiber_diet)),
+       abbrev = NULL,
+       number = s7_number,
+       title  = str_squish(str_remove(s7$title, fixed(s7_number))),
+       legend = str_squish(str_remove(str_remove_all(s7$legend, "\\*\\*"),
+                                      fixed(s7_number))))
+} else {
+  NULL
+}
+
+# ---------------------------------------------------------------------------
+# What goes on each page
+# ---------------------------------------------------------------------------
+# Each table carries its drawn cells plus three pieces of text, kept apart
+# because they are not the same words. `number` prefixes both the guide line and
+# the legend and is the only part set in bold; `title` is the short title used on
+# the guide page and as the heading above the table; `legend` is the full caption
+# printed on the legends page and again under the table. Wording for 1-6 is the
+# accepted supplementary file's, verbatim, so a regenerated PDF can be dropped in
+# without re-editing; 7's comes from 51's cache.
+supp_tables <- list(
+  list(cells = gt_cells(s1), abbrev = gt_abbrev(s1),
+       number = "Supplementary Table 1.",
+       title = "Patient characteristics of the full nutrition cohort.",
+       legend = paste(
+         "Patient characteristics of the full nutrition cohort. Data are presented as mean",
+         "(standard deviation) for continuous variables and as count (percentage) for categorical",
+         "variables. PBSC, peripheral blood stem cells. MDS/MPN, myelodysplastic",
+         "syndromes/myeloproliferative neoplasms. GVHD, graft-versus-host disease. CNI,",
+         "calcineurin inhibitor. PTCy, post-transplant cyclophosphamide.")),
+  list(cells = gt_cells(s2), abbrev = gt_abbrev(s2),
+       number = "Supplementary Table 2.",
+       title = "Patient characteristics of the microbiome-nutrition sub-cohort.",
+       legend = paste(
+         "Patient characteristics of the microbiome-nutrition sub-cohort. Data are presented as mean",
+         "(standard deviation) for continuous variables and as count (percentage) for categorical",
+         "variables. PBSC, peripheral blood stem cells. MDS/MPN, myelodysplastic",
+         "syndromes/myeloproliferative neoplasms. GVHD, graft-versus-host disease. CNI,",
+         "calcineurin inhibitor. PTCy, post-transplant cyclophosphamide.")),
+  list(cells = gt_cells(s3), abbrev = gt_abbrev(s3),
+       number = "Supplementary Table 3.",
+       title = paste("Patient characteristics by dichotomized averaged sugar intake,",
+                     "normalized by total caloric intake."),
+       legend = paste(
+         "Patient characteristics in the cohort dichotomized at the median sugar intake",
+         "(above-median vs below-median), normalized by total caloric intake and averaged across",
+         "HCT days -7 to 12. Data are presented as median (interquartile range, IQR) for continuous",
+         "variables and as count (percentage) for categorical variables. PBSC, peripheral blood stem",
+         "cells. MDS/MPN, myelodysplastic syndromes / myeloproliferative neoplasms. GVHD,",
+         "graft-versus-host disease. CNI, calcineurin inhibitor. PTCy, post-transplant",
+         "cyclophosphamide.")),
+  list(cells = gt_cells(s4), abbrev = gt_abbrev(s4),
+       number = "Supplementary Table 4.",
+       title = paste("Multivariable Cox proportional hazards model for overall survival (OS)",
+                     "in dichotomized sugar-intake groups."),
+       legend = paste(
+         "Multivariable Cox proportional hazards model for overall survival (OS) in dichotomized",
+         "sugar-intake groups. The table displays the adjusted hazard ratios (HR) and 95% confidence",
+         "intervals (CI) for the association between various predictors and OS, landmarked at day 12",
+         "after HCT. The model includes an interaction term between sugar-intake group and days of",
+         "broad-spectrum antibiotic exposure (between day -7 and day 12), adjusting for conditioning",
+         "regimen intensity, graft type, and GVHD prophylaxis. The row labeled",
+         "“Abx exposure(days)” corresponds to the HR in the above-median sugar-intake group.")),
+  list(cells = gt_cells(s5), abbrev = gt_abbrev(s5),
+       number = "Supplementary Table 5.",
+       title = "Patient characteristics by diet-pattern cluster.",
+       legend = paste(
+         "Patient characteristics by diet-pattern cluster. The clusters were defined by",
+         "latent-trajectory class analysis without taking clinical variables into account. Data are",
+         "presented as median (interquartile range, IQR) for continuous variables and as count",
+         "(percentage) for categorical variables. PBSC, peripheral blood stem cells. MDS/MPN,",
+         "myelodysplastic syndromes / myeloproliferative neoplasms. GVHD, graft-versus-host disease.",
+         "CNI, calcineurin inhibitor. PTCy, post-transplant cyclophosphamide.")),
+  list(cells = gt_cells(s6), abbrev = gt_abbrev(s6),
+       number = "Supplementary Table 6.",
+       title = paste("Multivariable Cox proportional hazards model for overall survival (OS)",
+                     "in dietary-pattern clusters."),
+       legend = paste(
+         "Multivariable Cox proportional hazards model for overall survival (OS) in dietary-pattern",
+         "clusters. The table displays the adjusted hazard ratios (HR) and 95% confidence intervals",
+         "(CI) for the association between various predictors and OS, landmarked at day 12 after HCT.",
+         "The model includes an interaction term between diet-pattern cluster and days of",
+         "broad-spectrum antibiotic exposure (between day -7 and day 12), adjusting for conditioning",
+         "regimen intensity, graft type, and GVHD prophylaxis. The row labeled",
+         "“Abx exposure(days)” corresponds to the HR in the cluster 1."))
+)
+if (!is.null(supp7_entry)) supp_tables <- c(supp_tables, list(supp7_entry))
+
+# ---------------------------------------------------------------------------
+# Draw the pages
+# ---------------------------------------------------------------------------
+supp_pdf <- file.path(results_dir, if (is.null(supp7_entry)) {
+  "Supplementary_Tables_1_6.pdf"
+} else {
+  "Supplementary_Tables_1_7.pdf"
+})
+# cairo_pdf rather than the base pdf device: the base device draws ASCII hyphens
+# ("sub-cohort", "graft-versus-host") with the font's long minus glyph, and it
+# does not carry the curly quotes in the Cox legends.
+grDevices::cairo_pdf(supp_pdf, width = PAGE_W / 72, height = PAGE_H / 72,
+                     onefile = TRUE)
+
+# Page 1, the guide: every table listed by number and short title.
+grid.newpage()
+put_text("Supplemental Guide", 21, 36, 14, "bold")
+guide_y <- 69
+for (t in supp_tables) {
+  guide_y <- put_paragraph(t$number, t$title, x = 21, y = guide_y,
+                           width = 750, size = 11, leading = 17)
+}
+
+# Page 2, the full legends, one paragraph per table separated by a blank line.
+grid.newpage()
+put_text("Supplemental Table Legends", 36, 36, 11, "bold")
+legend_y <- 36 + 2 * 13.45
+for (t in supp_tables) {
+  legend_y <- put_paragraph(t$number, t$legend, x = 36, y = legend_y,
+                            width = 722, size = 11, leading = 13.45)
+  legend_y <- legend_y + 13.45
+}
+
+# One page per table: heading, table, abbreviation footnote if the table has one,
+# then the full legend. The legend is wrapped to the table's own width so the
+# block reads as one unit however wide the table turned out.
+for (t in supp_tables) {
+  grid.newpage()
+  heading_y <- put_paragraph(paste(t$number, t$title), "", x = 39, y = 36,
+                             width = 717, size = 14, leading = 18)
+
+  drawn <- put_table(t$cells, x = 39, y = heading_y + 13)
+
+  foot_y <- drawn$y
+  if (!is.null(t$abbrev)) {
+    put_text(t$abbrev, 39, foot_y + 1, 10, "italic")
+    foot_y <- foot_y + 14
+  }
+  put_paragraph(t$number, t$legend, x = 39, y = foot_y + 13,
+                width = max(drawn$width, 520), size = 11, leading = 13.45)
+}
+invisible(grDevices::dev.off())
+
+message("Wrote Fig 3 / E6 panels and ", basename(supp_pdf), " to results/ (",
+        length(supp_tables), " tables, font: ", supp_font, ").")
+if (is.null(supp7_entry)) {
+  message("Supplementary Table 7 was left out: no ", basename(supp7_cache),
+          " in intermediate_data/. Run reproduce/51_extdata_8.R first to include it.")
+}

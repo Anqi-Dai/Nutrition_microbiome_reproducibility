@@ -377,6 +377,12 @@ p_supp7 <- ggplot() +
 # Save the object (data + title + legend + the consistency check) so the table
 # can be re-rendered or written out elsewhere without re-reading this script,
 # and a PDF alongside it for eyeballing against the supplementary file.
+#
+# This cache is a real dependency, not just a convenience: `restricted/63_fig3_e6_clinical.R`
+# reads it to place S7 as the last page of the combined supplementary-tables PDF
+# (results/Supplementary_Tables_1_7.pdf), so the diet numbers and their wording
+# have one owner and live here. Change them here, not there. 63 falls back to a
+# six-table PDF if this file is missing, so run this script first.
 supp7_object <- list(table = supp7, title = supp7_title, legend = supp7_legend,
                      check = supp7_check, implied = supp7_implied, plot = p_supp7,
                      source = list(control_diet = labdiet_5053_url,
