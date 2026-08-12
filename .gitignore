@@ -30,3 +30,6 @@ CLAUDE.md
 BUILD_LEDGER.md
 HANDOFF*.md
 /restricted_data
+
+# Reference figure kept locally for orientation, not part of the reproduction
+Study design and data flow.pdf
