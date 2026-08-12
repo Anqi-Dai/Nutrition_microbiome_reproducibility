@@ -54,7 +54,12 @@ n_df <- plot_df |> count(section, sub, row, name = "n_samples")
 n_x <- max(plot_df$value) + 0.55                       # n-samples column position
 
 f <- ggplot(plot_df, aes(value, row)) +
-  geom_jitter(height = 0.28, width = 0, size = 0.5, alpha = 0.18, colour = "grey30") +
+  # Vertical-only jitter, with the offsets pinned to a seed. geom_jitter draws its
+  # offsets when the plot is rendered (inside ggsave), not when it is built, so a
+  # set.seed() here would not control it and every rerun would scatter the points
+  # differently and rewrite the saved panel with no code change.
+  geom_point(position = position_jitter(height = 0.28, width = 0, seed = 1),
+             size = 0.5, alpha = 0.18, colour = "grey30") +
   geom_boxplot(fill = "white", colour = "black", linewidth = 0.45,
                width = 0.5, outlier.shape = NA, alpha = 0.6) +
   geom_text(data = n_df, aes(x = n_x, y = row, label = n_samples),

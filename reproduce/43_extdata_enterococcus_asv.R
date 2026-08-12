@@ -186,7 +186,10 @@ meds <- points_df |> group_by(assignment, row_label) |>
 
 panel_d <- ggplot(points_df, aes(relab, row_label)) +
   geom_boxplot(outlier.colour = NA, fill = "gray85", colour = NA, width = 0.6) +
-  geom_jitter(height = 0.2, width = 0, size = 1.1, alpha = 0.25, colour = "gray20") +
+  # Vertical-only jitter, with the offsets pinned to a seed: geom_jitter draws its
+  # offsets at render time, so without this every rerun rewrites the saved panel.
+  geom_point(position = position_jitter(height = 0.2, width = 0, seed = 1),
+             size = 1.1, alpha = 0.25, colour = "gray20") +
   geom_point(data = meds, aes(x = med, y = row_label), colour = "red",
              shape = 124, size = 5) +
   facet_grid(assignment ~ ., scales = "free_y", space = "free_y", switch = "y") +
