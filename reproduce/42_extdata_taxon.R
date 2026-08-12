@@ -88,25 +88,80 @@ plot_hc_w_node_labels <- function(hc, ...){
   )
 }
 adjust_aesthetics = FALSE
-hc <- hc_raw <- hclust(dist(post_matrix), method = "complete")
+genus_distance <- dist(post_matrix)
+hc <- hc_raw <- hclust(genus_distance, method = "complete")
 if (adjust_aesthetics) {
   labels(hc) <- paste0(1:length(hc$labels), " " , labels(hc))
   plot_hc_w_node_labels(hc_raw)
 }
-node_to_rotate<- list(
-  30, 5, 20, 24, 19
-  )
-for (node_id in node_to_rotate){
-  hc <- rotate(hc, node_id)
-  if (adjust_aesthetics){
-    plot_hc_w_node_labels(hc, main=node_id)
-    labels(hc) <- paste0(1:length(hc$labels), " " , gsub("\\d+ ", "", labels(hc)))
-  }
+
+# Row order is rotated towards the printed panel. Rotation only chooses which child of
+# each split is drawn first, which is arbitrary in a dendrogram, so every cluster and
+# every merge height is left untouched and only the reading order changes.
+#
+# The printed row order, top to bottom. Genera the printed panel does not carry take
+# their nearest neighbour's target position, so they land beside the genus they cluster
+# with instead of dragging the sort around.
+printed_row_order <- c(
+  "Streptococcus", "Lactococcus", "Faecalimonas", "Romboutsia", "Blautia",
+  "Lachnoclostridium", "Flavonifractor", "Erysipelatoclostridium", "Anaerostipes",
+  "Eggerthella", "Ruminococcus", "Escherichia", "Fusicatenibacter", "Bifidobacterium",
+  "Akkermansia", "Parabacteroides", "Bacteroides", "Dorea", "Clostridium",
+  "Anaerobutyricum", "Schaalia", "Actinomyces", "Scardovia", "Intestinibacter",
+  "Staphylococcus", "Rothia", "Granulicatella", "Veillonella", "Atopobium",
+  "Lactobacillus", "Enterococcus")
+
+# Target positions run bottom to top, since the first level of the y factor is the
+# bottom row of the panel.
+target_position <- setNames(as.numeric(seq_along(printed_row_order)), rev(printed_row_order))
+distance_matrix <- as.matrix(genus_distance)
+for (genus in setdiff(hc$labels, names(target_position))) {
+  nearest <- names(sort(distance_matrix[genus, names(target_position)]))[1]
+  target_position[genus] <- target_position[[nearest]] + 0.5
 }
+target_position <- rank(target_position[hc$labels])
 
+# Pick the best of the 2^(n-1) rotations exactly, rather than hand-tuning branch flips:
+# a dendrogram rotation is a free choice of child order at each split, so the arrangement
+# that minimises total row displacement from the printed order can be found by working up
+# from the leaves. For a subtree placed at a known starting row the two child orders are
+# independent, so each is solved once and cached.
+best_rotation <- local({
+  memo <- new.env(hash = TRUE)
+  subtree_size <- function(node) if (node < 0) 1L else
+    subtree_size(hc$merge[node, 1]) + subtree_size(hc$merge[node, 2])
+  solve_node <- function(node, start) {
+    key <- paste(node, start)
+    cached <- memo[[key]]
+    if (!is.null(cached)) return(cached)
+    result <- if (node < 0) {
+      genus <- hc$labels[-node]
+      list(cost = abs(start - target_position[[genus]]), order = genus)
+    } else {
+      left <- hc$merge[node, 1]; right <- hc$merge[node, 2]
+      as_is <- list(solve_node(left, start), solve_node(right, start + subtree_size(left)))
+      flipped <- list(solve_node(right, start), solve_node(left, start + subtree_size(right)))
+      pick <- if (sum(sapply(as_is, `[[`, "cost")) <= sum(sapply(flipped, `[[`, "cost"))) as_is else flipped
+      list(cost = sum(sapply(pick, `[[`, "cost")),
+           order = c(pick[[1]]$order, pick[[2]]$order))
+    }
+    assign(key, result, envir = memo)
+    result
+  }
+  solve_node(nrow(hc$merge), 1)
+})
 
+hc <- rotate(hc, best_rotation$order)
 dendro_data <- dendro_data(hc, type = "rectangle")
 ordered_genera <- hc$labels[hc$order]
+
+# ordered_genera[1] is the bottom row. Enterococcus is asked for the bottom and
+# Streptococcus/Lactococcus for the top two; the optimisation puts them there on this
+# tree, but a future refit could move them into one cluster, where no rotation can
+# reach both ends. Stop rather than print a panel that quietly drops the request.
+stopifnot(identical(ordered_genera, best_rotation$order),
+          ordered_genera[1] == "Enterococcus",
+          tail(ordered_genera, 2) == c("Lactococcus", "Streptococcus"))
 
 dendro_plot <- ggplot(segment(dendro_data)) +
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
