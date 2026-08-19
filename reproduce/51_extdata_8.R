@@ -378,7 +378,7 @@ p_supp7 <- ggplot() +
 # can be re-rendered or written out elsewhere without re-reading this script,
 # and a PDF alongside it for eyeballing against the supplementary file.
 #
-# This cache is a real dependency, not just a convenience: `restricted/63_fig3_e6_clinical.R`
+# This cache is a real dependency, not just a convenience: `63_fig3_e6_clinical.R`
 # reads it to place S7 as the last page of the combined supplementary-tables PDF
 # (results/Supplementary_Tables_1_7.pdf), so the diet numbers and their wording
 # have one owner and live here. Change them here, not there. 63 falls back to a
