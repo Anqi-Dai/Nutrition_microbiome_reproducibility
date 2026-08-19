@@ -10,62 +10,20 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ## Contents
 
-1.  [All data needed to reproduce the figures is released publicly](#all-data-needed-to-reproduce-the-figures-is-released-publicly)
-2.  [Repository layout](#repository-layout)
-3.  [Environment setup](#environment-setup)
-4.  [A note on the former restricted tier](#a-note-on-the-former-restricted-tier)
-5.  [How to reproduce the figures](#how-to-reproduce-the-figures)
-6.  [Scripts → figures](#scripts--figures)
-7.  [Released data tables](#released-data-tables)
-8.  [Running QIIME 2 through Docker](#running-qiime-2-through-docker)
-9.  [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding)
-10. [Citation](#citation)
-11. [License](#license)
-12. [Acknowledgements](#acknowledgements)
+1.  [Repository layout](#repository-layout)
+2.  [Environment setup](#environment-setup)
+3.  [How to reproduce the figures](#how-to-reproduce-the-figures)
+4.  [Scripts → figures](#scripts--figures)
+5.  [Released data tables](#released-data-tables)
+6.  [Running QIIME 2 through Docker](#running-qiime-2-through-docker)
+7.  [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding)
+8.  [Citation](#citation)
+9.  [License](#license)
+10. [Acknowledgements](#acknowledgements)
 
 ------------------------------------------------------------------------
 
-## All data needed to reproduce the figures is released publicly
-
-Every panel in the paper is reproducible from the de-identified tables shipped in
-[`released_data/`](released_data/). Clone the repo, restore the environment, and run —
-there is no second tier to request and no access step.
-
-This changed on 2026-08-19. The clinical-outcome and antibiotic-exposure tables behind
-Fig. 3a,b and Extended Data Figs 1b, 2a and 6c–j were previously held back as
-"PHI-free but not cleared for release" and fetched separately by internal users. They
-have since been cleared, reduced to the columns the analyses actually use, and moved
-into `released_data/`. Nothing needs to be requested from the authors any more; if you
-have read an older version of this README or the data availability statement, that
-instruction is out of date.
-
-The two newly released tables:
-
-| Table | What it is |
-|-------|------------|
-| `df_main_clinical_outcome.csv` | 173 patients, one row each, 20 columns: transplant characteristics, day-12-landmarked overall survival, engraftment and discharge landmarks, broad-spectrum antibiotic exposure, diet-pattern cluster, and the peri-transplant diet summary |
-| `R21_meds_updated_all_medication_classified.csv` | 95,248 medication courses, one row each: drug, route, start and stop day relative to transplant, and the per-study antibiotic class. Each patient's *complete* daily record — a superset of the released `Data_S4`, which carries only the two-day window before each stool sample |
-
-Both are de-identified: patients appear only as the arbitrary `pid` codes already used
-throughout the release, there are no dates, and all times are days relative to
-transplant.
-
-The scripts that read them are numbered 60–67 in [`reproduce/`](reproduce/),
-alongside every other panel script.
-
-| Figure | Script |
-|--------|--------|
-| **Extended Fig. E2a** | `reproduce/60_e2a_abx_heatmap.R` — per-patient daily antibiotic-exposure heatmap |
-| **Data S6** | `reproduce/61_dataS6_pt_timecourse.R` — per-patient calorie / diet-diversity / microbiome-diversity timecourse; the clinical table supplies the engraftment day |
-| **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–7** | `reproduce/63_fig3_e6_clinical.R` — the survival models, the sugar-vs-calorie scatters, the HR contour, and the supplementary characteristics tables. Supplementary Table 7 (mouse diet composition) is built by `reproduce/51_extdata_8.R` and read from its cache in `intermediate_data/`, so run 51 first to get `Supplementary_Tables_1_7.pdf`; without it you get `Supplementary_Tables_1_6.pdf` |
-| **Extended Fig. E6 e,f,g** | `reproduce/64_e6efg_cluster_intake.R` — daily calorie / macronutrient intake by diet-pattern cluster |
-| **Extended Fig. E6h** | `reproduce/66_e6h_alpha_trajectory.R` — fecal alpha-diversity trajectory by cluster |
-| **Extended Fig. E6i** | `reproduce/65_e6i_discharge.R` — cumulative incidence of hospital discharge after engraftment by cluster (adjusted HR 1.54, p = 0.023) |
-| **Extended Fig. E1b** | `reproduce/67_e1b_covariates_contribution.R` — per-covariate microbiome variance explained (`vegan::envfit` r²) |
-
-------------------------------------------------------------------------
-
-## Repository layout
+## Repository layout {#repository-layout}
 
 ```         
 released_data/      de-identified input tables (every input the figures need)
@@ -85,7 +43,7 @@ Scripts are organised **by analysis family, not by printed figure**: an expensiv
 
 ------------------------------------------------------------------------
 
-## Environment setup
+## Environment setup {#environment-setup}
 
 ### 1. R and packages (`renv`)
 
@@ -130,22 +88,9 @@ Every script resolves its input from `released_data/` (override with the `NUTRIT
 
 ------------------------------------------------------------------------
 
-## A note on the former restricted tier
+## How to reproduce the figures {#how-to-reproduce-the-figures}
 
-Earlier versions of this repository kept two tables outside `released_data/`, in a
-separate non-public tier that lab members fetched from an internal share and everyone
-else had to request under a data-sharing agreement. Some panel scripts lived in their own
-`reproduce/restricted/` folder and skipped when those inputs were absent.
-
-**None of that applies any more.** Both tables were cleared for public release on
-2026-08-19 and ship in `released_data/`; the scripts moved into `reproduce/` with
-everything else; and there is no separate fetch step, no access request, and no skipping.
-A clean clone reproduces every panel. If you are following older instructions that
-mention a restricted tier, they are out of date.
-
-------------------------------------------------------------------------
-
-## How to reproduce the figures
+Every panel in the paper is reproducible from the de-identified tables shipped in [`released_data/`](released_data/).
 
 All commands run from the project root.
 
@@ -211,18 +156,21 @@ Common environment toggles:
 ## Scripts → figures
 
 | Script | Panel(s) |
-|----------------------------------------------------|-----------------------|
+|-------------------------------------------------|-----------------------|
 | `21_fig1_diet_timecourse.R` | **F1** b, c, i, j, k, l, m |
 | `22_fig1_food_tree.Rmd` | **F1** d |
 | `20_fig1_taxumap.R` | **F1** e, f, g, h |
 | `23_fig1_beta_diversity.R` | **F1** n, o |
 | `13_fig2_procrustes.R` | **F2** a |
 | `11_fig2_diversity.R` | **F2** c, d, e, f, g, h (and E5i) |
+| `63_fig3_e6_clinical.R` | **F3** a, b · **E6** c, d, j · **Supp. Tables 1–7** |
 | `41_fig4_human.R` | **F4** a, b |
 | `50_figure_4c.R` | **F4** c (mouse) |
+| `67_e1b_covariates_contribution.R` | **E1** b (per-covariate microbiome variance explained) |
 | `24_e1cde_random_intercepts.R` | **E1** c, d, e |
 | `25_e1f_alpha_breakdown.R` | **E1** f |
 | `12_diagnostics_diversity.R` | **E1** g, h |
+| `60_e2a_abx_heatmap.R` | **E2** a (per-patient daily antibiotic-exposure heatmap) |
 | `26_e2bc_abx_exposure.R` | **E2** b, c |
 | `26b_e2de_fluoroquinolone.R` | **E2** d, e (simplified diversity model with an explicit prophylactic-fluoroquinolone term) |
 | `30_extdata_pcoa.R` | **E3** a, b, c |
@@ -230,7 +178,10 @@ Common environment toggles:
 | `17b_e4fg_wweia.R` | **E4** f, g (What We Eat in America, WWEIA, nomenclature) |
 | `27_e4h_fndds_zscored.R` | **E4** h |
 | `28_e5abcd_added_sugars.R` | **E5** a, b, c, d (added vs other sugars) |
-| `29_e6ab_sweet_grains.R` | **E6** a, b (Sweet vs Other Grains; E6c–j come from 63/64/65/66) |
+| `29_e6ab_sweet_grains.R` | **E6** a, b (Sweet vs Other Grains) |
+| `64_e6efg_cluster_intake.R` | **E6** e, f, g (daily intake by diet-pattern cluster) |
+| `66_e6h_alpha_trajectory.R` | **E6** h (fecal alpha-diversity trajectory by cluster) |
+| `65_e6i_discharge.R` | **E6** i (discharge cumulative incidence by cluster) |
 | `14_sensitivity_diversity.R`, `15_robustness_subsampling.R`, `18_fig_e5jk_ons.R` | **E5** e, f, g, h, j, k, l, … |
 | `42_extdata_taxon.R` | **E7** a, b, e |
 | `43_extdata_enterococcus_asv.R` | **E7** c, d |
@@ -239,22 +190,27 @@ Common environment toggles:
 | `51_extdata_8.R` | **E8** g, h, j, k, l, m (mouse) |
 | `52_extdata_9.R` | **E9** a, b, c, d, h (mouse) |
 | `54_extdata_9_rnaseq.R` | **E9** e, f, g (mouse RNA-seq) |
+| `61_dataS6_pt_timecourse.R` | **Data S6** (per-patient calorie / diet- and microbiome-diversity timecourse) |
+
+Supplementary Table 7 (mouse diet composition) is built by `51_extdata_8.R` and read from its cache in `intermediate_data/`, so run 51 before 63 to get `Supplementary_Tables_1_7.pdf`; without it you get `Supplementary_Tables_1_6.pdf`.
 
 Fitting/data scripts (no panel of their own): `10`, `16`, `40` (cache the brms fits); `19` (rebuilds `diet-alpha-diversity.tsv`); `13d/13e` (procrustes sensitivity); `00_run_mouse.R` (mouse driver).
 
 ------------------------------------------------------------------------
 
-## Released data tables
+## Released data tables {#released-data-tables}
 
 Everything in `released_data/` is de-identified and shareable. **Zenodo** column links each table to the [companion deposit](https://doi.org/10.5281/zenodo.14538105) where it is also archived; tables marked *derived* are de-identified products built in this project's upstream pipeline and are not separately on Zenodo.
 
 ### Core inputs
 
 | File | Used for | Zenodo |
-|------|----------------------------------------------------|--------|
+|------------|------------------------------------------------|------------|
 | `152_combined_DTB.csv` | the diet tracker — every food item each patient ate; the source of all diet exposures, the food tree, and diet diversity | **same file on Zenodo** |
 | `153_combined_META.csv` | the per-stool-sample analysis table (1009 samples / 158 patients): diversity outcome, antibiotic/TPN/EN exposure, prior-2-day food-group & macronutrient intake | **same file on Zenodo** |
 | `Data_S4_Medication_Exposures…csv` | medications in the 2 days before each stool sample, by drug class — antibiotic-exposure panels (E2b/c), the fluoroquinolone diversity model (E2d/e) and the antibiotic-class CLR model (E7f) | **Zenodo "Data S4"** |
+| `R21_meds_updated_all_medication_classified.csv` | every medication course, whole admission — the per-patient antibiotic-exposure heatmap (E2a) | derived |
+| `df_main_clinical_outcome.csv` | per-patient transplant characteristics, survival and diet summary — the clinical-outcome panels (F3a/b, E1b, E6c–j, Supp. Tables 1–6) and Data S6 | derived |
 | `R59_meta_expanded.csv` | `153` plus the *E. faecium* CLR outcome and extra covariates — used by the taxon CLR models (F4b, E7e, E7f) | derived |
 | `FPED_1516.xls`, `FPED_1720.xls` | USDA Food Patterns Equivalents Database (2015-16 and 2017-20) — the **added-sugars** content (teaspoon equivalents per 100 g) per food code, used to split total sugars into added vs other for E5a–d (`28`); 1516 is preferred, the two salad-dressing codes that exist only in 2017-20 are filled from 1720; related to Zenodo "Data S5", the nutrient values from the USDA Food and Nutrient Database for Dietary Studies (FNDDS) | reference (USDA) |
 | `2015-2016 FNDDS At A Glance…xlsx`, `2019-2020 FNDDS At A Glance…xlsx` | USDA FNDDS — each food code's **WWEIA food category** (and per-100 g nutrients), used to re-derive the diversity model under WWEIA nomenclature for E4f–g (`17b`); 2015-16 preferred, 2019-20 fills the rest | Zenodo "Data S5" (FNDDS nutrient values) |
@@ -287,7 +243,9 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 
 **`Data_S4_Medication_Exposures…csv`** — one row per medication exposure: `sampleid`, `pid`, `sdrt`, `class`, `drug_name_clean`, `route_clean`, `drug_category_for_this_study` (broad_spectrum / fluoroquinolones / other_antibacterials / not_antibacterial).
 
-**`df_main_clinical_outcome.csv`** — one row per patient (173), the clinical-outcome table behind Fig. 3a,b and Extended Data Figs 1b, 6c–j. Released 2026-08-19; reduced to the 20 columns the analyses read:
+**`R21_meds_updated_all_medication_classified.csv`** — one row per medication course (95,248): `pid`, `drug_name_clean`, `drug_route` as `{drug}__{route}`, `startday` and `stopday` in days relative to transplant (inclusive), and `drug_category_for_this_study` (same four categories as `Data_S4`). Each patient's *complete* record, so a superset of `Data_S4`, which carries only the two-day window before each stool sample. Source of `day_exposed` below.
+
+**`df_main_clinical_outcome.csv`** — one row per patient (173):
 
 | column | meaning |
 |------------------------------------------|------------------------------|
@@ -297,22 +255,22 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 | `intensity` | conditioning intensity: nonablative / reduced / ablative |
 | `gvhd_ppx`, `source_and_gvhdppx` | GVHD prophylaxis, and its combination with graft source (the survival-model adjustment) |
 | `OStime_30`, `OSevent` | overall survival landmarked at day 12, and the death indicator. `OStime_30` is a misnomer for `OStime_12`, kept to match the analysis code |
-| `engraftment_day` | neutrophil engraftment day (ANC 500); NA for 5 patients |
-| `tLOS`, `LOS` | days from engraftment to discharge, and whether discharge was observed (the E6i outcome) |
-| `leng_of_stay` | total hospital length of stay — a different quantity from `tLOS`, and the one in Supp. Tables S1/S2 |
+| `engraftment_day` | neutrophil engraftment day (ANC 500) |
+| `tLOS`, `LOS` | days from engraftment to discharge, and whether that discharge was observed — the E6i time-to-event pair |
+| `leng_of_stay` | total hospital stay, admission to discharge; the value in Supp. Tables S1/S2 |
 | `modal_diet` | diet-pattern cluster: Cluster 1 (n=114) / Cluster 2 (n=59) |
 | `day_exposed` | days on any broad-spectrum antibiotic within HCT day −7…+12 (0–20) |
 | `SugarCal_cat_high` | above/below cohort-median sugar density |
 | `avg_total_caloric_intake`, `avg_sugar_daily_intake_gram`, `avg_sugar_density_per_1000kcal` | means per day over HCT day −7…+12: kcal, g sugar, g sugar per 1000 kcal |
 
-Five columns are categorical and **their level order is fixed, not alphabetical**, because the first level is the reference category in every model built on this table. Read the file with `read_clinical()` in [`reproduce/human/_human_helpers.R`](reproduce/human/_human_helpers.R), which restores them and stops if a category is unexpected or missing; if you re-analyse the table in your own code, set the levels yourself.
+`engraftment_day`, `tLOS` and `LOS` are empty for five patients who died before engrafting; with no engraftment there is no landmark, so the discharge outcome is undefined and those patients fall outside E6i.
 
-**`R21_meds_updated_all_medication_classified.csv`** — one row per medication course (95,248), each patient's *complete* daily record and the source of `day_exposed` above. Released 2026-08-19. Columns: `pid`, `drug_name_clean` (382 distinct drugs), `drug_route` as `{drug}__{route}`, `startday` and `stopday` in days relative to transplant (inclusive), and `drug_category_for_this_study` (broad_spectrum / fluoroquinolones / other_antibacterials / not_antibacterial). This is a superset of `Data_S4` above, which carries only the two-day window before each stool sample.
+Five columns are categorical and **their level order is fixed, not alphabetical**, because the first level is the reference category in every model built on this table. Read the file with `read_clinical()` in [`reproduce/human/_human_helpers.R`](reproduce/human/_human_helpers.R), which restores them; if you re-analyse the table in your own code, set the levels yourself.
 
 ### Microbiome tables (derived, de-identified)
 
 | File | Columns | Used for |
-|------|--------------------------|--------------------------------|
+|---------------|-------------------------|--------------------------------|
 | `63_asv_count_relab_res.csv` | `asv_key, sampleid, count, count_relative` | per-ASV 16S counts and whole-community relative abundance (one row per observed, non-zero count); the ASV-count source for E1b, and joined to the annotation for E7c and the quality-genus / genus-CLR tables |
 | `63_asv_blast_annotation.csv` | `asv_key` + taxonomy + BLAST hit (see below) | per-ASV taxonomic lineage and the BLAST hit that assigned it; one row per ASV |
 | `45_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance with a *quality* genus (kept only where BLAST `pident > 97`, else NA); rebuilds genus relab for F1n/o, F4a, E7b, the E3 PCoA and the E7a genus models |
@@ -321,7 +279,7 @@ Five columns are categorical and **their level order is fixed, not alphabetical*
 **`63_asv_blast_annotation.csv` columns.** Each ASV sequence is the *query*, aligned against a 16S reference database with BLAST; the row records the assigning hit. Columns marked *BLAST* are standard BLAST tabular (outfmt 6) fields; the rest are derived by the annotation pipeline.
 
 | Column | Meaning |
-|--------|---------|
+|----------------------------------|--------------------------------------|
 | `asv_key` | ASV identifier (e.g. `asv_1`) |
 | `kingdom … species` | assigned taxonomic lineage (`kingdom, phylum, class, order, family, genus, species`); `order` was the raw export's `ordr` |
 | `query_length` | length (bp) of the ASV query sequence *(BLAST `qlen`)* |
@@ -329,12 +287,12 @@ Five columns are categorical and **their level order is fixed, not alphabetical*
 | `pident` | percent of identical bases over the alignment *(BLAST `pident`)* |
 | `nident` | number of identical bases in the alignment *(BLAST `nident`)* |
 | `score` | raw alignment score *(BLAST `score`)* |
-| `length_ratio` | `align_length / query_length`: fraction of the query covered by the alignment (~1 = full-length match) *(derived)* |
+| `length_ratio` | `align_length / query_length`: fraction of the query covered by the alignment (\~1 = full-length match) *(derived)* |
 
 ### Diet / food-tree tables
 
 | File | Columns / contents | Used for |
-|------|--------------------------|--------------------------------|
+|---------------|-------------------------|--------------------------------|
 | `072_total_patients_zero_eating_days_pid.csv` | `fdrt, diet_data_status, pid` | documented zero-intake days (distinguishes "ate nothing" from "no record") |
 | `diet-alpha-diversity.tsv` | `(patient-day id), faith_pd` | diet Faith phylogenetic diversity per patient-day (regenerated by `19`) |
 | `taxumap_embedding.csv` | `index_column, taxumap1, taxumap2` | precomputed TaxUMAP 2-D diet embedding for F1 e–h |
@@ -348,12 +306,12 @@ Five columns are categorical and **their level order is fixed, not alphabetical*
 ### Mouse data
 
 | File | Contents | Used for |
-|------|----------------------------------------------|----------------------|
+|---------------|----------------------------------------|------------------|
 | `Dai_mouse_figure_raw_data.xlsx` | Nature source-data workbook, one sheet per mouse panel (CFU, 16S relab + metadata, RNA-seq counts) | all of F4c / E8 / E9 (scripts `50–54`) |
 
 ------------------------------------------------------------------------
 
-## Running QIIME 2 through Docker
+## Running QIIME 2 through Docker {#running-qiime-2-through-docker}
 
 Scripts `13_fig2_procrustes.R`, `19_diet_faith_pd.R`, and `23_fig1_beta_diversity.R` compute phylogenetic diversity (UniFrac / Faith PD) on the **food tree** using QIIME 2. They call QIIME inside Docker so you don't need a local QIIME install.
 
@@ -382,7 +340,7 @@ Notes / gotchas:
 
 ------------------------------------------------------------------------
 
-## Regenerating the TaxUMAP embedding
+## Regenerating the TaxUMAP embedding {#regenerating-the-taxumap-embedding}
 
 Figure 1 e–h is drawn by `20_fig1_taxumap.R` from the precomputed `released_data/taxumap_embedding.csv`, so **the figure reproduces without Python**. To regenerate the embedding from scratch, the full step-by-step (build the two input tables in R → install TaxUMAP → run it) is in [**`reproduce/taxumap_pipeline_HOWTO.md`**](reproduce/taxumap_pipeline_HOWTO.md).
 
@@ -410,7 +368,7 @@ UMAP is stochastic (the embedding can rotate/flip between runs), so for an **exa
 
 ------------------------------------------------------------------------
 
-## Citation
+## Citation {#citation}
 
 Machine-readable metadata lives in [`CITATION.cff`](CITATION.cff) — use GitHub's **Cite this repository** button.
 
@@ -419,13 +377,13 @@ The accompanying manuscript is **under review**. Once it is published, please **
 Two related DOIs, which are *not* interchangeable:
 
 | DOI | What it is |
-|-----------------------------|------------------------------------------|
+|------------------------------|------------------------------------------|
 | [10.5281/zenodo.21290618](https://doi.org/10.5281/zenodo.21290618) | **Software (all versions)** — the *concept* DOI. It always resolves to the latest release. **Cite this one.** |
 | [10.5281/zenodo.14538105](https://doi.org/10.5281/zenodo.14538105) | **Data (all versions)** — the companion Supplementary Data deposit's *concept* DOI. **Cite this one.** |
 
 ------------------------------------------------------------------------
 
-## License
+## License {#license}
 
 - **Code** (everything under `reproduce/`, and the repository as a whole): [MIT](LICENSE).
 - **Data** (`released_data/`): [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/), matching the [companion Zenodo deposit](https://doi.org/10.5281/zenodo.14538105).
@@ -434,7 +392,7 @@ Third-party reference tables redistributed in `released_data/` (the USDA FNDDS "
 
 ------------------------------------------------------------------------
 
-## Acknowledgements
+## Acknowledgements {#acknowledgements}
 
 This repository reproduces analyses developed with several colleagues; the clean scripts here are ports of their original work:
 
@@ -442,7 +400,3 @@ This repository reproduces analyses developed with several colleagues; the clean
 - **Mirae Baichoo** (Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center) — the per-covariate microbiome variance-explained analysis (E1b).
 - **Teng Fei** (Department of Epidemiology and Biostatistics, Memorial Sloan Kettering Cancer Center) — the clinical-outcome and survival analyses (Figure 3, and E6 h,i,j).
 - **Nicholas R. Waters** (Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center) — the *Enterococcus* ASV / species analyses establishing that ASV 1 is *E. faecium* (E7 c,d).
-
-------------------------------------------------------------------------
-
-*Patient-level clinical variables and mortality outcomes — underlying Figure 3, E1b, E2a, E6 c–j and Supplementary Tables 1–6 — were released publicly on 2026-08-19 and ship in `released_data/`; no data sharing agreement is required.*
