@@ -1,25 +1,18 @@
 # Data S6: per-patient timecourse of daily calories, diet Faith diversity, and
-# fecal alpha-diversity (RESTRICTED).
+# fecal alpha-diversity.
 #
 # Ported from 085_each_pt_timecourse__code_for_Figure_S2.Rmd. One multi-page A4
 # PDF: an enlarged example patient sits top-left on page 1, every other patient is
 # a small panel, each page carries one shared "Transplant day" x-axis label.
 #
-# Restricted because it needs the per-patient engraftment day (the green dashed
+# Needs the per-patient engraftment day (the green dashed
 # line): PHI-free but not cleared for public release. It is read from the cleaned
-# df_main_clinical_outcome.rds, which now carries engraftment_day. The other three
-# inputs (DTB, META, diet Faith PD) are all in released_data. Skips cleanly when
-# restricted_data/ is absent.
+# df_main_clinical_outcome.csv, which now carries engraftment_day. The other three
+# inputs (DTB, META, diet Faith PD) are all in released_data too.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 
-df_file <- "df_main_clinical_outcome.rds"
-if (!has_restricted(df_file)) {
-  message("Data S6 skipped: restricted input not found (", restricted(df_file), ").")
-  message("This figure needs the per-patient engraftment day, carried in the cleaned ",
-          "df_main_clinical_outcome.rds; place it in restricted_data/.")
-  quit(save = "no", status = 0)
-}
+df_file <- "df_main_clinical_outcome.csv"
 
 cfg <- list(
   example_pid     = "P1",         # shown enlarged, with the detailed Diet:/Stool: labels
@@ -59,9 +52,9 @@ faith <- read_tsv(faith_path, show_col_types = FALSE) |>
 # patients carried through the figure are those that actually have stool data
 pids <- names(meta)
 
-# per-patient annotation: engraftment day (from the cleaned restricted df_main),
+# per-patient annotation: engraftment day (from the cleaned df_main),
 # diet-day and stool-sample counts
-engraftment <- read_rds(restricted(df_file)) |>
+engraftment <- read_clinical(df_file) |>
   select(pid, engraftment_day) |>
   filter(pid %in% pids)
 

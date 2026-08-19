@@ -39,16 +39,56 @@ nutrition_data_root <- function() {
 }
 released <- function(file) file.path(nutrition_data_root(), file)
 
-# Restricted tier: PHI-free but not cleared for public release, so it is
-# gitignored and ships to nobody. Scripts that need it resolve from RESTRICTED_DATA
-# (falling back to restricted_data/) and guard on has_restricted() so they skip
-# cleanly for anyone who only has released_data/.
+# Restricted tier. Retained for the archived pre-reduction table in
+# restricted_data/original_versions/; no script reads it since the clinical and
+# medication tables were cleared for release and moved into released_data/.
 restricted_data_root <- function() {
   Sys.getenv("RESTRICTED_DATA", unset = here::here("restricted_data"))
 }
 restricted <- function(file) file.path(restricted_data_root(), file)
 has_restricted <- function(file = NULL) {
   if (is.null(file)) dir.exists(restricted_data_root()) else file.exists(restricted(file))
+}
+
+# The clinical table ships as CSV, so the categorical columns arrive as character
+# and their level order has to be set here. The order is the reference category in
+# every model built on this table, so it is fixed rather than left to sort order.
+CLINICAL_FACTOR_LEVELS <- list(
+  source             = c("Unmodified", "TCD", "Cord"),
+  intensity          = c("nonablative", "reduced", "ablative"),
+  source_and_gvhdppx = c("TCD+TCD", "Cord+CNI-based",
+                         "Unmodified+CNI-based", "Unmodified+PTCy-based"),
+  modal_diet         = c("Cluster 1", "Cluster 2"),
+  SugarCal_cat_high  = c("Above-median", "Below-median")
+)
+
+# Read the clinical-outcome table. Types are pinned rather than guessed; sex,
+# disease.simple and gvhd_ppx stay character because 63 re-levels them by frequency.
+read_clinical <- function(file = "df_main_clinical_outcome.csv") {
+  df <- readr::read_csv(
+    released(file),
+    col_types = readr::cols(
+      pid = readr::col_character(), sex = readr::col_character(),
+      disease.simple = readr::col_character(), gvhd_ppx = readr::col_character(),
+      source = readr::col_character(), intensity = readr::col_character(),
+      source_and_gvhdppx = readr::col_character(), modal_diet = readr::col_character(),
+      SugarCal_cat_high = readr::col_character(),
+      .default = readr::col_double()))
+
+  for (col in names(CLINICAL_FACTOR_LEVELS)) {
+    lv  <- CLINICAL_FACTOR_LEVELS[[col]]
+    got <- setdiff(unique(df[[col]]), NA)
+    # stop rather than coerce to NA on an unknown category, and rather than build a
+    # factor with an empty level if the file ever loses one
+    if (length(setdiff(got, lv))) {
+      stop("unexpected level(s) in ", col, ": ", paste(setdiff(got, lv), collapse = ", "))
+    }
+    if (length(setdiff(lv, got))) {
+      stop("missing level(s) in ", col, ": ", paste(setdiff(lv, got), collapse = ", "))
+    }
+    df[[col]] <- factor(df[[col]], levels = lv)
+  }
+  tibble::as_tibble(df)
 }
 
 # Expensive brms fits and the derived coefficient tables cache here; reused on rerun.

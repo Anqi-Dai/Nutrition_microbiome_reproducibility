@@ -10,10 +10,10 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ## Contents
 
-1.  [Most data elements have been released publicly; some are subject to data-sharing agreements](#most-data-elements-have-been-released-publicly-some-are-subject-to-data-sharing-agreements)
+1.  [All data needed to reproduce the figures is released publicly](#all-data-needed-to-reproduce-the-figures-is-released-publicly)
 2.  [Repository layout](#repository-layout)
 3.  [Environment setup](#environment-setup)
-4.  [Getting the restricted data (internal users)](#getting-the-restricted-data-internal-users)
+4.  [A note on the former restricted tier](#a-note-on-the-former-restricted-tier)
 5.  [How to reproduce the figures](#how-to-reproduce-the-figures)
 6.  [Scripts → figures](#scripts--figures)
 7.  [Released data tables](#released-data-tables)
@@ -25,41 +25,51 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ------------------------------------------------------------------------
 
-## Most data elements have been released publicly; some are subject to data-sharing agreements
+## All data needed to reproduce the figures is released publicly
 
-Code to generate every panel of the manuscript is made available here, along with the necessary data for most panels. Food-item and meal-level data, microbiome-level sample data are available. Patient-level data (e.g. mortality) are subject to institutional data-sharing policies and are available to internal MSKCC users following the instructions below and to users outside of MSKCC via data sharing agreements.
+Every panel in the paper is reproducible from the de-identified tables shipped in
+[`released_data/`](released_data/). Clone the repo, restore the environment, and run —
+there is no second tier to request and no access step.
 
-> **Need a panel whose data isn't shipped here?**
-> - **Internal MSKCC users** pull the PHI-free restricted tables from the lab drive with DVC — see [Getting the restricted data](#getting-the-restricted-data-internal-users).
-> - **Everyone else:** the patient-level clinical variables and mortality outcomes underlying those restricted panels are available via a data sharing agreement, per institutional policies. Requests should be directed to Dr. Jonathan Peled (peledj@mskcc.org).
+This changed on 2026-08-19. The clinical-outcome and antibiotic-exposure tables behind
+Fig. 3a,b and Extended Data Figs 1b, 2a and 6c–j were previously held back as
+"PHI-free but not cleared for release" and fetched separately by internal users. They
+have since been cleared, reduced to the columns the analyses actually use, and moved
+into `released_data/`. Nothing needs to be requested from the authors any more; if you
+have read an older version of this README or the data availability statement, that
+instruction is out of date.
 
-### Reproducible by anyone
+The two newly released tables:
 
-Clone the repo and run — these need only the de-identified tables shipped in [`released_data/`](released_data/): **Figure 1, Figure 2, Figure 4**, Extended Data **E1 (c–h), E2 (b–e), E3, E4, E5, E7, E8, E9**, and all the mouse experiments.
+| Table | What it is |
+|-------|------------|
+| `df_main_clinical_outcome.csv` | 173 patients, one row each, 20 columns: transplant characteristics, day-12-landmarked overall survival, engraftment and discharge landmarks, broad-spectrum antibiotic exposure, diet-pattern cluster, and the peri-transplant diet summary |
+| `R21_meds_updated_all_medication_classified.csv` | 95,248 medication courses, one row each: drug, route, start and stop day relative to transplant, and the per-study antibiotic class. Each patient's *complete* daily record — a superset of the released `Data_S4`, which carries only the two-day window before each stool sample |
 
-### Reproducible by internal users (restricted data required)
+Both are de-identified: patients appear only as the arbitrary `pid` codes already used
+throughout the release, there are no dates, and all times are days relative to
+transplant.
 
-These panels are fully implemented here, but they read de-identified tables that carry **no PHI** yet are **not cleared for public release**. Those tables are not shipped: they live in a gitignored `restricted_data/` folder that internal users fetch with DVC (see [Getting the restricted data](#getting-the-restricted-data-internal-users)). The scripts live under [`reproduce/restricted/`](reproduce/restricted/) and **skip cleanly** — no error — for anyone who has only `released_data/`.
+The scripts that read them are numbered 60–67 in [`reproduce/`](reproduce/),
+alongside every other panel script.
 
-| Figure | Script | Restricted input |
-|--------|--------|------------------|
-| **Extended Fig. E2a** | `reproduce/restricted/60_e2a_abx_heatmap.R` | `R21_meds_updated_all_medication_classified.csv` — each patient's *full* daily antibiotic time course (the released `Data_S4` only carries the 2-day window prior to each stool sample) |
-| **Data S6** | `reproduce/restricted/61_dataS6_pt_timecourse.R` | `df_main_clinical_outcome.rds` — supplies the per-patient engraftment day (the green dashed line); the other three inputs are in `released_data/` |
-| **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–7** | `reproduce/restricted/63_fig3_e6_clinical.R` | `df_main_clinical_outcome.rds` — the cleaned, merged clinical-outcome table (de-identified survival + sugar-density summary + covariates). It is built upstream in the dev repo and shipped here only in cleaned form; 63 draws all the panels and tables from it. The supplementary tables come out as one PDF — a guide page, a legends page, then one page per table with its title above and full legend below, matching the accepted supplementary file. Supplementary Table 7 (mouse diet composition) is built by `reproduce/51_extdata_8.R` and read from its cache in `intermediate_data/`, so run 51 first to get `Supplementary_Tables_1_7.pdf`; without it you get `Supplementary_Tables_1_6.pdf` |
-| **Extended Fig. E6 e,f,g** | `reproduce/restricted/64_e6efg_cluster_intake.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); daily calorie/macronutrient intake over HCT day by cluster (the diet table itself is released) |
-| **Extended Fig. E6h** | `reproduce/restricted/66_e6h_alpha_trajectory.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster (`modal_diet`); fecal microbiota alpha-diversity trajectory over HCT day by cluster (the diversity table `153_combined_META.csv` is released) |
-| **Extended Fig. E6i** | `reproduce/restricted/65_e6i_discharge.R` | `df_main_clinical_outcome.rds` — supplies the diet-pattern cluster and the discharge/engraftment landmark; cumulative incidence of hospital discharge after engraftment by cluster, with the adjusted-Cox HR (1.54, p=0.023) |
-| **Extended Fig. E1b** | `reproduce/restricted/67_e1b_covariates_contribution.R` | `df_main_clinical_outcome.rds` — supplies the clinical covariates (source/intensity/age/sex/disease); per-covariate microbiome variance explained (`vegan::envfit` r²) bar chart (the metadata `153_combined_META.csv` and amplicon sequence variant (ASV) counts `63_asv_count_relab_res.csv` are released) |
+| Figure | Script |
+|--------|--------|
+| **Extended Fig. E2a** | `reproduce/60_e2a_abx_heatmap.R` — per-patient daily antibiotic-exposure heatmap |
+| **Data S6** | `reproduce/61_dataS6_pt_timecourse.R` — per-patient calorie / diet-diversity / microbiome-diversity timecourse; the clinical table supplies the engraftment day |
+| **Fig. 3 a,b · E6 c,d,j · Supp. Tables 1–7** | `reproduce/63_fig3_e6_clinical.R` — the survival models, the sugar-vs-calorie scatters, the HR contour, and the supplementary characteristics tables. Supplementary Table 7 (mouse diet composition) is built by `reproduce/51_extdata_8.R` and read from its cache in `intermediate_data/`, so run 51 first to get `Supplementary_Tables_1_7.pdf`; without it you get `Supplementary_Tables_1_6.pdf` |
+| **Extended Fig. E6 e,f,g** | `reproduce/64_e6efg_cluster_intake.R` — daily calorie / macronutrient intake by diet-pattern cluster |
+| **Extended Fig. E6h** | `reproduce/66_e6h_alpha_trajectory.R` — fecal alpha-diversity trajectory by cluster |
+| **Extended Fig. E6i** | `reproduce/65_e6i_discharge.R` — cumulative incidence of hospital discharge after engraftment by cluster (adjusted HR 1.54, p = 0.023) |
+| **Extended Fig. E1b** | `reproduce/67_e1b_covariates_contribution.R` — per-covariate microbiome variance explained (`vegan::envfit` r²) |
 
 ------------------------------------------------------------------------
 
 ## Repository layout
 
 ```         
-released_data/      de-identified input tables (the only data that ships)
-restricted_data/    PHI-free but non-public inputs, internal only (gitignored, not shipped)
+released_data/      de-identified input tables (every input the figures need)
 reproduce/          numbered scripts, one analysis "family" per number block
-reproduce/restricted/  scripts that need restricted_data/ (skip cleanly when it is absent)
 intermediate_data/  cached model fits, QIIME ordinations, etc. (created on first run)
 results/            output PDFs, one per panel (created on first run)
 ```
@@ -71,7 +81,7 @@ Scripts are organised **by analysis family, not by printed figure**: an expensiv
 - `30` Extended Fig. E3 (compositional PCoA)
 - `40–44` taxon-abundance family (F4, E7)
 - `50–54` mouse experiments (CFU, 16S, RNA-seq), driven by `00_run_mouse.R`
-- `60+` (under `reproduce/restricted/`) panels requiring restricted, non-public inputs
+- `60–67` clinical-outcome and antibiotic-exposure panels (Fig. 3, E1b, E2a, E6 c–j, Data S6, Supp. Tables 1–7)
 
 ------------------------------------------------------------------------
 
@@ -116,54 +126,22 @@ A few scripts call QIIME 2 inside a Docker container (UniFrac / Bray-Curtis / Fa
 
 The TaxUMAP embedding for F1 e–h ships precomputed (`released_data/taxumap_embedding.csv`), so you do not need Python to draw the figure. To regenerate it, see [Regenerating the TaxUMAP embedding](#regenerating-the-taxumap-embedding).
 
-All public scripts resolve their input from `released_data/` (override with the `NUTRITION_DATA` env var). Scripts under `reproduce/restricted/` additionally read `restricted_data/` (override with `RESTRICTED_DATA`) and skip cleanly when it is absent.
+Every script resolves its input from `released_data/` (override with the `NUTRITION_DATA` env var), including those under `reproduce/`.
 
 ------------------------------------------------------------------------
 
-## Getting the restricted data (internal users)
+## A note on the former restricted tier
 
-The public figures need only `released_data/`, which ships with the repo — **you can skip this section entirely** unless you are reproducing one of the restricted panels (E1b, E2a, E6 c–j, Fig 3 a/b, Data S6, Supp. Tables 1–6). Those need the PHI-free-but-non-public tables in `restricted_data/`, which is **not** in git.
+Earlier versions of this repository kept two tables outside `released_data/`, in a
+separate non-public tier that lab members fetched from an internal share and everyone
+else had to request under a data-sharing agreement. Some panel scripts lived in their own
+`reproduce/restricted/` folder and skipped when those inputs were absent.
 
-`restricted_data/` is version-controlled with [DVC](https://dvc.org/) and stored on the Peled-lab drive (content-addressed, not a browsable copy). The repo tracks only the small `restricted_data.dvc` manifest; the actual files are pulled from the drive.
-
-**One-time: install DVC.**
-
-``` sh
-pip install dvc            # or: brew install dvc / conda install -c conda-forge dvc
-```
-
-**Each time you need the restricted data:**
-
-1.  **Mount the lab drive, then point DVC at it.** The remote lives on the Peled-lab share; its path is deliberately kept out of the repository, so each user configures it once locally. Ask the lab for the mounted share path (`<lab-drive>` below).
-
-    On macOS, mount the share via Finder → **Go → Connect to Server** (`⌘K`), enter the lab SMB URL and authenticate; it then appears under `/Volumes/`. Confirm the remote exists, then register it:
-
-    ``` sh
-    ls <lab-drive>/Projects/Reproduce_nutrition/restricted_dvc
-
-    # writes to .dvc/config.local, which is gitignored
-    dvc remote add --local -d lab_restricted <lab-drive>/Projects/Reproduce_nutrition/restricted_dvc
-    ```
-
-2.  **Pull the data** from the repo root — DVC reads `restricted_data.dvc` and materializes the files into `restricted_data/`:
-
-    ``` sh
-    dvc pull
-    ```
-
-    You should now have `restricted_data/` populated (4 files, ~5.8 MB, including `df_main_clinical_outcome.rds`).
-
-3.  **Run the restricted script(s)** — they now find their inputs:
-
-    ``` sh
-    Rscript reproduce/restricted/63_fig3_e6_clinical.R
-    ```
-
-Notes:
-
-- If the drive is not mounted (or you lack access), `dvc pull` fails and `restricted_data/` stays empty; the `reproduce/restricted/*` scripts then **skip cleanly** (they guard on the folder's presence and quit 0). Public reproduction is unaffected.
-- `restricted_data/` is gitignored, so pulled files never get committed. To point at the data without DVC, set `RESTRICTED_DATA=/path/to/folder`.
-- **Contributors** who *change* the restricted tables re-run `dvc add restricted_data && dvc push`, then commit the updated `restricted_data.dvc`. Most users only ever `dvc pull`.
+**None of that applies any more.** Both tables were cleared for public release on
+2026-08-19 and ship in `released_data/`; the scripts moved into `reproduce/` with
+everything else; and there is no separate fetch step, no access request, and no skipping.
+A clean clone reproduces every panel. If you are following older instructions that
+mention a restricted tier, they are out of date.
 
 ------------------------------------------------------------------------
 
@@ -201,13 +179,13 @@ Rscript reproduce/24_e1cde_random_intercepts.R   # E1 c,d,e   (needs the F2d fit
 Rscript reproduce/25_e1f_alpha_breakdown.R       # E1f
 Rscript reproduce/26_e2bc_abx_exposure.R         # E2 b,c
 Rscript reproduce/26b_e2de_fluoroquinolone.R     # E2 d,e   (fits the simplified fluoroquinolone model)
-Rscript reproduce/restricted/60_e2a_abx_heatmap.R  # E2a (needs restricted_data/; skips cleanly if absent)
-Rscript reproduce/restricted/61_dataS6_pt_timecourse.R  # Data S6 (needs restricted_data/; skips cleanly if absent)
-Rscript reproduce/restricted/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j + Supp. Tables 1-7 as one PDF (reads the cleaned df_main; S7 comes from 51's cache)
-Rscript reproduce/restricted/64_e6efg_cluster_intake.R  # E6 e,f,g (daily intake by diet-pattern cluster)
-Rscript reproduce/restricted/65_e6i_discharge.R         # E6i (discharge cumulative incidence by cluster, adjusted HR)
-Rscript reproduce/restricted/66_e6h_alpha_trajectory.R  # E6h (fecal alpha-diversity trajectory by cluster)
-Rscript reproduce/restricted/67_e1b_covariates_contribution.R  # E1b (per-covariate microbiome variance explained)
+Rscript reproduce/60_e2a_abx_heatmap.R  # E2a (per-patient daily antibiotic exposure)
+Rscript reproduce/61_dataS6_pt_timecourse.R  # Data S6 (per-patient timecourse)
+Rscript reproduce/63_fig3_e6_clinical.R      # Fig 3 a,b + E6 c,d,j + Supp. Tables 1-7 as one PDF (reads the cleaned df_main; S7 comes from 51's cache)
+Rscript reproduce/64_e6efg_cluster_intake.R  # E6 e,f,g (daily intake by diet-pattern cluster)
+Rscript reproduce/65_e6i_discharge.R         # E6i (discharge cumulative incidence by cluster, adjusted HR)
+Rscript reproduce/66_e6h_alpha_trajectory.R  # E6h (fecal alpha-diversity trajectory by cluster)
+Rscript reproduce/67_e1b_covariates_contribution.R  # E1b (per-covariate microbiome variance explained)
 Rscript reproduce/16_fit_e4_models.R             # caches E4 fits
 Rscript reproduce/17_fig_e4.R                    # E4 a–e,i,j
 Rscript reproduce/27_e4h_fndds_zscored.R         # E4h
@@ -252,7 +230,7 @@ Common environment toggles:
 | `17b_e4fg_wweia.R` | **E4** f, g (What We Eat in America, WWEIA, nomenclature) |
 | `27_e4h_fndds_zscored.R` | **E4** h |
 | `28_e5abcd_added_sugars.R` | **E5** a, b, c, d (added vs other sugars) |
-| `29_e6ab_sweet_grains.R` | **E6** a, b (Sweet vs Other Grains; E6c–j are restricted) |
+| `29_e6ab_sweet_grains.R` | **E6** a, b (Sweet vs Other Grains; E6c–j come from 63/64/65/66) |
 | `14_sensitivity_diversity.R`, `15_robustness_subsampling.R`, `18_fig_e5jk_ons.R` | **E5** e, f, g, h, j, k, l, … |
 | `42_extdata_taxon.R` | **E7** a, b, e |
 | `43_extdata_enterococcus_asv.R` | **E7** c, d |
@@ -308,6 +286,28 @@ Everything in `released_data/` is de-identified and shareable. **Zenodo** column
 | *(R59 only)* `asv_1_clr`, `ci_cleaned_numeric`, `disease_lineage`, `PCA`, `exposure_type` | *E. faecium* CLR outcome + extra covariates |
 
 **`Data_S4_Medication_Exposures…csv`** — one row per medication exposure: `sampleid`, `pid`, `sdrt`, `class`, `drug_name_clean`, `route_clean`, `drug_category_for_this_study` (broad_spectrum / fluoroquinolones / other_antibacterials / not_antibacterial).
+
+**`df_main_clinical_outcome.csv`** — one row per patient (173), the clinical-outcome table behind Fig. 3a,b and Extended Data Figs 1b, 6c–j. Released 2026-08-19; reduced to the 20 columns the analyses read:
+
+| column | meaning |
+|------------------------------------------|------------------------------|
+| `pid` | de-identified patient ID (same codes as the tables above) |
+| `age`, `sex`, `disease.simple` | age at transplant (years), sex, simplified primary disease |
+| `source` | graft: Unmodified / TCD (T-cell-depleted) / Cord |
+| `intensity` | conditioning intensity: nonablative / reduced / ablative |
+| `gvhd_ppx`, `source_and_gvhdppx` | GVHD prophylaxis, and its combination with graft source (the survival-model adjustment) |
+| `OStime_30`, `OSevent` | overall survival landmarked at day 12, and the death indicator. `OStime_30` is a misnomer for `OStime_12`, kept to match the analysis code |
+| `engraftment_day` | neutrophil engraftment day (ANC 500); NA for 5 patients |
+| `tLOS`, `LOS` | days from engraftment to discharge, and whether discharge was observed (the E6i outcome) |
+| `leng_of_stay` | total hospital length of stay — a different quantity from `tLOS`, and the one in Supp. Tables S1/S2 |
+| `modal_diet` | diet-pattern cluster: Cluster 1 (n=114) / Cluster 2 (n=59) |
+| `day_exposed` | days on any broad-spectrum antibiotic within HCT day −7…+12 (0–20) |
+| `SugarCal_cat_high` | above/below cohort-median sugar density |
+| `avg_total_caloric_intake`, `avg_sugar_daily_intake_gram`, `avg_sugar_density_per_1000kcal` | means per day over HCT day −7…+12: kcal, g sugar, g sugar per 1000 kcal |
+
+Five columns are categorical and **their level order is fixed, not alphabetical**, because the first level is the reference category in every model built on this table. Read the file with `read_clinical()` in [`reproduce/human/_human_helpers.R`](reproduce/human/_human_helpers.R), which restores them and stops if a category is unexpected or missing; if you re-analyse the table in your own code, set the levels yourself.
+
+**`R21_meds_updated_all_medication_classified.csv`** — one row per medication course (95,248), each patient's *complete* daily record and the source of `day_exposed` above. Released 2026-08-19. Columns: `pid`, `drug_name_clean` (382 distinct drugs), `drug_route` as `{drug}__{route}`, `startday` and `stopday` in days relative to transplant (inclusive), and `drug_category_for_this_study` (broad_spectrum / fluoroquinolones / other_antibacterials / not_antibacterial). This is a superset of `Data_S4` above, which carries only the two-day window before each stool sample.
 
 ### Microbiome tables (derived, de-identified)
 
@@ -445,4 +445,4 @@ This repository reproduces analyses developed with several colleagues; the clean
 
 ------------------------------------------------------------------------
 
-*Patient-level clinical variables and mortality outcomes — underlying Figure 3, E1b, E6 c–j and Supplementary Tables 1–6 — are available via data sharing agreement per institutional policies.*
+*Patient-level clinical variables and mortality outcomes — underlying Figure 3, E1b, E2a, E6 c–j and Supplementary Tables 1–6 — were released publicly on 2026-08-19 and ship in `released_data/`; no data sharing agreement is required.*

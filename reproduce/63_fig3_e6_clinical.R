@@ -1,7 +1,7 @@
-# Fig 3 + Extended Data E6 clinical-outcome panels and Supplementary Tables 1-6
-# (RESTRICTED). Ported from R09_clinical_outcome__code_for_Figure_3.Rmd.
+# Fig 3 + Extended Data E6 clinical-outcome panels and Supplementary Tables 1-6.
+# Ported from R09_clinical_outcome__code_for_Figure_3.Rmd.
 #
-# Consumes the cleaned, merged df_main (restricted_data/df_main_clinical_outcome.rds).
+# Consumes the cleaned, merged df_main (released_data/df_main_clinical_outcome.csv).
 # That table is built upstream in the dev repo (Nutrition_microbiome/scripts/
 # 62_build_clinical_df_main.R) and shipped here only in its cleaned form; this repo
 # does not carry the build step.
@@ -17,9 +17,8 @@
 #        laid out like the accepted supplementary file: a guide page, a page of
 #        legends, then one page per table with its title above and legend below
 #
-# Clinical outcomes are protected: reads the restricted df_main and skips cleanly
-# when it is absent. (The E6i hospital-discharge cumulative-incidence panel is not
-# here: it comes from R10, not R09.)
+# (The E6i hospital-discharge cumulative-incidence panel is not here: it comes from
+# R10, not R09.)
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 suppressPackageStartupMessages({
@@ -30,24 +29,18 @@ suppressPackageStartupMessages({
   library(grid)   # the supplementary tables are drawn as PDF pages, not a workbook
 })
 
-df_file <- "df_main_clinical_outcome.rds"
-if (!has_restricted(df_file)) {
-  message("Fig 3 / E6 skipped: restricted df_main not found (", restricted(df_file), ").")
-  message("This cleaned table is built upstream in the dev repo; place it in restricted_data/.")
-  quit(save = "no", status = 0)
-}
+df_file <- "df_main_clinical_outcome.csv"
 
-df_main <- read_rds(restricted(df_file))
+df_main <- read_clinical(df_file)
 results_dir <- here::here("results")
 if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
 # ---------------------------------------------------------------------------
 # Cox models (landmarked at day 12; drop the one patient with OStime_30 == 0)
 # ---------------------------------------------------------------------------
-# NB: OStime_30 is a MISNOMER. It is defined upstream as `OStime - 12` (not - 30),
-# so it already IS the day-12 landmark: filter(OStime_30 > 0) keeps the 172 patients
-# who survived past day 12, matching the Fig. 3 legend. The name is legacy; there is
-# no separate OStime_12 column. Same for tevent_30 (= tevent - 12).
+# NB: OStime_30 is a misnomer -- it is OStime_12, the day-12 landmark -- and is left
+# unchanged to keep the code smooth. So filter(OStime_30 > 0) keeps the 172 patients
+# who survived past day 12, matching the Fig. 3 legend.
 fit_cluster <- coxph(
   Surv(OStime_30, OSevent) ~ modal_diet * day_exposed + intensity + source_and_gvhdppx,
   data = df_main |> filter(OStime_30 > 0))
@@ -63,6 +56,7 @@ fit_sugar_density_binarized <- coxph(
 # ---------------------------------------------------------------------------
 group_forest <- function(fit, int_term, top_label, bottom_label, plot_title = NULL) {
   vc <- vcov(fit); b <- coef(fit)
+  stopifnot(length(int_term) == 1, int_term %in% names(b))
   ref_est <- b["day_exposed"]; ref_se <- sqrt(vc["day_exposed", "day_exposed"])
   alt_est <- b["day_exposed"] + b[int_term]
   alt_se  <- sqrt(vc["day_exposed", "day_exposed"] + vc[int_term, int_term] +
@@ -81,8 +75,10 @@ group_forest <- function(fit, int_term, top_label, bottom_label, plot_title = NU
     theme_classic(base_size = 12)
 }
 
+# the interaction term is looked up, not spelled out, so it cannot silently miss
 forest_sugar <- group_forest(
-  fit_sugar_density_binarized, "SugarCal_cat_highBelow-median:day_exposed",
+  fit_sugar_density_binarized,
+  grep("SugarCal_cat_high.*:day_exposed", names(coef(fit_sugar_density_binarized)), value = TRUE),
   "above-median\nsugar intake\ng/1000 kcal", "below-median\nsugar intake\ng/1000 kcal")
 
 forest_cluster <- group_forest(

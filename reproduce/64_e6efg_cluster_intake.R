@@ -1,13 +1,12 @@
 # Extended Data E6 e,f,g: daily dietary intake over the peri-transplant window by
-# diet-pattern cluster (RESTRICTED). Ported from R10_patients_trajectory_clusters.Rmd.
+# diet-pattern cluster. Ported from R10_patients_trajectory_clusters.Rmd.
 #
 #   E6e  calories       (Daily intake, 10^3 kcal)
 #   E6f  sugars         (Daily intake, proportion of macro mass)
 #   E6g  other carbs / fat / protein (Daily intake, proportion)
 #
 # Per-patient-day macro totals come from the released diet table; the diet-pattern
-# cluster (modal_diet) comes from the cleaned restricted df_main_clinical_outcome.rds,
-# so this is a restricted panel. Skips cleanly when df_main is absent.
+# cluster (modal_diet) comes from the cleaned df_main_clinical_outcome.csv.
 #
 # Each panel: boxplots per HCT day -7..12, faceted by cluster (Cluster 1 blue left,
 # Cluster 2 orange right), red median-trajectory line, and a between-cluster GEE
@@ -19,21 +18,15 @@ suppressPackageStartupMessages({
   library(splines)
 })
 
-df_file <- "df_main_clinical_outcome.rds"
-if (!has_restricted(df_file)) {
-  message("E6 e,f,g skipped: restricted df_main not found (", restricted(df_file), ").")
-  message("This panel needs the diet-pattern cluster (modal_diet); place the cleaned ",
-          "df_main_clinical_outcome.rds in restricted_data/.")
-  quit(save = "no", status = 0)
-}
+df_file <- "df_main_clinical_outcome.csv"
 
 results_dir <- here::here("results")
 if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
 cluster_cols <- c("Cluster 1" = "darkslateblue", "Cluster 2" = "darkgoldenrod2")
 
-# Diet-pattern cluster per patient (restricted).
-clusters <- read_rds(restricted(df_file)) |> select(pid, modal_diet)
+# Diet-pattern cluster per patient.
+clusters <- read_clinical(df_file) |> select(pid, modal_diet)
 
 # Per-patient-day macro totals from the released diet table; keep the day -7..12
 # window and drop zero-calorie days (spurious proportions).

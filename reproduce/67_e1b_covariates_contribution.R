@@ -1,5 +1,5 @@
 # Extended Data E1b: relative contribution of covariates to microbiome variation
-# (RESTRICTED). Ported from R37_covariates_contribution.Rmd and its helper
+# Ported from R37_covariates_contribution.Rmd and its helper
 # identify_covariates.R.
 #
 # Each covariate's "variance explained" is the vegan::envfit r^2 of that covariate
@@ -10,12 +10,11 @@
 #
 # Two changes from R37 per request:
 #   - the clinical covariates (source, intensity, age, sex, disease.simple) come from
-#     the cleaned restricted df_main_clinical_outcome.rds instead of
+#     the cleaned df_main_clinical_outcome.csv instead of
 #     R02_cleaned_clinical_outcome.rds (a drop-in: same columns);
 #   - the ASV counts come from released 63_asv_count_relab_res.csv (asv_key,
 #     sampleid, count, count_relative) instead of R25_asv_counts.csv (same schema).
 #
-# df_main is restricted, so this panel skips cleanly when restricted_data/ is absent.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 suppressPackageStartupMessages({
@@ -23,13 +22,7 @@ suppressPackageStartupMessages({
   library(forcats)
 })
 
-df_file <- "df_main_clinical_outcome.rds"
-if (!has_restricted(df_file)) {
-  message("E1b skipped: restricted df_main not found (", restricted(df_file), ").")
-  message("This panel needs the clinical covariates (source/intensity/age/sex/disease); ",
-          "place the cleaned df_main_clinical_outcome.rds in restricted_data/.")
-  quit(save = "no", status = 0)
-}
+df_file <- "df_main_clinical_outcome.csv"
 
 results_dir <- here::here("results")
 if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
@@ -76,8 +69,8 @@ find_covariates <- function(distance_mat, cov_df, perms = 10000, threshold = 0.0
 }
 
 # --- Data -------------------------------------------------------------------
-# Per-patient clinical covariates from the cleaned restricted df_main.
-clinical_cov <- read_rds(restricted(df_file)) |>
+# Per-patient clinical covariates from the cleaned df_main.
+clinical_cov <- read_clinical(df_file) |>
   select(source, intensity, age, sex, disease.simple, pid)
 
 # Per-sample covariates from released metadata, joined to the clinical set and

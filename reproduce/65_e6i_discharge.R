@@ -1,12 +1,12 @@
 # Extended Data E6i: cumulative incidence of hospital discharge following neutrophil
-# engraftment, by diet-pattern cluster (RESTRICTED). Companion to R09/R10's clinical
+# engraftment, by diet-pattern cluster. Companion to R09/R10's clinical
 # outcome analysis; the discharge outcome is landmarked at engraftment.
 #
-# Time = tLOS = tdischarge - tengraftment (days after neutrophil engraftment), event =
-# LOS (1 if discharged). The cohort is the patients with a valid engraftment landmark
-# (tengraftment present); every one of them is eventually discharged, so the cumulative
-# incidence is 1 - KM and rises to 1. Cluster comes from the cleaned restricted
-# df_main_clinical_outcome.rds, so this is a restricted panel that skips when absent.
+# Time = tLOS = discharge day - engraftment day (days after neutrophil engraftment),
+# event = LOS (1 if discharged). The cohort is the patients with a valid engraftment
+# landmark (engraftment_day present); every one is eventually discharged, so the cumulative
+# incidence is 1 - KM and rises to 1. Cluster comes from the cleaned
+# df_main_clinical_outcome.csv.
 #
 # Two pieces:
 #   - curves: cumulative incidence of discharge by cluster (Cluster 1 navy, Cluster 2
@@ -22,13 +22,7 @@ suppressPackageStartupMessages({
   library(patchwork)
 })
 
-df_file <- "df_main_clinical_outcome.rds"
-if (!has_restricted(df_file)) {
-  message("E6i skipped: restricted df_main not found (", restricted(df_file), ").")
-  message("This panel needs the diet-pattern cluster and discharge landmark; place the ",
-          "cleaned df_main_clinical_outcome.rds in restricted_data/.")
-  quit(save = "no", status = 0)
-}
+df_file <- "df_main_clinical_outcome.csv"
 
 results_dir <- here::here("results")
 if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
@@ -37,8 +31,8 @@ cluster_cols <- c("Cluster 1" = "darkslateblue", "Cluster 2" = "darkgoldenrod2")
 
 # Cohort: patients with a valid engraftment landmark (Cluster 1 = 111, Cluster 2 = 57).
 # Cluster 1 is the reference so the reported HR is Cluster 2 vs Cluster 1.
-df <- read_rds(restricted(df_file)) |>
-  filter(!is.na(tengraftment)) |>
+df <- read_clinical(df_file) |>
+  filter(!is.na(engraftment_day)) |>
   mutate(modal_diet = factor(modal_diet, levels = c("Cluster 1", "Cluster 2")),
          source     = factor(source),
          intensity  = factor(intensity),

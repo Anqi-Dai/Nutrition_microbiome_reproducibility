@@ -1,12 +1,12 @@
 # Extended Data E6h: fecal microbiota alpha-diversity trajectory over the peri-transplant
-# window by diet-pattern cluster (RESTRICTED). Ported from the reference
+# window by diet-pattern cluster. Ported from the reference
 # "compare alpha trajectory.R" (the R10 cluster-trajectory family).
 #
 # Per-sample inverse-Simpson diversity (simpson_reciprocal) over sample day relative to
 # transplant (sdrt), faceted by cluster (Cluster 1 navy, Cluster 2 gold): faint
 # per-patient spaghetti under a GEE-fitted population trajectory, with a dashed line at
-# each cluster's fitted nadir. The cluster (modal_diet) comes from the cleaned restricted
-# df_main_clinical_outcome.rds, so this is a restricted panel that skips when absent.
+# each cluster's fitted nadir. The cluster (modal_diet) comes from the cleaned
+# df_main_clinical_outcome.csv.
 #
 # The reference model was log(simpson_reciprocal) ~ day_exposed_cat + modal_diet + ns(sdrt)
 # and faceted the 4-way cluster x antibiotic-exposure combination. Per request the
@@ -21,23 +21,17 @@ suppressPackageStartupMessages({
   library(splines)
 })
 
-df_file <- "df_main_clinical_outcome.rds"
-if (!has_restricted(df_file)) {
-  message("E6h skipped: restricted df_main not found (", restricted(df_file), ").")
-  message("This panel needs the diet-pattern cluster (modal_diet); place the cleaned ",
-          "df_main_clinical_outcome.rds in restricted_data/.")
-  quit(save = "no", status = 0)
-}
+df_file <- "df_main_clinical_outcome.csv"
 
 results_dir <- here::here("results")
 if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
 cluster_cols <- c("Cluster 1" = "darkslateblue", "Cluster 2" = "darkgoldenrod2")
 
-# Per-sample alpha diversity (released) joined to the diet-pattern cluster (restricted).
+# Per-sample alpha diversity joined to the diet-pattern cluster.
 # id = numeric patient id is the GEE cluster; corstr = "exch" for repeated samples.
 df_alpha <- read_csv(released("153_combined_META.csv"), show_col_types = FALSE) |>
-  inner_join(read_rds(restricted(df_file)) |> select(pid, modal_diet), by = "pid") |>
+  inner_join(read_clinical(df_file) |> select(pid, modal_diet), by = "pid") |>
   filter(!is.na(modal_diet)) |>
   mutate(modal_diet = factor(modal_diet, levels = c("Cluster 1", "Cluster 2")),
          id = parse_number(pid))

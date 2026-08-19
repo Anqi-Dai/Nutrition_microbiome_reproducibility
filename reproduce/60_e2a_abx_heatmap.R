@@ -1,29 +1,23 @@
-# E2a: per-patient daily antibiotic-exposure heatmap (RESTRICTED).
+# E2a: per-patient daily antibiotic-exposure heatmap.
 #
 # Ported from R21_abx_groups__code_for_Figure_S4.Rmd. Unlike E2b/E2c (26), which
 # only need the two-day-prior-to-sample exposure window shipped in Data_S4, this
 # panel needs each patient's full daily antibiotic time course. That table
 # (R21_meds_updated_all_medication_classified.csv: one row per drug course with
 # start/stop transplant days and a per-study drug category) is PHI-free but not
-# cleared for public release, so it lives in the gitignored restricted_data/ tier.
-# The script skips cleanly when that folder is absent.
+# released as its own table alongside Data S4, which carries only the two-day window
+# before each stool sample.
 #
 # The stool-sample day markers (thick black boxes) come from the released META.
 
 source(here::here("reproduce", "human", "_human_helpers.R"))
 
 meds_file <- "R21_meds_updated_all_medication_classified.csv"
-if (!has_restricted(meds_file)) {
-  message("E2a skipped: restricted input not found (", restricted(meds_file), ").")
-  message("This panel needs the full daily antibiotic time course, which is not ",
-          "publicly released. Point RESTRICTED_DATA at it or place it in restricted_data/.")
-  quit(save = "no", status = 0)
-}
 
 # One row per drug course: pid, drug_name_clean, drug_route ({drug}__{route}),
 # start/stop transplant day, and the per-study category. drug_route is carried
 # only to keep the course grouping unique (it was `together` in R21).
-meds_updated <- read_csv(restricted(meds_file), show_col_types = FALSE)
+meds_updated <- read_csv(released(meds_file), show_col_types = FALSE)
 
 # Expand each course to one row per exposed day, then collapse to one exposure
 # category per patient-day. Broad-spectrum and fluoroquinolone on the same day ->
