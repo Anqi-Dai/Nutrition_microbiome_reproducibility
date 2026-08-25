@@ -16,7 +16,9 @@ renv/state.json
 
 
 
-# Restricted (no-PHI but not publicly shareable) inputs - internal use only, never shipped
+# Internal archive of the pre-reduction clinical table (60/62 columns), kept only as a
+# record. Nothing reads it, it is NOT covered by the 2026-08-19 release clearance, and it
+# must never ship. The released tables live in released_data/. See restricted_data/README.md.
 restricted_data/
 
 # Large derived cache (brms fits, MaAsLin2/DESeq output) - regenerated, not shipped
