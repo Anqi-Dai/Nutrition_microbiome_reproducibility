@@ -1,10 +1,10 @@
-# Reproducing the public figures of *Sugar-rich foods exacerbate antibiotic-induced microbiome injury*
+# Reproducing the figures of *Sugar-rich foods exacerbate antibiotic-induced microbiome disruption*
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21290618-blue.svg)](https://doi.org/10.5281/zenodo.21290618) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-This repository reproduces the **publicly-shareable** figures — those free of protected health information (PHI) — of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
+This repository reproduces every figure of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
 
-The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://doi.org/10.5281/zenodo.14538105) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome injury"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
+The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://doi.org/10.5281/zenodo.14538105) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome disruption"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
 
 ------------------------------------------------------------------------
 
