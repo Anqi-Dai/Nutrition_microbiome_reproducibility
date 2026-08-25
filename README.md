@@ -23,7 +23,7 @@ The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://d
 
 ------------------------------------------------------------------------
 
-## Repository layout {#repository-layout}
+## Repository layout
 
 ```         
 released_data/      de-identified input tables (every input the figures need)
@@ -43,7 +43,7 @@ Scripts are organised **by analysis family, not by printed figure**: an expensiv
 
 ------------------------------------------------------------------------
 
-## Environment setup {#environment-setup}
+## Environment setup
 
 ### 1. R and packages (`renv`)
 
@@ -88,7 +88,7 @@ Every script resolves its input from `released_data/` (override with the `NUTRIT
 
 ------------------------------------------------------------------------
 
-## How to reproduce the figures {#how-to-reproduce-the-figures}
+## How to reproduce the figures
 
 Every panel in the paper is reproducible from the de-identified tables shipped in [`released_data/`](released_data/).
 
@@ -198,7 +198,7 @@ Fitting/data scripts (no panel of their own): `10`, `16`, `40` (cache the brms f
 
 ------------------------------------------------------------------------
 
-## Released data tables {#released-data-tables}
+## Released data tables
 
 Everything in `released_data/` is de-identified and shareable. **Zenodo** column links each table to the [companion deposit](https://doi.org/10.5281/zenodo.14538105) where it is also archived; tables marked *derived* are de-identified products built in this project's upstream pipeline and are not separately on Zenodo.
 
@@ -311,7 +311,7 @@ Five columns are categorical and **their level order is fixed, not alphabetical*
 
 ------------------------------------------------------------------------
 
-## Running QIIME 2 through Docker {#running-qiime-2-through-docker}
+## Running QIIME 2 through Docker
 
 Scripts `13_fig2_procrustes.R`, `19_diet_faith_pd.R`, and `23_fig1_beta_diversity.R` compute phylogenetic diversity (UniFrac / Faith PD) on the **food tree** using QIIME 2. They call QIIME inside Docker so you don't need a local QIIME install.
 
@@ -340,7 +340,7 @@ Notes / gotchas:
 
 ------------------------------------------------------------------------
 
-## Regenerating the TaxUMAP embedding {#regenerating-the-taxumap-embedding}
+## Regenerating the TaxUMAP embedding
 
 Figure 1 e–h is drawn by `20_fig1_taxumap.R` from the precomputed `released_data/taxumap_embedding.csv`, so **the figure reproduces without Python**. To regenerate the embedding from scratch, the full step-by-step (build the two input tables in R → install TaxUMAP → run it) is in [**`reproduce/taxumap_pipeline_HOWTO.md`**](reproduce/taxumap_pipeline_HOWTO.md).
 
@@ -368,7 +368,7 @@ UMAP is stochastic (the embedding can rotate/flip between runs), so for an **exa
 
 ------------------------------------------------------------------------
 
-## Citation {#citation}
+## Citation
 
 Machine-readable metadata lives in [`CITATION.cff`](CITATION.cff) — use GitHub's **Cite this repository** button.
 
@@ -383,7 +383,7 @@ Two related DOIs, which are *not* interchangeable:
 
 ------------------------------------------------------------------------
 
-## License {#license}
+## License
 
 - **Code** (everything under `reproduce/`, and the repository as a whole): [MIT](LICENSE).
 - **Data** (`released_data/`): [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/), matching the [companion Zenodo deposit](https://doi.org/10.5281/zenodo.14538105).
@@ -392,7 +392,7 @@ Third-party reference tables redistributed in `released_data/` (the USDA FNDDS "
 
 ------------------------------------------------------------------------
 
-## Acknowledgements {#acknowledgements}
+## Acknowledgements
 
 This repository reproduces analyses developed with several colleagues; the clean scripts here are ports of their original work:
 
