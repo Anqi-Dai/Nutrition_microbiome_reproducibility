@@ -23,7 +23,6 @@
 suppressPackageStartupMessages({
   library(tidyverse)
   library(ggpubr)
-  library(ggrastr)
   library(ggh4x)
   library(geepack)
   library(here)
@@ -98,10 +97,11 @@ stool_hist <- meta %>%
   theme(aspect.ratio = 1 / 1.5, axis.title = element_text(size = axis_title_size))
 ggsave(file.path(results_dir, "F1c_stool_hist.pdf"), stool_hist, width = 4, height = 3)
 
-# Shared loess timecourse: rasterised scatter + loess + day-0 line, sqrt y. -----
+# Shared loess timecourse: scatter + loess + day-0 line, sqrt y. ---------------
+# The scatter is plain geom_point, so the panels ship as editable vector art.
 timecourse <- function(df, x, y, line_col, fill_col, title, xlab, ylab) {
   ggplot(df) +
-    rasterise(geom_point(aes({{ x }}, {{ y }}), alpha = 0.3, size = point_size, shape = 16), dpi = 300) +
+    geom_point(aes({{ x }}, {{ y }}), alpha = 0.3, size = point_size, shape = 16) +
     geom_smooth(aes({{ x }}, {{ y }}), method = "loess", formula = "y ~ x",
                 colour = line_col, linewidth = 1, fill = fill_col) +
     day0_line() +
@@ -157,7 +157,7 @@ dailymacro <- bind_rows(
 m_panel <- dailymacro %>%
   mutate(grp = if_else(str_detect(grp, "Carbohydrates"), "Carbs", grp)) %>%
   ggplot() +
-  rasterise(geom_point(aes(fdrt, eachsum), alpha = scatter_transparency, size = point_size, shape = 16), dpi = 300) +
+  geom_point(aes(fdrt, eachsum), alpha = scatter_transparency, size = point_size, shape = 16) +
   geom_smooth(aes(fdrt, eachsum), method = "loess", formula = "y ~ x",
               colour = diet_line_color, linewidth = 1, fill = "hotpink") +
   day0_line() +
@@ -195,7 +195,7 @@ strip_colors <- key %>%
 
 fg_panel <- fg_total %>%
   ggplot() +
-  rasterise(geom_point(aes(fdrt, eachsum), alpha = scatter_transparency, size = point_size, shape = 16), dpi = 300) +
+  geom_point(aes(fdrt, eachsum), alpha = scatter_transparency, size = point_size, shape = 16) +
   geom_smooth(aes(fdrt, eachsum, color = grp, fill = grp), method = "loess",
               formula = "y ~ x", linewidth = 1) +
   day0_line() +

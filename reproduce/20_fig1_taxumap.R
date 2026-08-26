@@ -15,7 +15,6 @@
 
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(ggrastr)
   library(RColorBrewer)
   library(viridis)
   library(here)
@@ -43,7 +42,13 @@ theme_taxumap <- function() {
           legend.key = element_rect(fill = gray_bg),
           aspect.ratio = 1)
 }
-umap_points <- function(mapping) rasterise(geom_point(mapping, alpha = 1, size = umap_pt_size, shape = 16), dpi = 300)
+# Points are plain vector circles, so each panel ships as editable line art rather
+# than an embedded bitmap.
+umap_points <- function(mapping) geom_point(mapping, alpha = 1, size = umap_pt_size, shape = 16)
+
+# guide_colourbar draws its ramp as a bitmap by default; raster = FALSE emits it as
+# stacked filled rectangles so the legend stays vector like the rest of the panel.
+vector_colourbar <- function(...) guide_colourbar(raster = FALSE, ...)
 
 # Inputs ----------------------------------------------------------------------
 taxumap   <- read_csv(released("taxumap_embedding.csv"), show_col_types = FALSE)
@@ -76,16 +81,18 @@ plot_tbl <- top_fg %>%
 
 # F1e: day relative to transplant ---------------------------------------------
 # Split the day axis into 3 pre-transplant and 6 post-transplant bins, ordered
-# from earliest to latest so the Spectral ramp reads in time order.
-bins <- plot_tbl %>% distinct(fdrt) %>%
+# from earliest to latest so the Spectral ramp reads in time order. cut_number()
+# is applied to the samples, so each bin holds a comparable number of points
+# rather than a comparable number of days.
+umap_time <- plot_tbl %>%
   mutate(side = fdrt <= 0) %>%
   group_by(side) %>%
   mutate(bin = if (first(side)) as.character(cut_number(fdrt, 3)) else as.character(cut_number(fdrt, 6))) %>%
   ungroup()
-bin_levels <- bins %>% arrange(fdrt) %>% pull(bin) %>% unique()
+bin_levels <- umap_time %>% arrange(fdrt) %>% pull(bin) %>% unique()
 
-umap_time <- plot_tbl %>%
-  left_join(bins %>% select(fdrt, bin), by = "fdrt") %>%
+# Draw latest first so the earliest days, the point of the panel, end up on top.
+umap_time <- umap_time %>%
   mutate(bin = factor(bin, levels = bin_levels)) %>%
   arrange(desc(fdrt))
 
@@ -103,7 +110,8 @@ p_f <- plot_tbl %>%
   ggplot() +
   umap_points(aes(taxumap1, taxumap2, colour = kcal_k)) +
   scale_colour_viridis(option = "plasma", trans = "sqrt", breaks = c(0, 1, 2, 3),
-                       name = expression("(x" ~ 10^3 ~ "Kcal)")) +
+                       name = expression("(x" ~ 10^3 ~ "Kcal)"),
+                       guide = vector_colourbar()) +
   labs(x = "TaxUMAP1", y = "TaxUMAP2", title = "Caloric intake") +
   theme_taxumap()
 ggsave(file.path(results_dir, "F1f_taxumap_calories.pdf"), p_f, width = 4.2, height = 3.2)
@@ -136,7 +144,8 @@ p_h <- plot_tbl %>%
   mutate(faith_k = faith_pd / 1000) %>%
   ggplot() +
   umap_points(aes(taxumap1, taxumap2, colour = faith_k)) +
-  scale_colour_viridis(breaks = c(0, 1, 2), name = expression("(x" ~ 10^3 ~ ")")) +
+  scale_colour_viridis(breaks = c(0, 1, 2), name = expression("(x" ~ 10^3 ~ ")"),
+                       guide = vector_colourbar()) +
   labs(x = "TaxUMAP1", y = "TaxUMAP2", title = expression("Diet" ~ alpha * "-diversity")) +
   theme_taxumap()
 ggsave(file.path(results_dir, "F1h_taxumap_diversity.pdf"), p_h, width = 4.2, height = 3.2)
