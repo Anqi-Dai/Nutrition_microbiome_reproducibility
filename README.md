@@ -2,7 +2,7 @@
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21290618-blue.svg)](https://doi.org/10.5281/zenodo.21290618) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-This repository reproduces every figure of the dietary-sugar / microbiome manuscript from a small set of de-identified released tables. Every panel is rebuilt by a clean, numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
+This repository facilitates reproduction of the figures from the manuscript "Sugar-rich foods exacerbate antibiotic-induced microbiome disruption", built from a small set of de-identified released tables. Every panel is rebuilt by a numbered script under [`reproduce/`](reproduce/); the scripts read only from [`released_data/`](released_data/) and write one PDF per panel into `results/`.
 
 The companion data deposit is on Zenodo: [**10.5281/zenodo.14538105**](https://doi.org/10.5281/zenodo.14538105) — *Supplementary Data for "Sugar-rich foods exacerbate antibiotic-induced microbiome disruption"* (Dai, Anqi; CC-BY-4.0). Three of the released tables here are the same files deposited there (see [Released data](#released-data-tables)).
 
@@ -394,7 +394,7 @@ Third-party reference tables redistributed in `released_data/` (the USDA FNDDS "
 
 ## Acknowledgements
 
-This repository reproduces analyses developed with several colleagues; the clean scripts here are ports of their original work:
+This repository reproduces analyses developed with several colleagues; the scripts here are ports of their original work:
 
 - **William Jogia** (Institute for Systems Genetics and Department of Microbiology, NYU Langone Health Grossman School of Medicine) — the WWEIA-nomenclature food-group analysis (E4 f,g), the added-sugars analysis (E5 a–d), and the sweet-grain split (E6 a,b).
 - **Mirae Baichoo** (Adult Bone Marrow Transplantation Service, Department of Medicine, Memorial Sloan Kettering Cancer Center) — the per-covariate microbiome variance-explained analysis (E1b).
