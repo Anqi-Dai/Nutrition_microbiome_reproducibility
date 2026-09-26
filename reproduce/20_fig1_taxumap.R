@@ -82,17 +82,19 @@ plot_tbl <- top_fg %>%
 # F1e: day relative to transplant ---------------------------------------------
 # Split the day axis into 3 pre-transplant and 6 post-transplant bins, ordered
 # from earliest to latest so the Spectral ramp reads in time order. cut_number()
-# is applied to the samples, so each bin holds a comparable number of points
-# rather than a comparable number of days.
-umap_time <- plot_tbl %>%
+# is applied to the list of distinct days, so each bin spans a comparable number
+# of calendar days (-12..-8, -7..-4, -3..0, 1..9, 10..17, 18..25, 26..33, 34..41,
+# 42..49), which is how the published panel is colored.
+bins <- plot_tbl %>% distinct(fdrt) %>%
   mutate(side = fdrt <= 0) %>%
   group_by(side) %>%
   mutate(bin = if (first(side)) as.character(cut_number(fdrt, 3)) else as.character(cut_number(fdrt, 6))) %>%
   ungroup()
-bin_levels <- umap_time %>% arrange(fdrt) %>% pull(bin) %>% unique()
+bin_levels <- bins %>% arrange(fdrt) %>% pull(bin) %>% unique()
 
 # Draw latest first so the earliest days, the point of the panel, end up on top.
-umap_time <- umap_time %>%
+umap_time <- plot_tbl %>%
+  left_join(bins %>% select(fdrt, bin), by = "fdrt") %>%
   mutate(bin = factor(bin, levels = bin_levels)) %>%
   arrange(desc(fdrt))
 
