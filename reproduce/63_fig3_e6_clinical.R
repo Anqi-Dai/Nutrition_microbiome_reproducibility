@@ -143,53 +143,121 @@ grid_df <- grid_df |>
   mutate(lp = pred$fit, se = pred$se.fit, hr = exp(lp),
          lower_hr = exp(lp - 1.96 * se), upper_hr = exp(lp + 1.96 * se))
 
-# diverging HR bins exactly as the published legend (14 bins, 0.08 .. 18.91). Clamp
-# HR into that range so the extreme regions still land in the end bins rather than
-# leaving white gaps. The bin straddling HR = 1 (0.78, 1.28] is the neutral (white)
-# tile; the 6 bins below are blue, the 7 above are red, deepening to the extremes.
-hr_breaks <- c(0.08, 0.11, 0.17, 0.25, 0.36, 0.53, 0.78, 1.28, 1.89, 2.77,
-               4.06, 5.97, 8.77, 12.88, 18.91)
-hr_fill <- c(colorRampPalette(c("#08306B", "#C6DBEF"))(6), "#F7F7F7",
-             colorRampPalette(c("#FCBBA1", "#67000D"))(7))
-grid_df <- grid_df |> mutate(hr = pmin(pmax(hr, 0.081), 18.9))
-sugar_median <- median(df_use$avg_sugar_density_per_1000kcal, na.rm = TRUE)
+# Color classes follow the rule behind the published key, applied to this surface:
+# a white "no difference" class for HR (0.78, 1.28]; above it, the log-HR range from
+# 1.28 up to the surface maximum split into 7 equal steps (red); below it, the same step
+# for 6 classes (blue). The published key (0.08 ... 18.91) is exactly this rule on the
+# earlier surface. Here the surface keeps falling below the fifth blue break only in the
+# top strip (sugar density above ~144 g per 1,000 kcal, 5 of 173 patients), so the
+# sixth blue class is left open ("<= ...") instead of being split into ever-smaller classes.
+lp_neutral <- log(1.28)
+lp_step    <- (max(grid_df$lp) - lp_neutral) / 7
+lp_breaks  <- c(-lp_neutral - lp_step * (6:0), lp_neutral + lp_step * (0:7))
+lp_breaks[1] <- min(grid_df$lp) - 1                                # open lowest class
+lp_breaks[length(lp_breaks)] <- max(grid_df$lp) + 1e-9             # include the maximum
+hr_breaks  <- exp(lp_breaks)
+n_below <- 6                                                       # blue classes under the white one
 
+# Palette sampled from the published key, light to dark; white marks "no difference".
+pub_reds  <- c("#FDE0D3", "#FAB8A3", "#F69274", "#EE5F4B", "#E02E26", "#C12226", "#A51E22")
+pub_blues <- c("#DEEDF9", "#B8D8EB", "#88BBDA", "#4691C5", "#1B6FB0", "#0C539D")
+hr_fill <- c(rev(pub_blues), "#FFFFFF", pub_reds)
+
+# Key labels as in the published key, "(lower, upper]", two significant figures below 0.1,
+# two decimals above; the open lowest class is spelled out.
+fmt_hr <- function(x) ifelse(x < 0.1, formatC(signif(x, 2), format = "fg"), sprintf("%.2f", x))
+hr_labels <- c(sprintf("\u2264 %s", fmt_hr(hr_breaks[2])),
+               sprintf("(%s, %s]", fmt_hr(head(hr_breaks[-1], -1)), fmt_hr(tail(hr_breaks[-1], -1))))
+hr_labels[length(hr_labels)] <- sprintf("(%s, %s]", fmt_hr(hr_breaks[14]), fmt_hr(exp(max(grid_df$lp))))
+# cohort median of the sugar density (all 173 patients, as in the marginal histogram)
+sugar_median <- median(df_main$avg_sugar_density_per_1000kcal, na.rm = TRUE)
+
+# Typography and line weights follow the Extended Data figure: Arial 7 pt text, 0.25 pt
+# axis lines. ggplot2 linewidths are in mm, so points are divided by .pt.
+e6j_theme <- theme_classic(base_size = 7, base_family = "Arial") +
+  theme(text = element_text(colour = "black"), axis.text = element_text(size = 7, colour = "black"),
+        axis.line = element_line(linewidth = 0.25 / .pt), axis.ticks = element_line(linewidth = 0.25 / .pt),
+        axis.ticks.length = unit(2, "pt"), plot.margin = margin(0, 0, 0, 0))
+
+# The contour surface: filled log-HR bins, the HR = 1 contour as a light gray dashed line
+# (it runs through the white bin), and the cohort's median sugar density as a solid line.
 main_contour <- ggplot(grid_df, aes(day_exposed, avg_sugar_density_per_1000kcal)) +
-  geom_contour_filled(aes(z = hr), breaks = hr_breaks) +
-  # faint grey dashed reference contour where HR = 1 (no significance mesh)
-  geom_contour(aes(z = hr), breaks = 1, color = "grey70", linewidth = 1.1, linetype = 2) +
-  geom_hline(yintercept = sugar_median, colour = "darkslateblue", linewidth = 0.8) +
-  scale_fill_manual(values = hr_fill, drop = FALSE, name = "hazard ratio",
-                    guide = guide_legend(reverse = TRUE)) +
+  geom_contour_filled(aes(z = lp), breaks = lp_breaks, show.legend = FALSE) +
+  geom_contour(aes(z = lp), breaks = 0, colour = "grey85", linewidth = 1 / .pt, linetype = "44") +
+  geom_hline(yintercept = sugar_median, colour = "#2E3092", linewidth = 1 / .pt) +
+  scale_fill_manual(values = hr_fill, drop = FALSE) +
   scale_x_continuous(expand = c(0, 0), limits = c(0, 20)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(23, 150)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(23, 150), breaks = seq(40, 140, 20)) +
   labs(x = "Days of broad-spectrum antibiotic exposure",
        y = "Average grams of sugar intake\nper 1000 Kcal between day -7 and day 12") +
-  theme_classic(base_size = 11) +
-  theme(legend.key.size = unit(0.35, "cm"))
+  e6j_theme
 
-# marginal patient histograms (top = abx exposure, right = sugar density)
-top_hist <- ggplot(df_use, aes(day_exposed)) +
-  geom_histogram(bins = 30, fill = "grey75", colour = "white", linewidth = 0.2) +
-  scale_x_continuous(expand = c(0, 0), limits = c(0, 20)) +
+# Marginal patient histograms, binned as in the published panel so that bars are
+# comparable: all 173 patients; top = days of antibiotic exposure in 1-day bins from 0
+# (ggplot closes bins on the right, so the first bar holds days 0 and 1 together, as
+# printed), right = sugar density in 50 equal bins across its range. The axis range is
+# set with coord_cartesian(), which only zooms the view: a scale `limits` would drop bars
+# that poke past the edge.
+top_hist <- ggplot(df_main, aes(day_exposed)) +
+  geom_histogram(binwidth = 1, boundary = 0, fill = "grey85", colour = "white",
+                 linewidth = 0.25 / .pt) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0), breaks = c(10, 30, 50)) +
+  coord_cartesian(xlim = c(0, 20), ylim = c(0, 52)) +
   labs(y = "patients") +
-  theme_classic(base_size = 9) +
+  e6j_theme +
   theme(axis.title.x = element_blank(), axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
+        axis.ticks.x = element_blank(), axis.line.x = element_blank())
 
-right_hist <- ggplot(df_use, aes(avg_sugar_density_per_1000kcal)) +
-  geom_histogram(bins = 30, fill = "grey75", colour = "white", linewidth = 0.2) +
-  scale_x_continuous(expand = c(0, 0), limits = c(23, 150)) +
+right_hist <- ggplot(df_main, aes(avg_sugar_density_per_1000kcal)) +
+  geom_histogram(bins = 50, fill = "grey85", colour = "white", linewidth = 0.25 / .pt) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0), breaks = c(5, 15)) +
   labs(y = "patients") +
-  coord_flip() +
-  theme_classic(base_size = 9) +
+  coord_flip(xlim = c(23, 150), ylim = c(0, 16)) +
+  e6j_theme +
   theme(axis.title.y = element_blank(), axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
+        axis.ticks.y = element_blank(), axis.line.y = element_blank())
 
-e6j <- (top_hist + patchwork::plot_spacer() +
-        main_contour + right_hist +
-        plot_layout(widths = c(4, 1), heights = c(1, 4)))
-ggsave(file.path(results_dir, "E6j_sugar_abx_HR_contour.pdf"), e6j, width = 8, height = 6)
+# Hand-built key, laid out like the published one: a column of bin tiles labeled
+# "(lower, upper]" with the highest hazard on top, a "mortality low <-> high" arrow
+# beside the white bin, and the median-sugar line key underneath. It is drawn in point
+# coordinates on a panel as tall as the contour plus the top histogram (0 = bottom of
+# the contour), so the rows line up with the contour's height.
+key_w <- 84; hist_h <- 25.5; main_h <- 159.7; main_w <- 159.7; side_w <- 22
+n_bins <- length(hr_fill)
+row_h  <- (main_h - 6) / n_bins
+key_df <- tibble(row = seq_len(n_bins), fill = hr_fill, label = hr_labels,
+                 y = 3 + (row - 0.5) * row_h)
+white_y <- key_df$y[n_below + 1]
+key_plot <- ggplot(key_df) +
+  geom_rect(aes(xmin = 22, xmax = 36, ymin = y - row_h / 2 + 0.4, ymax = y + row_h / 2 - 0.4, fill = fill)) +
+  scale_fill_identity() +
+  geom_text(aes(x = 38, y = y, label = label), hjust = 0, size = 7 / .pt, family = "Arial") +
+  annotate("text", x = 20, y = main_h + 9, label = "hazard ratio", hjust = 0, size = 7 / .pt, family = "Arial") +
+  annotate("segment", x = 17, xend = 17, y = white_y - 3 * row_h, yend = white_y + 3 * row_h,
+           linewidth = 0.4 / .pt, colour = "grey30",
+           arrow = arrow(ends = "both", length = unit(2.5, "pt"), type = "open")) +
+  annotate("text", x = 12, y = white_y + 1.6 * row_h, label = "high", angle = 90, size = 7 / .pt, family = "Arial") +
+  annotate("text", x = 12, y = white_y - 1.6 * row_h, label = "low", angle = 90, size = 7 / .pt, family = "Arial") +
+  annotate("text", x = 3, y = white_y, label = "mortality", angle = 90, size = 8 / .pt, family = "Arial") +
+  annotate("segment", x = 3, xend = 11, y = -10, yend = -10, colour = "#2E3092", linewidth = 1 / .pt) +
+  annotate("text", x = 13, y = -10, label = "median average\ngrams of sugar\nintake per 1000 Kcal",
+           hjust = 0, vjust = 0.5, lineheight = 0.9, size = 7 / .pt, family = "Arial") +
+  # coord (not scale) limits, so the median key below the rows is drawn, not dropped
+  coord_cartesian(xlim = c(0, key_w), ylim = c(0, main_h + hist_h), expand = FALSE, clip = "off") +
+  theme_void()
+
+# Assemble at fixed panel sizes: histograms along the top and right of the contour, key
+# to the far right spanning both rows. The contour panel is 159.7 x 159.7 PDF points
+# ("bigpts"; grid's "pt" is the slightly smaller TeX point), the size it occupies in
+# Extended Data Fig. 6, so it drops in at 100% and the 7 pt text stays 7 pt.
+e6j <- top_hist + plot_spacer() + key_plot + main_contour + right_hist +
+  plot_layout(design = "ABC\nDEC", widths = unit(c(main_w, side_w, key_w), "bigpts"),
+              heights = unit(c(hist_h, main_h), "bigpts")) &
+  theme(plot.margin = margin(0, 1, 0, 1))
+ggsave(file.path(results_dir, "E6j_sugar_abx_HR_contour.pdf"), e6j,
+       width = 306 / 72, height = 212 / 72, device = cairo_pdf)
 
 # ---------------------------------------------------------------------------
 # Supplementary Tables 1-6
