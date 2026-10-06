@@ -372,7 +372,11 @@ UMAP is stochastic (the embedding can rotate/flip between runs), so for an **exa
 
 Machine-readable metadata lives in [`CITATION.cff`](CITATION.cff) — use GitHub's **Cite this repository** button.
 
-The accompanying manuscript is **under review**. Once it is published, please **cite the article in preference to this software**; this repository will then carry a `preferred-citation` entry pointing at it.
+The accompanying article is published in *Nature*. Please **cite the article in preference to this software**:
+
+> Dai, A., Ballweg, A. *et al.* Sugar-rich foods exacerbate antibiotic-induced microbiome disruption. *Nature* (2026). [https://doi.org/10.1038/s41586-026-11077-3](https://doi.org/10.1038/s41586-026-11077-3)
+
+`CITATION.cff` carries it as the `preferred-citation`, so the **Cite this repository** button gives the article first.
 
 Two related DOIs, which are *not* interchangeable:
 
