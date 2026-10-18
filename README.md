@@ -274,7 +274,7 @@ Five columns are categorical and **their level order is fixed, not alphabetical*
 | `63_asv_count_relab_res.csv` | `asv_key, sampleid, count, count_relative` | per-ASV 16S counts and whole-community relative abundance (one row per observed, non-zero count); the ASV-count source for E1b, and joined to the annotation for E7c and the quality-genus / genus-CLR tables |
 | `63_asv_blast_annotation.csv` | `asv_key` + taxonomy + BLAST hit (see below) | per-ASV taxonomic lineage and the BLAST hit that assigned it; one row per ASV |
 | `45_quality_asv_relab_pident97_genus.csv` | `asv_key, sampleid, count_relative, genus` | per-ASV 16S relative abundance with a *quality* genus (kept only where BLAST `pident > 97`, else NA); rebuilds genus relab for F1n/o, F4a, E7b, the E3 PCoA and the E7a genus models |
-| `mgx_enterococcus_species_relab.csv` | `sample, species, relab` | metagenomic *Enterococcus* species abundance for E7d |
+| `mgx_species_relab.csv` | `sample, Kingdom … Species, relab, unclassified_fraction` | species-level MetaPhlAn profile of all 333 shotgun metagenomes, one row per sample–species pair with nonzero abundance; `relab` is a fraction of the classified community (each sample sums to 1) and `unclassified_fraction` is the per-sample share of reads MetaPhlAn could not assign, so `relab × (1 − unclassified_fraction)` gives the original MetaPhlAn fraction; its *Enterococcus* rows feed E7d |
 
 **`63_asv_blast_annotation.csv` columns.** Each ASV sequence is the *query*, aligned against a 16S reference database with BLAST; the row records the assigning hit. Columns marked *BLAST* are standard BLAST tabular (outfmt 6) fields; the rest are derived by the annotation pipeline.
 

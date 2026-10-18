@@ -15,8 +15,13 @@
 #     joining these two -- the Enterococcus rows of the annotation carry the species,
 #     and count_relative IS the whole-community relab. This replaces the separately
 #     shipped 171_16S_enterococcus_asv_relab.csv (identical to the row).
-#   mgx_enterococcus_species_relab.csv   sample, species, relab (fraction of the
-#                                        whole MGX community; Enterococcus only)
+#   mgx_species_relab.csv                sample, Kingdom..Species, relab,
+#                                        unclassified_fraction: every MetaPhlAn species
+#                                        in the 333 shotgun samples, relab a fraction of
+#                                        the classified community. E7d keeps the
+#                                        Enterococcus rows (this replaces the earlier
+#                                        Enterococcus-only mgx_enterococcus_species_relab.csv,
+#                                        identical to the row).
 # These were exported once from the original phyloseq objects.
 #
 # The ASV -> species cluster grouping (Enterococcus species sharing an identical
@@ -148,7 +153,14 @@ message("wrote results/E7c_asv_distribution.pdf  (", length(keep),
 # =====================================================================
 # E7d: per-ASV NCBI RefSeq species matches, MGX prevalence + abundance
 # =====================================================================
-sp_abund <- read_csv(released("mgx_enterococcus_species_relab.csv"), show_col_types = FALSE)
+# The Enterococcus rows of the full shotgun species table, in the sample / species / relab
+# shape the rest of this section uses. Sorted by sample then species, the order of the
+# earlier Enterococcus-only file: the seeded jitter below assigns offsets by row order, so
+# this keeps every point where it was in the published panel.
+sp_abund <- read_csv(released("mgx_species_relab.csv"), show_col_types = FALSE) |>
+  filter(Genus == "Enterococcus") |>
+  select(sample, species = Species, relab) |>
+  arrange(sample, species)
 
 # ASV -> amplicon-identical species (fixed lookup; see header), one assignment label
 clusters <- tribble(
